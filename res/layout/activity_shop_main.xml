@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/white"
+    tools:context=".Tab.Shop_MainActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:orientation="horizontal"
+        android:padding="10dp">
+
+        <TextView
+            android:id="@+id/tvw_test"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="Shop"
+            android:textAlignment="center"
+            android:textSize="20dp"
+            android:textColor="@color/pale_gray"/>
+
+        <ImageButton
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="12"
+            android:adjustViewBounds="true"
+            android:scaleType="fitCenter"
+            android:src="@drawable/img_search"
+            android:background="#00FFFFFF"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:paddingLeft="20dp">
+
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/tlo_shopTab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            app:tabTextColor="@color/pale_gray"
+            app:tabSelectedTextColor="@color/black"
+            app:tabIndicatorColor="@color/black">
+
+            <com.google.android.material.tabs.TabItem
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="Men"/>
+
+            <com.google.android.material.tabs.TabItem
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="Women" />
+
+            <com.google.android.material.tabs.TabItem
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="Kid" />
+
+        </com.google.android.material.tabs.TabLayout>
+
+        <GridView
+            android:id="@+id/grv_shop"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:columnWidth="200dp"
+            android:fadeScrollbars="true"
+            android:gravity="center"
+            android:horizontalSpacing="10dp"
+            android:numColumns="3"
+            android:scrollbarSize="1.5dp"
+            android:stretchMode="columnWidth"
+            android:verticalSpacing="30dp">
+        </GridView>
+
+    </LinearLayout>
+
+</LinearLayout>

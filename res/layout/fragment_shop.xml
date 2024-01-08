@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="5dp"
+    android:background="@color/white"
+    tools:context=".Fragments.ShopFragment">
+
+    <!-- TODO: Update blank fragment layout -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:orientation="horizontal"
+        android:padding="10dp">
+
+        <TextView
+            android:id="@+id/tev_test"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="Shop"
+            android:textAlignment="center"
+            android:textSize="20dp"
+            android:textColor="@color/pale_gray"/>
+
+        <ImageButton
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="12"
+            android:adjustViewBounds="true"
+            android:scaleType="fitCenter"
+            android:src="@drawable/img_search"
+            android:background="#00FFFFFF"/>
+
+    </LinearLayout>
+
+    <GridView
+        android:id="@+id/grv_shop"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:columnWidth="200dp"
+        android:fadeScrollbars="true"
+        android:gravity="center"
+        android:horizontalSpacing="10dp"
+        android:numColumns="3"
+        android:paddingLeft="10dp"
+        android:scrollbarSize="1.5dp"
+        android:stretchMode="columnWidth"
+        android:verticalSpacing="30dp"
+        tools:listitem="@layout/product_model">
+    </GridView>
+
+</LinearLayout>
