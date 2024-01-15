@@ -146,6 +146,11 @@ public class ProductAdapter extends BaseAdapter {
         this._context = _context;
     }
 
+    public ProductAdapter(ProductAdapter productAdapter) {
+        this._productsList = productAdapter._productsList;
+        this._context = productAdapter._context;
+    }
+
     /* SETTER - GETTER */
     public ArrayList<ProductModel> get_productsList() {
         return _productsList;

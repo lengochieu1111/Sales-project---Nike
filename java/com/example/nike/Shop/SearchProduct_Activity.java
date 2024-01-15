@@ -3,11 +3,15 @@ package com.example.nike.Shop;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,6 +38,9 @@ import java.util.ArrayList;
 
 public class SearchProduct_Activity extends AppCompatActivity {
 
+    FirebaseDatabase firebaseDatabase;
+    DatabaseReference databaseReference;
+
     /* PROPERTY */
     EditText edt_productName_SP;
     GridView grv_searchResults_SP;
@@ -47,10 +54,13 @@ public class SearchProduct_Activity extends AppCompatActivity {
     ProductAdapter _productAdapter_men;
     ProductAdapter _productAdapter_women;
     ProductAdapter _productAdapter_kid;
+    ProductAdapter _currentProductAdapter;
     ArrayList<ProductModel> _productModels_total =  new ArrayList<ProductModel>();
     ArrayList<ProductModel> _productModels_men =  new ArrayList<ProductModel>();
     ArrayList<ProductModel> _productModels_women =  new ArrayList<ProductModel>();
     ArrayList<ProductModel> _productModels_kid =  new ArrayList<ProductModel>();
+
+    boolean isSuccess = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,24 +77,46 @@ public class SearchProduct_Activity extends AppCompatActivity {
 
         // Intent intent =
 
+        firebaseDatabase = FirebaseDatabase.getInstance();
+        databaseReference = firebaseDatabase.getReference("Products");
+
         this._searchKeywords = "nike";
         this.LoadsShopData(this._searchKeywords);
-        this.ShowShopView(_productAdapter_total);
-        this.HandleSelectionInFilter();
-        // this.HandleClickOnSearchProduct();
-        // this.HandleClickOnProduct();
+        _currentProductAdapter = new ProductAdapter(_productAdapter_total);
+        this.ShowShopView(_currentProductAdapter);
+
+/*         this.HandleSelectionInFilter();
+         this.HandleClickOnSearchProduct();
+         this.HandleClickOnProduct();*/
+
+        edt_productName_SP.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (s == null || s.length() == 0) return;
+
+                String newText = s.toString().toLowerCase().trim();
+                LoadsShopData(newText);
+                ShowShopView(_productAdapter_total);
+            }
+        });
 
     }
 
-    private void LoadsShopData(String searchKeywords)
+    private Boolean LoadsShopData(String searchKeywords)
     {
-        FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
-        DatabaseReference databaseReference = firebaseDatabase.getReference();
-
-        databaseReference.child("Products").addListenerForSingleValueEvent(new ValueEventListener() {
+        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if (snapshot.exists() == false) return;
+                if (!snapshot.exists()) return;
 
                 _productModels_men.clear();
                 _productModels_women.clear();
@@ -117,6 +149,7 @@ public class SearchProduct_Activity extends AppCompatActivity {
                 _productAdapter_women.notifyDataSetChanged();
                 _productAdapter_kid.notifyDataSetChanged();
                 _productAdapter_total.notifyDataSetChanged();
+
             }
 
             @Override
@@ -124,11 +157,12 @@ public class SearchProduct_Activity extends AppCompatActivity {
 
             }
         });
+        _productAdapter_men = new ProductAdapter(this._productModels_men, this.grv_searchResults_SP.getContext());
+        _productAdapter_women = new ProductAdapter(this._productModels_women, this.grv_searchResults_SP.getContext());
+        _productAdapter_kid = new ProductAdapter(this._productModels_kid, this.grv_searchResults_SP.getContext());
+        _productAdapter_total = new ProductAdapter(this._productModels_total, this.grv_searchResults_SP.getContext());
 
-        this._productAdapter_men = new ProductAdapter(this._productModels_men, this);
-        this._productAdapter_women = new ProductAdapter(this._productModels_women, this);
-        this._productAdapter_kid = new ProductAdapter(this._productModels_kid, this);
-        this._productAdapter_total = new ProductAdapter(this._productModels_total, this);
+        return true;
     }
 
     private void ShowShopView(ProductAdapter productAdapter)
