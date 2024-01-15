@@ -2,4 +2,7 @@
     <string name="app_name">Nike</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="Men">Men</string>
+    <string name="Women">Women</string>
+    <string name="Kid">Kid</string>
 </resources>

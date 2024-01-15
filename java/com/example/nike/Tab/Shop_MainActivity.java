@@ -8,10 +8,10 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.GridView;
+import android.widget.ImageButton;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.example.nike.Product.ProductDetails;
+import com.example.nike.Product.ProductDetails_Activity;
 import com.example.nike.R;
 import com.example.nike.Shop.ProductAdapter;
 import com.example.nike.Shop.ProductModel;
@@ -27,6 +27,7 @@ import java.util.ArrayList;
 public class Shop_MainActivity extends AppCompatActivity {
     /* PROPERTY */
     TextView tvw_test;
+    ImageButton ibn_searchProduct;
     TabLayout tlo_shopTab;
     GridView grv_shop;
     ProductAdapter _productAdapter_men;
@@ -36,19 +37,19 @@ public class Shop_MainActivity extends AppCompatActivity {
     ArrayList<ProductModel> _productModels_women =  new ArrayList<ProductModel>();
     ArrayList<ProductModel> _productModels_kid =  new ArrayList<ProductModel>();
 
-    int test = 0;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_shop_main);
 
         this.tvw_test = findViewById(R.id.tvw_test);
+        this.ibn_searchProduct = findViewById(R.id.ibn_searchProduct);
         this.tlo_shopTab = findViewById(R.id.tlo_shopTab);
         this.grv_shop = findViewById(R.id.grv_shop);
 
         this.LoadsShopData();
         this.ShowShopView(_productAdapter_men);
+        this.HandleClickOnSearchProduct();
         this.HandleClickOnTabLayout();
         this.HandleClickOnProduct();
 
@@ -80,9 +81,9 @@ public class Shop_MainActivity extends AppCompatActivity {
 
                     ProductModel productModel = new ProductModel(productID, productName, productPrice, productImageLink);
 
-                    if (productType.equals("men"))
+                    if (productType.equals("Men"))
                         _productModels_men.add(productModel);
-                    else if(productType.equals("women"))
+                    else if(productType.equals("Women"))
                         _productModels_women.add(productModel);
                     else
                         _productModels_kid.add(productModel);
@@ -139,9 +140,11 @@ public class Shop_MainActivity extends AppCompatActivity {
         grv_shop.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(getApplicationContext(), String.valueOf(position), Toast.LENGTH_SHORT).show();
+                // Toast.makeText(getApplicationContext(), String.valueOf(position), Toast.LENGTH_SHORT).show();
+                int selectedTabIndex = tlo_shopTab.getSelectedTabPosition();
 
-                LoadsProductID(0, 0);
+                // tvw_test.setText(String.valueOf(position));
+                LoadsProductID(selectedTabIndex, position);
             }
         });
     }
@@ -165,9 +168,9 @@ public class Shop_MainActivity extends AppCompatActivity {
                     String productImageLink = snap.child("_productImageLink").getValue(String.class);
 
                     ProductModel productModel = new ProductModel(productID, productName, productPrice, productImageLink);
-                    if (productType.equals("men"))
+                    if (productType.equals("Men"))
                         _productModels_men.add(productModel);
-                    else if(productType.equals("women"))
+                    else if(productType.equals("Women"))
                         _productModels_women.add(productModel);
                     else
                         _productModels_kid.add(productModel);
@@ -196,10 +199,20 @@ public class Shop_MainActivity extends AppCompatActivity {
 
     private void GoToProductDetails(String productID)
     {
-        Intent shopIntent = new Intent(Shop_MainActivity.this, ProductDetails.class);
+        Intent shopIntent = new Intent(this, ProductDetails_Activity.class);
         shopIntent.putExtra("productID", productID);
         startActivity(shopIntent);
 
+    }
+
+    private void HandleClickOnSearchProduct()
+    {
+        this.ibn_searchProduct.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
     }
 
 

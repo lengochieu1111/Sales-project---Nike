@@ -2,7 +2,6 @@ package com.example.nike.Product;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.ViewPager2;
 
@@ -11,7 +10,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.GridLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -22,6 +20,7 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.nike.R;
+import com.example.nike.Tab.Shop_MainActivity;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -31,7 +30,7 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ProductDetails extends AppCompatActivity {
+public class ProductDetails_Activity extends AppCompatActivity {
 
 
     FirebaseDatabase firebaseDatabase;
@@ -43,8 +42,6 @@ public class ProductDetails extends AppCompatActivity {
     LinearLayout llo_productDetails;
     ViewPager2 vpg_viewPager;
     LinearLayout llo_productSamples;
-    GridLayout glt_size;
-
 
     TextView tvw_name;
     TextView tvw_price;
@@ -69,7 +66,6 @@ public class ProductDetails extends AppCompatActivity {
         llo_productDetails = findViewById(R.id.llo_productDetails);
         vpg_viewPager = findViewById(R.id.vpg_viewPager);
         llo_productSamples = findViewById(R.id.llo_productSamples);
-        glt_size = findViewById(R.id.glt_size);
 
         tvw_name = findViewById(R.id.tvw_name);
         tvw_price = findViewById(R.id.tvw_price);
@@ -87,12 +83,12 @@ public class ProductDetails extends AppCompatActivity {
         svw_productDetails = findViewById(R.id.svw_productDetails);
         llt_productDetails = findViewById(R.id.llt_productDetails);
 
-        this._productID = "658d9b6651371b47a5950469";
+        // this._productID = "658d9b6651371b47a5950469";
 
         //
         Intent resultIntent = getIntent();
-        String productID = resultIntent.getExtras().getString("productID");
-        LoadProduct(productID);
+        this._productID = resultIntent.getExtras().getString("productID");
+        LoadProduct(this._productID);
         HandleSizeButtonClick();
         HandleClickTheAddToBagButton();
         HandleClickTheUndoButton();
@@ -148,7 +144,7 @@ public class ProductDetails extends AppCompatActivity {
                             imageView.setBackgroundResource(R.drawable.img_empty);
                             imageView.setAdjustViewBounds(true);
                             imageView.setScaleType(ImageView.ScaleType.FIT_START);
-                            imageView.setMaxHeight(450);
+                            imageView.setMaxHeight(300);
                             imageView.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
@@ -160,7 +156,7 @@ public class ProductDetails extends AppCompatActivity {
                             llo_productSamples.addView(imageView);
 
                             Space space = new Space(llo_productSamples.getContext());
-                            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(30, llo_productSamples.getHeight());
+                            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(20, llo_productSamples.getHeight());
                             space.setLayoutParams(layoutParams);
                             llo_productSamples.addView(space);
 
@@ -386,6 +382,9 @@ public class ProductDetails extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Toast.makeText(getApplicationContext(), "Undo", Toast.LENGTH_SHORT).show();
+
+                Intent shopIntent = new Intent(ProductDetails_Activity.this, Shop_MainActivity.class);
+                startActivity(shopIntent);
             }
         });
     }

@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical"
+    tools:context=".Shop.SearchProduct_Activity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:padding="10dp">
+
+            <ImageButton
+                android:id="@+id/ibn_undo_SP"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="5"
+                android:adjustViewBounds="true"
+                android:background="#00FFFFFF"
+                android:scaleType="fitCenter"
+                android:src="@drawable/img_undo" />
+
+            <EditText
+                android:id="@+id/edt_productName_SP"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:fontFamily="@font/varela_round_regular"
+                android:hint="Enter the product name"
+                android:textColorHint="@color/pale_gray"
+                android:textAlignment="textStart"
+                android:textColor="@color/black"
+                android:textSize="15dp"
+                android:textStyle="bold"
+                android:textDirection="ltr"/>
+
+            <ImageButton
+                android:id="@+id/ibn_filter_SP"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="5"
+                android:adjustViewBounds="true"
+                android:background="#00FFFFFF"
+                android:scaleType="fitCenter"
+                android:src="@drawable/img_filter" />
+
+            <androidx.legacy.widget.Space
+                android:layout_width="10dp"
+                android:layout_height="match_parent" />
+
+            <ImageButton
+                android:id="@+id/ibn_search_SP"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="5"
+                android:adjustViewBounds="true"
+                android:background="#00FFFFFF"
+                android:scaleType="fitCenter"
+                android:src="@drawable/img_search" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:paddingLeft="20dp">
+
+            <GridView
+                android:id="@+id/grv_searchResults_SP"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:columnWidth="200dp"
+                android:fadeScrollbars="true"
+                android:gravity="center"
+                android:horizontalSpacing="10dp"
+                android:numColumns="3"
+                android:scrollbarSize="1.5dp"
+                android:stretchMode="columnWidth"
+                android:verticalSpacing="30dp"></GridView>
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <!--<ScrollView
+        android:id="@+id/svw_filter_SP"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="20dp">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="20dp">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Sort By"
+                    android:textColor="@color/black"
+                    android:fontFamily="@font/varela_round_regular"/>
+
+                <RadioGroup
+                    android:id="@+id/rgp_sort_SP"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <RadioButton
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Featured"
+                        android:textColor="@color/black"
+                        android:fontFamily="@font/varela_round_regular"/>
+                    <RadioButton
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Price: Low-High"
+                        android:textColor="@color/black"
+                        android:fontFamily="@font/varela_round_regular"/>
+                    <RadioButton
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Price: High-Low"
+                        android:textColor="@color/black"
+                        android:fontFamily="@font/varela_round_regular"/>
+
+                </RadioGroup>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="20dp">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Gender"
+                    android:textColor="@color/black"
+                    android:fontFamily="@font/varela_round_regular"/>
+
+                <CheckBox
+                    android:id="@+id/cbx_men_SP"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/Men"
+                    android:textColor="@color/black"
+                    android:fontFamily="@font/varela_round_regular"/>
+
+                <CheckBox
+                    android:id="@+id/cbx_women_SP"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/Women"
+                    android:textColor="@color/black"
+                    android:fontFamily="@font/varela_round_regular"/>
+
+                <CheckBox
+                    android:id="@+id/cbx_kid_SP"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/Kid"
+                    android:textColor="@color/black"
+                    android:fontFamily="@font/varela_round_regular"/>
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>-->
+
+</RelativeLayout>

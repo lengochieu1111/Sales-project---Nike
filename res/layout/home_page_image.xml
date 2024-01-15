@@ -30,7 +30,8 @@
             android:textColor="@color/black"
             android:textSize="35dp"
             android:typeface="serif"
-            android:textStyle="bold"/>
+            android:textStyle="bold"
+            android:fontFamily="@font/varela_round_regular"/>
 
         <Button
             android:layout_width="60dp"
@@ -38,7 +39,9 @@
             android:background="@drawable/pill_button_background"
             android:textColor="@color/black"
             android:textSize="10dp"
-            android:text="Shop" />
+            android:text="Shop"
+            android:textAllCaps="false"
+            android:fontFamily="@font/noto_sans_regular"/>
 
     </LinearLayout>
 

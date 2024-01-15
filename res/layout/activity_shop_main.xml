@@ -13,7 +13,8 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:orientation="horizontal"
-        android:padding="10dp">
+        android:padding="10dp"
+        android:gravity="center">
 
         <TextView
             android:id="@+id/tvw_test"
@@ -22,13 +23,16 @@
             android:layout_weight="1"
             android:text="Shop"
             android:textAlignment="center"
-            android:textSize="20dp"
-            android:textColor="@color/pale_gray"/>
+            android:textSize="15dp"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            android:fontFamily="@font/varela_round_regular"/>
 
         <ImageButton
+            android:id="@+id/ibn_searchProduct"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="12"
+            android:layout_weight="15"
             android:adjustViewBounds="true"
             android:scaleType="fitCenter"
             android:src="@drawable/img_search"
@@ -49,23 +53,25 @@
             android:background="@color/white"
             app:tabTextColor="@color/pale_gray"
             app:tabSelectedTextColor="@color/black"
-            app:tabIndicatorColor="@color/black">
+            app:tabIndicatorColor="@color/black"
+            app:tabTextAppearance="@style/TabLayoutTextAppearance">
+            <com.google.android.material.tabs.TabItem
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="   Men   "
+                android:fontFamily="@font/varela_round_regular"/>
 
             <com.google.android.material.tabs.TabItem
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:text="Men"/>
+                android:text="  Women  "
+                android:fontFamily="@font/varela_round_regular"/>
 
             <com.google.android.material.tabs.TabItem
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:text="Women" />
-
-            <com.google.android.material.tabs.TabItem
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:text="Kid" />
-
+                android:text="   Kid   "
+                android:fontFamily="@font/varela_round_regular"/>
         </com.google.android.material.tabs.TabLayout>
 
         <GridView

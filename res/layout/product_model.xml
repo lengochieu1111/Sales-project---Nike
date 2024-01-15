@@ -26,7 +26,8 @@
             android:text="Name"
             android:textStyle="bold"
             android:textSize="15dp"
-            android:textColor="@color/black"/>
+            android:textColor="@color/black"
+            android:fontFamily="@font/varela_round_regular"/>
         <TextView
             android:id="@+id/tev_price"
             android:layout_width="match_parent"
@@ -34,7 +35,8 @@
             android:text="Price"
             android:textStyle="bold"
             android:textSize="12dp"
-            android:textColor="@color/pale_gray"/>
+            android:textColor="@color/pale_gray"
+            android:fontFamily="@font/varela_round_regular"/>
 
     </LinearLayout>
 
