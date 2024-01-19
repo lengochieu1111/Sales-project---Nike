@@ -12,7 +12,7 @@ import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.Toast;
 
-import com.example.nike.Shop.ProductAdapter;
+import com.example.nike.Shop.ProductAdapter_Old;
 import com.example.nike.Shop.ProductModel;
 import com.example.nike.R;
 import com.google.firebase.database.DataSnapshot;
@@ -63,7 +63,7 @@ public class ShopFragment extends Fragment {
 
     /* PROPERTY */
     GridView _grv_shop;
-    ProductAdapter _productAdapter;
+    ProductAdapter_Old _productAdapterOld;
     ArrayList<ProductModel> _productModels =  new ArrayList<ProductModel>();
 
     @Override
@@ -115,7 +115,7 @@ public class ShopFragment extends Fragment {
                     _productModels.add(productModel);
                 }
 
-                _productAdapter.notifyDataSetChanged();
+                _productAdapterOld.notifyDataSetChanged();
             }
 
             @Override
@@ -124,12 +124,12 @@ public class ShopFragment extends Fragment {
             }
         });
 
-        this._productAdapter = new ProductAdapter(this._productModels, getContext());
+        this._productAdapterOld = new ProductAdapter_Old(this._productModels, getContext());
     }
 
     private void ShowShopView()
     {
-        this._grv_shop.setAdapter(this._productAdapter);
+        this._grv_shop.setAdapter(this._productAdapterOld);
     }
 
     private void HandleClickOnProduct()

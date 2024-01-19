@@ -50,7 +50,7 @@
         android:scrollbarSize="1.5dp"
         android:stretchMode="columnWidth"
         android:verticalSpacing="30dp"
-        tools:listitem="@layout/product_model">
+        tools:listitem="@layout/product_item">
     </GridView>
 
 </LinearLayout>

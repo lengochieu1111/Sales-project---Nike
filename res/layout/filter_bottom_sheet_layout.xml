@@ -38,18 +38,22 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
                 <RadioButton
+                    android:id="@+id/rbn_featured_SP"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Featured"
                     android:textColor="@color/black"
-                    android:fontFamily="@font/varela_round_regular"/>
+                    android:fontFamily="@font/varela_round_regular"
+                    android:checked="true"/>
                 <RadioButton
+                    android:id="@+id/rbn_lowHigh_SP"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Price: Low-High"
                     android:textColor="@color/black"
                     android:fontFamily="@font/varela_round_regular"/>
                 <RadioButton
+                    android:id="@+id/rbn_highLow_SP"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Price: High-Low"
@@ -91,7 +95,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/Women"
                 android:textColor="@color/black"
-                android:fontFamily="@font/varela_round_regular"/>
+                android:fontFamily="@font/varela_round_regular" />
 
             <CheckBox
                 android:id="@+id/cbx_kid_SP"

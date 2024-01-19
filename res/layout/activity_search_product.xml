@@ -74,110 +74,14 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:paddingLeft="20dp">
+            android:orientation="vertical">
 
-            <GridView
-                android:id="@+id/grv_searchResults_SP"
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvw_products_SP"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:columnWidth="200dp"
-                android:fadeScrollbars="true"
-                android:gravity="center"
-                android:horizontalSpacing="10dp"
-                android:numColumns="3"
-                android:scrollbarSize="1.5dp"
-                android:stretchMode="columnWidth"
-                android:verticalSpacing="30dp"></GridView>
+                android:layout_height="match_parent"/>
         </LinearLayout>
 
     </LinearLayout>
-
-    <!--<ScrollView
-        android:id="@+id/svw_filter_SP"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="20dp">
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="20dp">
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Sort By"
-                    android:textColor="@color/black"
-                    android:fontFamily="@font/varela_round_regular"/>
-
-                <RadioGroup
-                    android:id="@+id/rgp_sort_SP"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-                    <RadioButton
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="Featured"
-                        android:textColor="@color/black"
-                        android:fontFamily="@font/varela_round_regular"/>
-                    <RadioButton
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="Price: Low-High"
-                        android:textColor="@color/black"
-                        android:fontFamily="@font/varela_round_regular"/>
-                    <RadioButton
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="Price: High-Low"
-                        android:textColor="@color/black"
-                        android:fontFamily="@font/varela_round_regular"/>
-
-                </RadioGroup>
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="20dp">
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Gender"
-                    android:textColor="@color/black"
-                    android:fontFamily="@font/varela_round_regular"/>
-
-                <CheckBox
-                    android:id="@+id/cbx_men_SP"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/Men"
-                    android:textColor="@color/black"
-                    android:fontFamily="@font/varela_round_regular"/>
-
-                <CheckBox
-                    android:id="@+id/cbx_women_SP"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/Women"
-                    android:textColor="@color/black"
-                    android:fontFamily="@font/varela_round_regular"/>
-
-                <CheckBox
-                    android:id="@+id/cbx_kid_SP"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/Kid"
-                    android:textColor="@color/black"
-                    android:fontFamily="@font/varela_round_regular"/>
-            </LinearLayout>
-        </LinearLayout>
-    </ScrollView>-->
 
 </RelativeLayout>

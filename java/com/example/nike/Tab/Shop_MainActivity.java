@@ -13,7 +13,7 @@ import android.widget.TextView;
 
 import com.example.nike.Product.ProductDetails_Activity;
 import com.example.nike.R;
-import com.example.nike.Shop.ProductAdapter;
+import com.example.nike.Shop.ProductAdapter_Old;
 import com.example.nike.Shop.ProductModel;
 import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.database.DataSnapshot;
@@ -30,9 +30,9 @@ public class Shop_MainActivity extends AppCompatActivity {
     ImageButton ibn_searchProduct;
     TabLayout tlo_shopTab;
     GridView grv_shop;
-    ProductAdapter _productAdapter_men;
-    ProductAdapter _productAdapter_women;
-    ProductAdapter _productAdapter_kid;
+    ProductAdapter_Old _productAdapter_Old_men;
+    ProductAdapter_Old _productAdapter_Old_women;
+    ProductAdapter_Old _productAdapter_Old_kid;
     ArrayList<ProductModel> _productModels_men =  new ArrayList<ProductModel>();
     ArrayList<ProductModel> _productModels_women =  new ArrayList<ProductModel>();
     ArrayList<ProductModel> _productModels_kid =  new ArrayList<ProductModel>();
@@ -48,7 +48,7 @@ public class Shop_MainActivity extends AppCompatActivity {
         this.grv_shop = findViewById(R.id.grv_shop);
 
         this.LoadsShopData();
-        this.ShowShopView(_productAdapter_men);
+        this.ShowShopView(_productAdapter_Old_men);
         this.HandleClickOnSearchProduct();
         this.HandleClickOnTabLayout();
         this.HandleClickOnProduct();
@@ -89,9 +89,9 @@ public class Shop_MainActivity extends AppCompatActivity {
                         _productModels_kid.add(productModel);
 
                 }
-                _productAdapter_men.notifyDataSetChanged();
-                _productAdapter_women.notifyDataSetChanged();
-                _productAdapter_kid.notifyDataSetChanged();
+                _productAdapter_Old_men.notifyDataSetChanged();
+                _productAdapter_Old_women.notifyDataSetChanged();
+                _productAdapter_Old_kid.notifyDataSetChanged();
             }
 
             @Override
@@ -100,14 +100,14 @@ public class Shop_MainActivity extends AppCompatActivity {
             }
         });
 
-        this._productAdapter_men = new ProductAdapter(this._productModels_men, this);
-        this._productAdapter_women = new ProductAdapter(this._productModels_women, this);
-        this._productAdapter_kid = new ProductAdapter(this._productModels_kid, this);
+        this._productAdapter_Old_men = new ProductAdapter_Old(this._productModels_men, this);
+        this._productAdapter_Old_women = new ProductAdapter_Old(this._productModels_women, this);
+        this._productAdapter_Old_kid = new ProductAdapter_Old(this._productModels_kid, this);
     }
 
-    private void ShowShopView(ProductAdapter productAdapter)
+    private void ShowShopView(ProductAdapter_Old productAdapterOld)
     {
-        this.grv_shop.setAdapter(productAdapter);
+        this.grv_shop.setAdapter(productAdapterOld);
     }
 
     private void HandleClickOnTabLayout()
@@ -116,11 +116,11 @@ public class Shop_MainActivity extends AppCompatActivity {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 if (tab.getPosition() == 0)
-                    ShowShopView(_productAdapter_men);
+                    ShowShopView(_productAdapter_Old_men);
                 else if (tab.getPosition() == 1)
-                    ShowShopView(_productAdapter_women);
+                    ShowShopView(_productAdapter_Old_women);
                 else
-                    ShowShopView(_productAdapter_kid);
+                    ShowShopView(_productAdapter_Old_kid);
             }
 
             @Override

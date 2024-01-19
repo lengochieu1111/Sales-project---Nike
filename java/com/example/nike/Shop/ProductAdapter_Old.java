@@ -5,8 +5,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.Filter;
-import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -14,7 +12,6 @@ import com.bumptech.glide.Glide;
 import com.example.nike.R;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /*public class ProductAdapter extends BaseAdapter {
     *//* PROPERTY *//*
@@ -131,24 +128,24 @@ import java.util.List;
         private TextView _productName, _productPrice;
     }*/
 
-public class ProductAdapter extends BaseAdapter {
+public class ProductAdapter_Old extends BaseAdapter {
     /* PROPERTY */
     private ArrayList<ProductModel> _productsList;
     private Context _context;
 
     /* CONSTRUCTOR */
-    public ProductAdapter()
+    public ProductAdapter_Old()
     {
 
     }
-    public ProductAdapter(ArrayList<ProductModel> _productsList, Context _context) {
+    public ProductAdapter_Old(ArrayList<ProductModel> _productsList, Context _context) {
         this._productsList = _productsList;
         this._context = _context;
     }
 
-    public ProductAdapter(ProductAdapter productAdapter) {
-        this._productsList = productAdapter._productsList;
-        this._context = productAdapter._context;
+    public ProductAdapter_Old(ProductAdapter_Old productAdapterOld) {
+        this._productsList = productAdapterOld._productsList;
+        this._context = productAdapterOld._context;
     }
 
     /* SETTER - GETTER */
@@ -192,7 +189,7 @@ public class ProductAdapter extends BaseAdapter {
         {
             productView = new ProductView();
 
-            convertView = LayoutInflater.from(_context).inflate(R.layout.product_model, null);
+            convertView = LayoutInflater.from(_context).inflate(R.layout.product_item, null);
 
             productView._productImage = convertView.findViewById(R.id.imv_image);
             productView._productName = convertView.findViewById(R.id.tev_name);

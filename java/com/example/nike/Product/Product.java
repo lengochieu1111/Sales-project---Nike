@@ -18,6 +18,30 @@ public class Product {
     {
     }
 
+    public Product(Product product)
+    {
+        this._productID = product._productID;
+        this._productName = product._productName;
+        this._productPrice = product._productPrice;
+        this._productImageLink = product._productImageLink;
+        this._productDescription = product._productDescription;
+        this._productSize = product._productSize;
+        this._productImageColorLink = product._productImageColorLink;
+        this._productType = product._productType;
+    }
+
+    public void ChangeDataProduct(Product product)
+    {
+        this._productID = product._productID;
+        this._productName = product._productName;
+        this._productPrice = product._productPrice;
+        this._productImageLink = product._productImageLink;
+        this._productDescription = product._productDescription;
+        this._productSize = product._productSize;
+        this._productImageColorLink = product._productImageColorLink;
+        this._productType = product._productType;
+    }
+
     public Product(String _productID, String _productName, Integer _productPrice, String _productImageLink, String _productDescription,
                    List<Integer> _productSize, List<List<String>> _productImageColorLink, String _productType) {
         this._productID = _productID;
