@@ -1,6 +1,9 @@
 package com.example.nike.Product;
 
+import static androidx.core.content.ContextCompat.startActivity;
+
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +17,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.example.nike.FirebaseDataHelper;
 import com.example.nike.R;
 
 import java.util.ArrayList;
@@ -22,24 +26,36 @@ public class Product_RecyclerView_Config {
     private Context _context;
     private ProductAdapter _productAdapter;
 
-    public void setConfig(RecyclerView recyclerView, Context context, ArrayList<Product> products, ArrayList<String> keys)
+    public void setConfig(RecyclerView recyclerView, Context context, ArrayList<Product> products, ArrayList<String> keys, int activityIndex)
     {
         this._context = context;
         this._productAdapter = new ProductAdapter(products, keys);
 
-        this._productAdapter.setOnItemClickListener((view, position) ->
+        this._productAdapter.set_OnItemClickListener((view, position) ->
         {
-            Toast.makeText(recyclerView.getContext(), "Item clicked at position " + position, Toast.LENGTH_SHORT).show();
+            Toast.makeText(recyclerView.getContext(), "Item clicked at position " + products.get(position).get_productID(), Toast.LENGTH_SHORT).show();
+
+            Intent shopIntent = new Intent(_context, ProductDetails_Activity.class);
+            shopIntent.putExtra("productID", products.get(position).get_productID());
+            shopIntent.putExtra("activityIndex", activityIndex);
+            context.startActivity(shopIntent);
+
         });
 
         recyclerView.setAdapter(this._productAdapter);
     }
 
+    private void HandleClickOnProduct(String productID)
+    {
+
+    }
+
+
     class ProductAdapter extends RecyclerView.Adapter<ProductItemView>
     {
         private I_OnItemClickListener _listener;
 
-        public void setOnItemClickListener(I_OnItemClickListener listener) {
+        public void set_OnItemClickListener(I_OnItemClickListener listener) {
             this._listener = listener;
         }
 
@@ -82,6 +98,7 @@ public class Product_RecyclerView_Config {
             this._productImage = itemView.findViewById(R.id.imv_image);
             this._productName = itemView.findViewById(R.id.tev_name);
             this._productPrice = itemView.findViewById(R.id.tev_price);
+
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -137,4 +154,8 @@ public class Product_RecyclerView_Config {
 
     }
 
+    // SETTER - GETTER
+    public ProductAdapter get_productAdapter() {
+        return _productAdapter;
+    }
 }

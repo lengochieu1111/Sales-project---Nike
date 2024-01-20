@@ -15,6 +15,7 @@ import com.example.nike.Product.ProductDetails_Activity;
 import com.example.nike.R;
 import com.example.nike.Shop.ProductAdapter_Old;
 import com.example.nike.Shop.ProductModel;
+import com.example.nike.Shop.SearchProduct_Activity;
 import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -185,7 +186,7 @@ public class Shop_MainActivity extends AppCompatActivity {
                 else
                     productModels = _productModels_kid;
 
-                /* GoToProductDetails */
+                /* Product Details */
                 String productID = productModels.get(productIndex).get_productID();
                 GoToProductDetails(productID);
 
@@ -201,8 +202,8 @@ public class Shop_MainActivity extends AppCompatActivity {
     {
         Intent shopIntent = new Intent(this, ProductDetails_Activity.class);
         shopIntent.putExtra("productID", productID);
+        shopIntent.putExtra("activityIndex", 0);
         startActivity(shopIntent);
-
     }
 
     private void HandleClickOnSearchProduct()
@@ -210,7 +211,8 @@ public class Shop_MainActivity extends AppCompatActivity {
         this.ibn_searchProduct.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Intent shopIntent = new Intent(Shop_MainActivity.this, SearchProduct_Activity.class);
+                startActivity(shopIntent);
             }
         });
     }

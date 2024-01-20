@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -17,14 +18,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.inputmethod.EditorInfo;
-import android.widget.AdapterView;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
-import android.widget.GridView;
 import android.widget.ImageButton;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.Toast;
 
 import com.example.nike.FirebaseDataHelper;
 import com.example.nike.Product.Product;
@@ -35,8 +36,7 @@ import com.example.nike.Product.Product_RecyclerView_Config;
 import com.example.nike.Product.ENUM_SortType;
 import com.example.nike.Product.STR_ProductType;
 import com.example.nike.R;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
+import com.example.nike.Tab.Shop_MainActivity;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -45,13 +45,8 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 public class SearchProduct_Activity extends AppCompatActivity {
-
-    FirebaseDatabase firebaseDatabase;
-    DatabaseReference databaseReference;
-
     /* PROPERTY */
     EditText edt_productName_SP;
     RecyclerView rvw_products_SP;
@@ -62,16 +57,6 @@ public class SearchProduct_Activity extends AppCompatActivity {
     private String _productNameSearch = "";
     private ArrayList<ENUM_ProductType> _productTypeSearch = new ArrayList<>(Arrays.asList(ENUM_ProductType.TOTAL));
     private ENUM_SortType _sortType = ENUM_SortType.FEATURED;
-
-    ProductAdapter_Old _productAdapter_Old_total;
-    ProductAdapter_Old _productAdapter_Old_men;
-    ProductAdapter_Old _productAdapter_Old_women;
-    ProductAdapter_Old _productAdapter_Old_kid;
-    ProductAdapter_Old _currentProductAdapterOld;
-    ArrayList<ProductModel> _productModels_total =  new ArrayList<ProductModel>();
-    ArrayList<ProductModel> _productModels_men =  new ArrayList<ProductModel>();
-    ArrayList<ProductModel> _productModels_women =  new ArrayList<ProductModel>();
-    ArrayList<ProductModel> _productModels_kid =  new ArrayList<ProductModel>();
 
     /* Filter Dialog */
     RadioGroup rgp_sort_SP;
@@ -93,10 +78,6 @@ public class SearchProduct_Activity extends AppCompatActivity {
         ibn_search_SP = findViewById(R.id.ibn_search_SP);
         ibn_filter_SP = findViewById(R.id.ibn_filter_SP);
         ibn_undo_SP = findViewById(R.id.ibn_undo_SP);
-        // svw_filter_SP = findViewById(R.id.svw_filter_SP);
-
-        // grv_searchResults_SP = findViewById(R.id.grv_searchResults_SP);
-
         rvw_products_SP = findViewById(R.id.rvw_products_SP);
 
         int spacingInPixels = getResources().getDimensionPixelSize(R.dimen.spacing); // Chuyển dp sang pixel
@@ -106,20 +87,15 @@ public class SearchProduct_Activity extends AppCompatActivity {
         rvw_products_SP.setLayoutManager(layoutManager);
 
         this.UpdateProductList();
-
         this.HandlesSearchProductNameFilter();
         this.HandleSelectionInFilter();
-
-        /*
-         this.HandleClickOnSearchProduct();
-         this.HandleClickOnProduct();*/
+        this.HandleClickTheUndoButton();
+        this.HandleClickTheSearchButton();
 
     }
 
     private void HandlesSearchProductNameFilter()
     {
-        edt_productName_SP.setImeOptions(EditorInfo.IME_ACTION_NONE);
-
         edt_productName_SP.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -289,9 +265,11 @@ public class SearchProduct_Activity extends AppCompatActivity {
                         _productTypeSearch.add(ENUM_ProductType.WOMEN);
                     if (isChecked_kid && !_productTypeSearch.contains(ENUM_ProductType.KID))
                         _productTypeSearch.add(ENUM_ProductType.KID);
+
                 }
 
                 UpdateProductList();
+                HideVirtualKeyboard();
                 filterDialog.dismiss();
             }
         });
@@ -302,7 +280,7 @@ public class SearchProduct_Activity extends AppCompatActivity {
         new FirebaseDataHelper().ReadTheProductList(new FirebaseDataHelper.DataStatus() {
             @Override
             public void DataIsLoaded(ArrayList<Product> products, ArrayList<String> keys) {
-                new Product_RecyclerView_Config().setConfig(rvw_products_SP, SearchProduct_Activity.this, products, keys);
+                new Product_RecyclerView_Config().setConfig(rvw_products_SP, SearchProduct_Activity.this, products, keys, 1);
             }
 
             @Override
@@ -322,84 +300,33 @@ public class SearchProduct_Activity extends AppCompatActivity {
         }, _productNameSearch, _productTypeSearch, _sortType);
     }
 
-    private void HandleClickOnProduct()
+    private void HandleClickTheUndoButton()
     {
-        rvw_products_SP.setOnClickListener(new View.OnClickListener() {
+        ibn_undo_SP.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Toast.makeText(getApplicationContext(), "Undo", Toast.LENGTH_SHORT).show();
 
-            }
-        });
-
-    }
-
-    private void LoadsProductID(String searchKeywords, Integer productIndex)
-    {
-        FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
-        DatabaseReference databaseReference = firebaseDatabase.getReference();
-
-        databaseReference.child("Products").addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if (!snapshot.exists()) return;
-
-                _productModels_men.clear();
-                _productModels_women.clear();
-                _productModels_kid.clear();
-                _productModels_total.clear();
-                for (DataSnapshot snap : snapshot.getChildren())
-                {
-                    String productID = snap.child("_productID").getValue(String.class);
-                    String productType = snap.child("_productType").getValue(String.class);
-                    Integer productPrice = snap.child("_productPrice").getValue(Integer.class);
-                    String productName = snap.child("_productName").getValue(String.class);
-                    String productImageLink = snap.child("_productImageLink").getValue(String.class);
-
-                    ProductModel productModel = new ProductModel(productID, productName, productPrice, productImageLink);
-
-                    if (productName.toLowerCase().contains(searchKeywords.toLowerCase()))
-                    {
-                        _productModels_total.add(productModel);
-
-                        if (productType.equals(STR_ProductType.MEN))
-                            _productModels_men.add(productModel);
-                        else if(productType.equals(STR_ProductType.WOMEN))
-                            _productModels_women.add(productModel);
-                        else
-                            _productModels_kid.add(productModel);
-                    }
-
-                }
-
-                /* GoToProductDetails */
-                String productID = _productModels_total.get(productIndex).get_productID();
-                GoToProductDetails(productID);
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
+                Intent shopIntent = new Intent(SearchProduct_Activity.this, Shop_MainActivity.class);
+                startActivity(shopIntent);
             }
         });
     }
 
-    private void GoToProductDetails(String productID)
-    {
-        Intent shopIntent = new Intent(this, ProductDetails_Activity.class);
-        shopIntent.putExtra("productID", productID);
-        startActivity(shopIntent);
-
-    }
-
-    private void HandleClickOnSearchProduct()
+    private void HandleClickTheSearchButton()
     {
         this.ibn_search_SP.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Intent Search Product
+                HideVirtualKeyboard();
             }
         });
     }
 
+    private void HideVirtualKeyboard()
+    {
+        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(edt_productName_SP.getWindowToken(), 0);
+    }
 
 }

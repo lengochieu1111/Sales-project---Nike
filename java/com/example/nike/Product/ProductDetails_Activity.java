@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.ViewPager2;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -20,6 +21,7 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.nike.R;
+import com.example.nike.Shop.SearchProduct_Activity;
 import com.example.nike.Tab.Shop_MainActivity;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -31,12 +33,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ProductDetails_Activity extends AppCompatActivity {
-
-
     FirebaseDatabase firebaseDatabase;
     DatabaseReference databaseReference;
-
-
+    //
     ImageButton ibn_undo;
     TextView tvw_productTitle;
     LinearLayout llo_productDetails;
@@ -49,12 +48,9 @@ public class ProductDetails_Activity extends AppCompatActivity {
     private final int MAX = 6;
     Button[] btn_size = new Button[MAX];
     Button btn_addToBag;
-    private int _selectedSizeIndex = -1;
-
+    private int _selectedSize = -1;
     String _productID;
-    RecyclerView rvw_productDetails;
-    ScrollView svw_productDetails;
-    LinearLayout llt_productDetails;
+    private int _activityIndex = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,15 +75,9 @@ public class ProductDetails_Activity extends AppCompatActivity {
 
         btn_addToBag = findViewById(R.id.btn_addToBag);
 
-        // rvw_productDetails = findViewById(R.id.rvw_productDetails);
-        svw_productDetails = findViewById(R.id.svw_productDetails);
-        llt_productDetails = findViewById(R.id.llt_productDetails);
-
-        // this._productID = "658d9b6651371b47a5950469";
-
-        //
         Intent resultIntent = getIntent();
         this._productID = resultIntent.getExtras().getString("productID");
+        this._activityIndex = resultIntent.getExtras().getInt("activityIndex");
         LoadProduct(this._productID);
         HandleSizeButtonClick();
         HandleClickTheAddToBagButton();
@@ -109,7 +99,7 @@ public class ProductDetails_Activity extends AppCompatActivity {
         firebaseDatabase = FirebaseDatabase.getInstance();
         databaseReference = firebaseDatabase.getReference();
 
-        databaseReference.child("Products").addValueEventListener(new ValueEventListener() {
+        databaseReference.child("Products").addListenerForSingleValueEvent(new ValueEventListener() {
             @SuppressLint("ResourceAsColor")
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -122,7 +112,7 @@ public class ProductDetails_Activity extends AppCompatActivity {
                         // Product Image Color Link
                         List<List<String>> productImageColorLink = new ArrayList<>();
                         Iterable<DataSnapshot> dss_productImageColorLink = snap.child("_productImageColorLink").getChildren();
-                        int i_pic = 0;
+                        int i_counter = 0;
                         for (DataSnapshot colorNumber : dss_productImageColorLink) {
                             Iterable<DataSnapshot> dss_imageColorLink = colorNumber.getChildren();
                             ArrayList<String> imageColorLink = new ArrayList<>();
@@ -132,7 +122,7 @@ public class ProductDetails_Activity extends AppCompatActivity {
                             productImageColorLink.add(imageColorLink);
 
                             // View Pager
-                            if (i_pic == 0)
+                            if (i_counter == 0)
                             {
                                 ProductImageAdapter productImageAdapter = new ProductImageAdapter(imageColorLink, vpg_viewPager.getContext());
                                 vpg_viewPager.setAdapter(productImageAdapter);
@@ -140,7 +130,7 @@ public class ProductDetails_Activity extends AppCompatActivity {
 
                             // Product Sample
                             ImageView imageView = new ImageView(llo_productSamples.getContext());
-                            imageView.setTag(i_pic);
+                            imageView.setTag(i_counter);
                             imageView.setBackgroundResource(R.drawable.img_empty);
                             imageView.setAdjustViewBounds(true);
                             imageView.setScaleType(ImageView.ScaleType.FIT_START);
@@ -149,7 +139,9 @@ public class ProductDetails_Activity extends AppCompatActivity {
                                 @Override
                                 public void onClick(View v) {
                                     String tag = imageView.getTag().toString();
-                                    LoadProductSampleImage(productIDToSearch, tag);
+                                    int position = Integer.parseInt(tag);
+                                    ProductImageAdapter productImageAdapter = new ProductImageAdapter(productImageColorLink.get(position), vpg_viewPager.getContext());
+                                    vpg_viewPager.setAdapter(productImageAdapter);
                                 }
                             });
                             Glide.with(imageView.getContext()).load(imageColorLink.get(0)).into(imageView);
@@ -160,7 +152,7 @@ public class ProductDetails_Activity extends AppCompatActivity {
                             space.setLayoutParams(layoutParams);
                             llo_productSamples.addView(space);
 
-                            i_pic++;
+                            i_counter++;
                         }
 
                         // Name, Price, Description
@@ -187,61 +179,12 @@ public class ProductDetails_Activity extends AppCompatActivity {
                             Button btn = btn_size[i_ps];
                             btn.setText(String.valueOf(productSizes.get(i_ps)));
                         }
-
                     }
                 }
             }
-
             @Override
             public void onCancelled(@NonNull DatabaseError error) { }
         });
-    }
-
-    private void LoadProductSampleImage(String productIDToSearch, String productTagToSearch) {
-        firebaseDatabase = FirebaseDatabase.getInstance();
-        databaseReference = firebaseDatabase.getReference();
-
-        databaseReference.child("Products").addValueEventListener(new ValueEventListener() {
-            @SuppressLint("ResourceAsColor")
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if (!snapshot.exists()) return;
-
-                for (DataSnapshot snap : snapshot.getChildren()) {
-                    String productID = snap.child("_productID").getValue(String.class);
-                    if (productIDToSearch.equals(productID))
-                    {
-                        // Product Image Color Link
-                        List<List<String>> productImageColorLink = new ArrayList<>();
-                        Iterable<DataSnapshot> dss_productImageColorLink = snap.child("_productImageColorLink").getChildren();
-                        int i = 0;
-                        for (DataSnapshot colorNumber : dss_productImageColorLink) {
-                            Iterable<DataSnapshot> dss_imageColorLink = colorNumber.getChildren();
-                            ArrayList<String> imageColorLink = new ArrayList<>();
-                            for (DataSnapshot icl : dss_imageColorLink) {
-                                imageColorLink.add(icl.getValue(String.class));
-                            }
-
-                            /* View Pager */
-                            if (productTagToSearch.equals(String.valueOf(i)))
-                            {
-                                ProductImageAdapter productImageAdapter = new ProductImageAdapter(imageColorLink, vpg_viewPager.getContext());
-                                vpg_viewPager.setAdapter(productImageAdapter);
-                            }
-
-                            i++;
-                        }
-                    }
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-
-        });
-
     }
 
     private String ConvertNumberToString_productPrice(int i_productPrice)
@@ -273,47 +216,42 @@ public class ProductDetails_Activity extends AppCompatActivity {
 
     private void HandleSizeButtonClick()
     {
-            btn_size[0].setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    ClickSizeButton(v, 0);
-                }
-            });
-
-            btn_size[1].setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    ClickSizeButton(v, 1);
-                }
-            });
-
-            btn_size[2].setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    ClickSizeButton(v, 2);
-                }
-            });
-
-            btn_size[3].setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    ClickSizeButton(v, 3);
-                }
-            });
-
-            btn_size[4].setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    ClickSizeButton(v, 4);
-                }
-            });
-
-            btn_size[5].setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    ClickSizeButton(v, 5);
-                }
-            });
+        btn_size[0].setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ClickSizeButton(v, 0);
+            }
+        });
+        btn_size[1].setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ClickSizeButton(v, 1);
+            }
+        });
+        btn_size[2].setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ClickSizeButton(v, 2);
+            }
+        });
+        btn_size[3].setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ClickSizeButton(v, 3);
+            }
+        });
+        btn_size[4].setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ClickSizeButton(v, 4);
+            }
+        });
+        btn_size[5].setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ClickSizeButton(v, 5);
+            }
+        });
     }
 
     @SuppressLint("ResourceAsColor")
@@ -323,7 +261,8 @@ public class ProductDetails_Activity extends AppCompatActivity {
             btn.setBackgroundResource(R.color.white);
 
         v.setBackgroundColor(R.color.black);
-        this._selectedSizeIndex = position;
+        String str_size = String.valueOf(btn_size[position].getText());
+        this._selectedSize = Integer.parseInt(str_size);
     }
 
     private void HandleClickTheAddToBagButton()
@@ -331,49 +270,12 @@ public class ProductDetails_Activity extends AppCompatActivity {
         btn_addToBag.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (_selectedSizeIndex == -1)
+                if (_selectedSize == -1)
                     Toast.makeText(getApplicationContext(), "Vui lòng chọn size cho sản phẩm", Toast.LENGTH_SHORT).show();
                 else
-                    LoadSelectedSize(_productID, _selectedSizeIndex);
+                    Toast.makeText(getApplicationContext(), "Vui lòng chọn size cho sản phẩm" + String.valueOf(_selectedSize), Toast.LENGTH_SHORT).show();
             }
         });
-    }
-
-    private void LoadSelectedSize(String productIDToSearch, Integer position) {
-        firebaseDatabase = FirebaseDatabase.getInstance();
-        databaseReference = firebaseDatabase.getReference();
-
-        databaseReference.child("Products").addValueEventListener(new ValueEventListener() {
-            @SuppressLint("ResourceAsColor")
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if (!snapshot.exists()) return;
-
-                for (DataSnapshot snap : snapshot.getChildren()) {
-                    String productID = snap.child("_productID").getValue(String.class);
-                    if (productIDToSearch.equals(productID))
-                    {
-                        // Product Size
-                        List<Integer> productSizes = new ArrayList<>();
-                        Iterable<DataSnapshot> dss_productSize = snap.child("_productSize").getChildren();
-                        for (DataSnapshot child : dss_productSize) {
-                            productSizes.add(child.getValue(Integer.class));
-                        }
-
-                        tvw_productTitle.setText(String.valueOf(productSizes.get(position)));
-                        // Add To Bag
-
-                    }
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-
-        });
-
     }
 
     private void HandleClickTheUndoButton()
@@ -383,8 +285,17 @@ public class ProductDetails_Activity extends AppCompatActivity {
             public void onClick(View v) {
                 Toast.makeText(getApplicationContext(), "Undo", Toast.LENGTH_SHORT).show();
 
-                Intent shopIntent = new Intent(ProductDetails_Activity.this, Shop_MainActivity.class);
-                startActivity(shopIntent);
+                if (_activityIndex == 0)
+                {
+                    Intent shopIntent = new Intent(ProductDetails_Activity.this, Shop_MainActivity.class);
+                    startActivity(shopIntent);
+                }
+                else if (_activityIndex == 1)
+                {
+                    Intent shopIntent = new Intent(ProductDetails_Activity.this, SearchProduct_Activity.class);
+                    startActivity(shopIntent);
+                }
+
             }
         });
     }
