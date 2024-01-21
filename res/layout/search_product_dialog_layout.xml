@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:padding="10dp">
+
+        <Button
+            android:id="@+id/btn_cancleSearch_SP"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="5"
+            android:text="Cancel"
+            android:background="@color/white"
+            android:textColor="@color/pale_gray"
+            android:fontFamily="@font/varela_round_regular"
+            android:textAllCaps="false"
+            android:maxLines="@integer/material_motion_duration_short_1"
+            android:textDirection="ltr"/>
+
+        <androidx.legacy.widget.Space
+            android:layout_width="10dp"
+            android:layout_height="match_parent" />
+
+        <EditText
+            android:id="@+id/edt_searchProductName_SP"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="2"
+            android:fontFamily="@font/varela_round_regular"
+            android:hint="Search Product"
+            android:textColorHint="@color/pale_gray"
+            android:textAlignment="textStart"
+            android:textColor="@color/black"
+            android:textSize="15dp"
+            android:textStyle="bold"
+            android:textDirection="ltr"/>
+
+        <androidx.legacy.widget.Space
+            android:layout_width="10dp"
+            android:layout_height="match_parent" />
+
+        <ImageButton
+            android:id="@+id/ibn_searchProduct_SP"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="6"
+            android:adjustViewBounds="true"
+            android:background="#00FFFFFF"
+            android:scaleType="fitCenter"
+            android:src="@drawable/img_search" />
+
+    </LinearLayout>
+
+</RelativeLayout>

@@ -3,13 +3,27 @@ package com.example.nike.Tab;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
+import android.view.inputmethod.InputMethodManager;
+
+import android.app.Dialog;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.AdapterView;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.nike.Product.ProductDetails_Activity;
 import com.example.nike.R;
@@ -37,6 +51,12 @@ public class Shop_MainActivity extends AppCompatActivity {
     ArrayList<ProductModel> _productModels_men =  new ArrayList<ProductModel>();
     ArrayList<ProductModel> _productModels_women =  new ArrayList<ProductModel>();
     ArrayList<ProductModel> _productModels_kid =  new ArrayList<ProductModel>();
+
+    Button btn_cancleSearch_SP;
+    EditText edt_searchProductName_SP;
+    ImageButton ibn_searchProduct_SP;
+
+    private String _productNameSearch = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -211,10 +231,101 @@ public class Shop_MainActivity extends AppCompatActivity {
         this.ibn_searchProduct.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent shopIntent = new Intent(Shop_MainActivity.this, SearchProduct_Activity.class);
-                startActivity(shopIntent);
+                /*Intent shopIntent = new Intent(Shop_MainActivity.this, SearchProduct_Activity.class);
+                startActivity(shopIntent);*/
+
+                ShowSearchProductDialog();
             }
         });
+    }
+
+    private void ShowSearchProductDialog()
+    {
+        final Dialog searchDialog = new Dialog(this);
+        searchDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        searchDialog.setContentView(R.layout.search_product_dialog_layout);
+
+        btn_cancleSearch_SP = searchDialog.findViewById(R.id.btn_cancleSearch_SP);
+        edt_searchProductName_SP = searchDialog.findViewById(R.id.edt_searchProductName_SP);
+        ibn_searchProduct_SP = searchDialog.findViewById(R.id.ibn_searchProduct_SP);
+
+        /* Handle Event */
+        HandleCancleSearch_SearchDialog(searchDialog);
+        HandlesSearchProductName_SearchDialog();
+        HandleSearchProduct_SearchDialog();
+
+        searchDialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+        searchDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        searchDialog.getWindow().getAttributes().windowAnimations = R.style.DialogAnimation;
+        searchDialog.getWindow().setGravity(Gravity.BOTTOM);
+
+        searchDialog.show();
+
+        HideVirtualKeyboard();
+    }
+
+    private void HideVirtualKeyboard()
+    {
+        edt_searchProductName_SP.requestFocus();
+
+        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        //imm.hideSoftInputFromWindow(edt_searchProductName_SP.getWindowToken(), 0);
+
+        // Hiển thị bàn phím ảo
+        imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
+    }
+
+    private void HandleCancleSearch_SearchDialog(Dialog searchDialog)
+    {
+        btn_cancleSearch_SP.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(edt_searchProductName_SP.getWindowToken(), 0);
+                searchDialog.dismiss();
+            }
+        });
+    }
+
+    private void HandlesSearchProductName_SearchDialog()
+    {
+        edt_searchProductName_SP.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (s == null || s.length() == 0)
+                    _productNameSearch = "";
+                else
+                    _productNameSearch = s.toString().toLowerCase().trim();
+            }
+        });
+    }
+
+    private void HandleSearchProduct_SearchDialog()
+    {
+        ibn_searchProduct_SP.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (_productNameSearch.equals(""))
+                    Toast.makeText(getApplicationContext(), "Yêu cầu nhập từ khóa tìm kiếm", Toast.LENGTH_SHORT).show();
+                else
+                {
+                    Toast.makeText(getApplicationContext(), "Search", Toast.LENGTH_SHORT).show();
+                    Intent shopIntent = new Intent(Shop_MainActivity.this, SearchProduct_Activity.class);
+                    shopIntent.putExtra("productNameSearch", _productNameSearch);
+                    startActivity(shopIntent);
+                }
+            }
+        });
+
     }
 
 

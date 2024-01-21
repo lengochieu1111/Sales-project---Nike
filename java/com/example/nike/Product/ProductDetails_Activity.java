@@ -78,6 +78,7 @@ public class ProductDetails_Activity extends AppCompatActivity {
         Intent resultIntent = getIntent();
         this._productID = resultIntent.getExtras().getString("productID");
         this._activityIndex = resultIntent.getExtras().getInt("activityIndex");
+
         LoadProduct(this._productID);
         HandleSizeButtonClick();
         HandleClickTheAddToBagButton();

@@ -25,6 +25,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.nike.FirebaseDataHelper;
@@ -48,7 +49,7 @@ import java.util.Arrays;
 
 public class SearchProduct_Activity extends AppCompatActivity {
     /* PROPERTY */
-    EditText edt_productName_SP;
+    TextView tvw_productName_SP;
     RecyclerView rvw_products_SP;
     ImageButton ibn_search_SP;
     ImageButton ibn_filter_SP;
@@ -69,12 +70,17 @@ public class SearchProduct_Activity extends AppCompatActivity {
     Button btn_reset_Filter;
     Button btn_apply_Filter;
 
+    //
+    Button btn_cancleSearch_SP;
+    EditText edt_searchProductName_SP;
+    ImageButton ibn_searchProduct_SP;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search_product);
 
-        edt_productName_SP = findViewById(R.id.edt_productName_SP);
+        tvw_productName_SP = findViewById(R.id.tvw_productName_SP);
         ibn_search_SP = findViewById(R.id.ibn_search_SP);
         ibn_filter_SP = findViewById(R.id.ibn_filter_SP);
         ibn_undo_SP = findViewById(R.id.ibn_undo_SP);
@@ -86,6 +92,10 @@ public class SearchProduct_Activity extends AppCompatActivity {
         GridLayoutManager layoutManager = new GridLayoutManager(this, numberOfColumns);
         rvw_products_SP.setLayoutManager(layoutManager);
 
+        Intent resultIntent = getIntent();
+        this._productNameSearch = resultIntent.getExtras().getString("productNameSearch");
+        tvw_productName_SP.setText(this._productNameSearch);
+
         this.UpdateProductList();
         this.HandlesSearchProductNameFilter();
         this.HandleSelectionInFilter();
@@ -96,26 +106,6 @@ public class SearchProduct_Activity extends AppCompatActivity {
 
     private void HandlesSearchProductNameFilter()
     {
-        edt_productName_SP.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                if (s == null || s.length() == 0)
-                    _productNameSearch = "";
-                else
-                    _productNameSearch = s.toString().toLowerCase().trim();
-
-                UpdateProductList();
-            }
-        });
     }
 
     private void HandleSelectionInFilter()
@@ -269,7 +259,6 @@ public class SearchProduct_Activity extends AppCompatActivity {
                 }
 
                 UpdateProductList();
-                HideVirtualKeyboard();
                 filterDialog.dismiss();
             }
         });
@@ -305,10 +294,7 @@ public class SearchProduct_Activity extends AppCompatActivity {
         ibn_undo_SP.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getApplicationContext(), "Undo", Toast.LENGTH_SHORT).show();
-
-                Intent shopIntent = new Intent(SearchProduct_Activity.this, Shop_MainActivity.class);
-                startActivity(shopIntent);
+                ShowSearchProductDialog();
             }
         });
     }
@@ -318,15 +304,85 @@ public class SearchProduct_Activity extends AppCompatActivity {
         this.ibn_search_SP.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                HideVirtualKeyboard();
+                ShowSearchProductDialog();
             }
         });
     }
 
-    private void HideVirtualKeyboard()
+    /*private void HideVirtualKeyboard()
     {
         InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(edt_productName_SP.getWindowToken(), 0);
+    }*/
+
+    private void ShowSearchProductDialog()
+    {
+        final Dialog searchDialog = new Dialog(this);
+        searchDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        searchDialog.setContentView(R.layout.search_product_dialog_layout);
+
+        btn_cancleSearch_SP = searchDialog.findViewById(R.id.btn_cancleSearch_SP);
+        edt_searchProductName_SP = searchDialog.findViewById(R.id.edt_searchProductName_SP);
+        ibn_searchProduct_SP = searchDialog.findViewById(R.id.ibn_searchProduct_SP);
+
+        /* Handle Event */
+        HandleCancleSearch_SearchDialog(searchDialog);
+        HandlesSearchProductName_SearchDialog();
+        HandleSearchProduct_SearchDialog();
+
+        searchDialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+        searchDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        searchDialog.getWindow().getAttributes().windowAnimations = R.style.DialogAnimation;
+        searchDialog.getWindow().setGravity(Gravity.BOTTOM);
+
+        searchDialog.show();
+    }
+
+    private void HandleCancleSearch_SearchDialog(Dialog searchDialog)
+    {
+        btn_cancleSearch_SP.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                searchDialog.dismiss();
+            }
+        });
+    }
+
+    private void HandlesSearchProductName_SearchDialog()
+    {
+        edt_searchProductName_SP.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (s == null || s.length() == 0)
+                    _productNameSearch = "";
+                else
+                    _productNameSearch = s.toString().toLowerCase().trim();
+            }
+        });
+    }
+
+    private void HandleSearchProduct_SearchDialog()
+    {
+        ibn_searchProduct_SP.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getApplicationContext(), "Search", Toast.LENGTH_SHORT).show();
+
+                Intent shopIntent = new Intent(SearchProduct_Activity.this, Shop_MainActivity.class);
+                shopIntent.putExtra("productNameSearch", _productNameSearch);
+                startActivity(shopIntent);
+            }
+        });
+
     }
 
 }

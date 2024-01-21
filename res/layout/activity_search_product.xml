@@ -25,45 +25,44 @@
                 android:id="@+id/ibn_undo_SP"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="5"
+                android:layout_weight="4"
                 android:adjustViewBounds="true"
                 android:background="#00FFFFFF"
                 android:scaleType="fitCenter"
                 android:src="@drawable/img_undo" />
 
-            <EditText
-                android:id="@+id/edt_productName_SP"
+            <TextView
+                android:id="@+id/tvw_productName_SP"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:fontFamily="@font/varela_round_regular"
-                android:hint="Enter the product name"
+                android:hint="Search Product"
                 android:textColorHint="@color/pale_gray"
-                android:textAlignment="textStart"
+                android:textAlignment="center"
                 android:textColor="@color/black"
                 android:textSize="15dp"
-                android:textStyle="bold"
-                android:textDirection="ltr"/>
+                android:textStyle="bold"/>
 
             <ImageButton
                 android:id="@+id/ibn_filter_SP"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="5"
+                android:layout_weight="4"
                 android:adjustViewBounds="true"
                 android:background="#00FFFFFF"
                 android:scaleType="fitCenter"
                 android:src="@drawable/img_filter" />
 
             <androidx.legacy.widget.Space
-                android:layout_width="10dp"
+                android:layout_width="15dp"
                 android:layout_height="match_parent" />
 
             <ImageButton
                 android:id="@+id/ibn_search_SP"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="5"
+                android:layout_weight="4"
                 android:adjustViewBounds="true"
                 android:background="#00FFFFFF"
                 android:scaleType="fitCenter"
