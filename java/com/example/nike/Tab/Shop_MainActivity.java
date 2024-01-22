@@ -318,6 +318,9 @@ public class Shop_MainActivity extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), "Yêu cầu nhập từ khóa tìm kiếm", Toast.LENGTH_SHORT).show();
                 else
                 {
+                    InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(edt_searchProductName_SP.getWindowToken(), 0);
+
                     Toast.makeText(getApplicationContext(), "Search", Toast.LENGTH_SHORT).show();
                     Intent shopIntent = new Intent(Shop_MainActivity.this, SearchProduct_Activity.class);
                     shopIntent.putExtra("productNameSearch", _productNameSearch);

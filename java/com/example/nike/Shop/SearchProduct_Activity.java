@@ -294,7 +294,9 @@ public class SearchProduct_Activity extends AppCompatActivity {
         ibn_undo_SP.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ShowSearchProductDialog();
+                // ShowSearchProductDialog();
+                Intent shopIntent = new Intent(SearchProduct_Activity.this, Shop_MainActivity.class);
+                startActivity(shopIntent);
             }
         });
     }
@@ -328,7 +330,7 @@ public class SearchProduct_Activity extends AppCompatActivity {
         /* Handle Event */
         HandleCancleSearch_SearchDialog(searchDialog);
         HandlesSearchProductName_SearchDialog();
-        HandleSearchProduct_SearchDialog();
+        HandleSearchProduct_SearchDialog(searchDialog);
 
         searchDialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
         searchDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
@@ -336,6 +338,8 @@ public class SearchProduct_Activity extends AppCompatActivity {
         searchDialog.getWindow().setGravity(Gravity.BOTTOM);
 
         searchDialog.show();
+
+        edt_searchProductName_SP.requestFocus();
     }
 
     private void HandleCancleSearch_SearchDialog(Dialog searchDialog)
@@ -343,6 +347,7 @@ public class SearchProduct_Activity extends AppCompatActivity {
         btn_cancleSearch_SP.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Toast.makeText(getApplicationContext(), "Close Dialog", Toast.LENGTH_SHORT).show();
                 searchDialog.dismiss();
             }
         });
@@ -370,16 +375,15 @@ public class SearchProduct_Activity extends AppCompatActivity {
         });
     }
 
-    private void HandleSearchProduct_SearchDialog()
+    private void HandleSearchProduct_SearchDialog(Dialog searchDialog)
     {
         ibn_searchProduct_SP.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Toast.makeText(getApplicationContext(), "Search", Toast.LENGTH_SHORT).show();
 
-                Intent shopIntent = new Intent(SearchProduct_Activity.this, Shop_MainActivity.class);
-                shopIntent.putExtra("productNameSearch", _productNameSearch);
-                startActivity(shopIntent);
+                UpdateProductList();
+                searchDialog.dismiss();
             }
         });
 
