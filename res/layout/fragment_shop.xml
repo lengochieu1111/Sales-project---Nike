@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="5dp"
     android:background="@color/white"
     tools:context=".Fragments.ShopFragment">
 
@@ -14,22 +14,26 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:orientation="horizontal"
-        android:padding="10dp">
+        android:padding="10dp"
+        android:gravity="center">
 
         <TextView
-            android:id="@+id/tev_test"
+            android:id="@+id/tvw_test"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:text="Shop"
             android:textAlignment="center"
-            android:textSize="20dp"
-            android:textColor="@color/pale_gray"/>
+            android:textSize="15dp"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            android:fontFamily="@font/varela_round_regular"/>
 
         <ImageButton
+            android:id="@+id/ibn_searchProduct"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="12"
+            android:layout_weight="15"
             android:adjustViewBounds="true"
             android:scaleType="fitCenter"
             android:src="@drawable/img_search"
@@ -37,20 +41,54 @@
 
     </LinearLayout>
 
-    <GridView
-        android:id="@+id/grv_shop"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:columnWidth="200dp"
-        android:fadeScrollbars="true"
-        android:gravity="center"
-        android:horizontalSpacing="10dp"
-        android:numColumns="3"
-        android:paddingLeft="10dp"
-        android:scrollbarSize="1.5dp"
-        android:stretchMode="columnWidth"
-        android:verticalSpacing="30dp"
-        tools:listitem="@layout/product_item">
-    </GridView>
+        android:orientation="vertical"
+        android:paddingLeft="20dp">
+
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/tlo_shopTab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            app:tabTextColor="@color/pale_gray"
+            app:tabSelectedTextColor="@color/black"
+            app:tabIndicatorColor="@color/black"
+            app:tabTextAppearance="@style/TabLayoutTextAppearance">
+            <com.google.android.material.tabs.TabItem
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="   Men   "
+                android:fontFamily="@font/varela_round_regular"/>
+
+            <com.google.android.material.tabs.TabItem
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="  Women  "
+                android:fontFamily="@font/varela_round_regular"/>
+
+            <com.google.android.material.tabs.TabItem
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="   Kid   "
+                android:fontFamily="@font/varela_round_regular"/>
+        </com.google.android.material.tabs.TabLayout>
+
+        <GridView
+            android:id="@+id/grv_shop"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:columnWidth="200dp"
+            android:fadeScrollbars="true"
+            android:gravity="center"
+            android:horizontalSpacing="10dp"
+            android:numColumns="3"
+            android:scrollbarSize="1.5dp"
+            android:stretchMode="columnWidth"
+            android:verticalSpacing="30dp">
+        </GridView>
+
+    </LinearLayout>
 
 </LinearLayout>

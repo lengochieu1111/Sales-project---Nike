@@ -20,6 +20,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.example.nike.Fragments.ShopFragment;
 import com.example.nike.R;
 import com.example.nike.Shop.SearchProduct_Activity;
 import com.example.nike.Tab.Shop_MainActivity;
@@ -288,7 +289,7 @@ public class ProductDetails_Activity extends AppCompatActivity {
 
                 if (_activityIndex == 0)
                 {
-                    Intent shopIntent = new Intent(ProductDetails_Activity.this, Shop_MainActivity.class);
+                    Intent shopIntent = new Intent(ProductDetails_Activity.this, ShopFragment.class);
                     startActivity(shopIntent);
                 }
                 else if (_activityIndex == 1)

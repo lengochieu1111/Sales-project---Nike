@@ -367,6 +367,14 @@ public class SearchProduct_Activity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable s) {
+                for (int i = 0; i < s.length(); i++)
+                {
+                    if (s.charAt(i) == '\n')
+                    {
+                        s.replace(i, i + 1, "");
+                    }
+                }
+
                 if (s == null || s.length() == 0)
                     _productNameSearch = "";
                 else

@@ -26,6 +26,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.nike.Product.ProductDetails_Activity;
+import com.example.nike.Product.STR_ProductType;
 import com.example.nike.R;
 import com.example.nike.Shop.ProductAdapter_Old;
 import com.example.nike.Shop.ProductModel;
@@ -63,7 +64,7 @@ public class Shop_MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_shop_main);
 
-        this.tvw_test = findViewById(R.id.tvw_test);
+        /*this.tvw_test = findViewById(R.id.tvw_test);
         this.ibn_searchProduct = findViewById(R.id.ibn_searchProduct);
         this.tlo_shopTab = findViewById(R.id.tlo_shopTab);
         this.grv_shop = findViewById(R.id.grv_shop);
@@ -72,10 +73,7 @@ public class Shop_MainActivity extends AppCompatActivity {
         this.ShowShopView(_productAdapter_Old_men);
         this.HandleClickOnSearchProduct();
         this.HandleClickOnTabLayout();
-        this.HandleClickOnProduct();
-
-        //LoadsProductID(0, 1);
-        // this.ShowShopView(_productAdapter_men);
+        this.HandleClickOnProduct();*/
 
     }
 
@@ -87,7 +85,7 @@ public class Shop_MainActivity extends AppCompatActivity {
         databaseReference.child("Products").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if (snapshot.exists() == false) return;
+                if (!snapshot.exists()) return;
 
                 _productModels_men.clear();
                 _productModels_women.clear();
@@ -102,9 +100,9 @@ public class Shop_MainActivity extends AppCompatActivity {
 
                     ProductModel productModel = new ProductModel(productID, productName, productPrice, productImageLink);
 
-                    if (productType.equals("Men"))
+                    if (productType.equals(STR_ProductType.MEN))
                         _productModels_men.add(productModel);
-                    else if(productType.equals("Women"))
+                    else if(productType.equals(STR_ProductType.WOMEN))
                         _productModels_women.add(productModel);
                     else
                         _productModels_kid.add(productModel);
@@ -161,10 +159,7 @@ public class Shop_MainActivity extends AppCompatActivity {
         grv_shop.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                // Toast.makeText(getApplicationContext(), String.valueOf(position), Toast.LENGTH_SHORT).show();
                 int selectedTabIndex = tlo_shopTab.getSelectedTabPosition();
-
-                // tvw_test.setText(String.valueOf(position));
                 LoadsProductID(selectedTabIndex, position);
             }
         });
@@ -231,9 +226,6 @@ public class Shop_MainActivity extends AppCompatActivity {
         this.ibn_searchProduct.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                /*Intent shopIntent = new Intent(Shop_MainActivity.this, SearchProduct_Activity.class);
-                startActivity(shopIntent);*/
-
                 ShowSearchProductDialog();
             }
         });
@@ -301,6 +293,14 @@ public class Shop_MainActivity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable s) {
+                for (int i = 0; i < s.length(); i++)
+                {
+                    if (s.charAt(i) == '\n')
+                    {
+                        s.replace(i, i + 1, "");
+                    }
+                }
+
                 if (s == null || s.length() == 0)
                     _productNameSearch = "";
                 else
