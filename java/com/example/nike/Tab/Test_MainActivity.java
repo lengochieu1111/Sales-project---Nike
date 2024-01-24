@@ -40,7 +40,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
-public class Shop_MainActivity extends AppCompatActivity {
+public class Test_MainActivity extends AppCompatActivity {
     /* PROPERTY */
     TextView tvw_test;
     ImageButton ibn_searchProduct;
@@ -62,7 +62,7 @@ public class Shop_MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_shop_main);
+        setContentView(R.layout.activity_test_main);
 
         /*this.tvw_test = findViewById(R.id.tvw_test);
         this.ibn_searchProduct = findViewById(R.id.ibn_searchProduct);
@@ -322,7 +322,7 @@ public class Shop_MainActivity extends AppCompatActivity {
                     imm.hideSoftInputFromWindow(edt_searchProductName_SP.getWindowToken(), 0);
 
                     Toast.makeText(getApplicationContext(), "Search", Toast.LENGTH_SHORT).show();
-                    Intent shopIntent = new Intent(Shop_MainActivity.this, SearchProduct_Activity.class);
+                    Intent shopIntent = new Intent(Test_MainActivity.this, SearchProduct_Activity.class);
                     shopIntent.putExtra("productNameSearch", _productNameSearch);
                     startActivity(shopIntent);
                 }

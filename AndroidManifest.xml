@@ -22,7 +22,7 @@
             android:name=".Product.ProductDetails_Activity"
             android:exported="false" />
         <activity
-            android:name=".Tab.Shop_MainActivity"
+            android:name=".Tab.Test_MainActivity"
             android:exported="false"/>
 
 

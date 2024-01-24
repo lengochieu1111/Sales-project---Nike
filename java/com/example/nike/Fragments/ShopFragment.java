@@ -32,7 +32,6 @@ import com.example.nike.Shop.ProductAdapter_Old;
 import com.example.nike.Shop.ProductModel;
 import com.example.nike.R;
 import com.example.nike.Shop.SearchProduct_Activity;
-import com.example.nike.Tab.Shop_MainActivity;
 import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;

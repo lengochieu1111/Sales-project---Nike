@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.os.Bundle;
 
@@ -27,6 +28,8 @@ public class MainActivity extends AppCompatActivity {
     BagFragment _bagFragment = new BagFragment();
     ProfileFragment _profileFragment = new ProfileFragment();
 
+    private int _tabIndexReturned = 0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,6 +42,27 @@ public class MainActivity extends AppCompatActivity {
         mDatabase = FirebaseDatabase.getInstance().getReference("Size");
         mDatabase.setValue("41");
         mDatabase.getDatabase().getReference("Products").child("p1");*/
+
+        Intent intentFragment = getIntent();
+        if (intentFragment.getExtras() != null && intentFragment.getExtras().containsKey("tabIndexReturned"))
+        {
+            this._tabIndexReturned = intentFragment.getExtras().getInt("tabIndexReturned");
+            if (this._tabIndexReturned == 0)
+                this.ReplaceFragment(this._homeFragment);
+            else if (this._tabIndexReturned == 1)
+                this.ReplaceFragment(this._shopFragment);
+            else if (this._tabIndexReturned == 2)
+                this.ReplaceFragment(this._bagFragment);
+            else if (this._tabIndexReturned == 3)
+                this.ReplaceFragment(this._profileFragment);
+
+            this.ChangeColorOfSelectedItem();
+        }
+        else
+        {
+             this.ReplaceFragment(this._homeFragment);
+             this.ChangeColorOfSelectedItem();
+        }
 
         this.HandlesTheBottomNavigationView();
 
@@ -92,7 +116,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
 
-        this.ReplaceFragment(this._homeFragment);
-        this.ChangeColorOfSelectedItem();
+//         this.ReplaceFragment(this._homeFragment);
+//         this.ChangeColorOfSelectedItem();
     }
 }

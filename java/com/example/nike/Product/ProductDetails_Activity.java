@@ -2,11 +2,9 @@ package com.example.nike.Product;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.ViewPager2;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -14,16 +12,14 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ScrollView;
 import android.widget.Space;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
-import com.example.nike.Fragments.ShopFragment;
+import com.example.nike.MainActivity;
 import com.example.nike.R;
 import com.example.nike.Shop.SearchProduct_Activity;
-import com.example.nike.Tab.Shop_MainActivity;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -289,7 +285,8 @@ public class ProductDetails_Activity extends AppCompatActivity {
 
                 if (_activityIndex == 0)
                 {
-                    Intent shopIntent = new Intent(ProductDetails_Activity.this, ShopFragment.class);
+                    Intent shopIntent = new Intent(ProductDetails_Activity.this, MainActivity.class);
+                    shopIntent.putExtra("tabIndexReturned", 1);
                     startActivity(shopIntent);
                 }
                 else if (_activityIndex == 1)
@@ -297,7 +294,6 @@ public class ProductDetails_Activity extends AppCompatActivity {
                     Intent shopIntent = new Intent(ProductDetails_Activity.this, SearchProduct_Activity.class);
                     startActivity(shopIntent);
                 }
-
             }
         });
     }

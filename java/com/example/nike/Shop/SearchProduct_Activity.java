@@ -1,12 +1,10 @@
 package com.example.nike.Shop;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.Dialog;
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -17,8 +15,6 @@ import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
-import android.view.inputmethod.EditorInfo;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -29,20 +25,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.nike.FirebaseDataHelper;
+import com.example.nike.MainActivity;
 import com.example.nike.Product.Product;
-import com.example.nike.Product.ProductDetails_Activity;
 import com.example.nike.Product.ProductItemDecoration;
 import com.example.nike.Product.ENUM_ProductType;
 import com.example.nike.Product.Product_RecyclerView_Config;
 import com.example.nike.Product.ENUM_SortType;
-import com.example.nike.Product.STR_ProductType;
 import com.example.nike.R;
-import com.example.nike.Tab.Shop_MainActivity;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -295,7 +284,8 @@ public class SearchProduct_Activity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 // ShowSearchProductDialog();
-                Intent shopIntent = new Intent(SearchProduct_Activity.this, Shop_MainActivity.class);
+                Intent shopIntent = new Intent(SearchProduct_Activity.this, MainActivity.class);
+                shopIntent.putExtra("tabIndexReturned", 1);
                 startActivity(shopIntent);
             }
         });
@@ -358,7 +348,6 @@ public class SearchProduct_Activity extends AppCompatActivity {
         edt_searchProductName_SP.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
             }
 
             @Override
