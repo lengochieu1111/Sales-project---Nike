@@ -107,16 +107,10 @@ public class MainActivity extends AppCompatActivity {
                         ContextCompat.getColor(this, R.color.pale_gray)    // Màu mặc định
                 }
         );
+
         // Áp dụng ColorStateList cho item trong BottomNavigationView
         this._bnv_bottomNavigationView.setItemIconTintList(colorStateList); // Áp dụng cho biểu tượng
         this._bnv_bottomNavigationView.setItemTextColor(colorStateList); // Áp dụng cho tiêu đề (nếu có)
     }
 
-    @Override
-    protected void onStart() {
-        super.onStart();
-
-//         this.ReplaceFragment(this._homeFragment);
-//         this.ChangeColorOfSelectedItem();
-    }
 }
