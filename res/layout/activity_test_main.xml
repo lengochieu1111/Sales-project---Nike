@@ -23,57 +23,65 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="2">
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
             android:padding="15dp">
+
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rvw_bag"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="1"/>
+                android:layout_weight="1" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="0.5dp"
-                android:background="@color/pale_gray"
                 android:layout_marginTop="15dp"
-                android:layout_marginBottom="15dp"/>
+                android:layout_marginBottom="15dp"
+                android:background="@color/pale_gray" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="5"
                 android:orientation="horizontal">
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:orientation="vertical">
+
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:fontFamily="@font/noto_sans_regular"
                         android:layout_weight="1"
+                        android:fontFamily="@font/noto_sans_regular"
                         android:text="Subtottal"
-                        android:textSize="15dp"/>
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:fontFamily="@font/noto_sans_regular"
-                        android:layout_weight="1"
-                        android:text="Shipping"
-                        android:textSize="15dp"/>
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:fontFamily="@font/noto_sans_regular"
-                        android:layout_weight="1"
-                        android:text="Total"
                         android:textSize="15dp"
-                        android:textStyle="bold"
-                        android:textColor="@color/black"/>
+                        android:textColor="@color/pale_gray"/>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/noto_sans_regular"
+                        android:text="Shipping"
+                        android:textSize="15dp"
+                        android:textColor="@color/pale_gray"/>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/noto_sans_regular"
+                        android:text="Total"
+                        android:textColor="@color/black"
+                        android:textSize="15dp"
+                        android:textStyle="bold" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -81,33 +89,38 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:orientation="vertical">
+
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:fontFamily="@font/noto_sans_regular"
                         android:layout_weight="1"
+                        android:fontFamily="@font/noto_sans_regular"
                         android:text="đ9,999,000"
                         android:textDirection="rtl"
-                        android:textSize="15dp"/>
+                        android:textSize="15dp"
+                        android:textColor="@color/pale_gray"/>
+
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:fontFamily="@font/noto_sans_regular"
                         android:layout_weight="1"
+                        android:fontFamily="@font/noto_sans_regular"
                         android:text="Standrad - Free"
                         android:textDirection="rtl"
-                        android:textSize="15dp"/>
+                        android:textSize="15dp"
+                        android:textColor="@color/pale_gray"/>
+
                     <TextView
                         android:id="@+id/tvw_total"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:fontFamily="@font/noto_sans_regular"
                         android:layout_weight="1"
+                        android:fontFamily="@font/noto_sans_regular"
                         android:text="đ9,999,000"
+                        android:textColor="@color/black"
                         android:textDirection="rtl"
                         android:textSize="15dp"
-                        android:textStyle="bold"
-                        android:textColor="@color/black"/>
+                        android:textStyle="bold" />
                 </LinearLayout>
             </LinearLayout>
         </LinearLayout>
