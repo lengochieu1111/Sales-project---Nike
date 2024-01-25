@@ -45,12 +45,6 @@ public class Product_RecyclerView_Config {
         recyclerView.setAdapter(this._productAdapter);
     }
 
-    private void HandleClickOnProduct(String productID)
-    {
-
-    }
-
-
     class ProductAdapter extends RecyclerView.Adapter<ProductItemView>
     {
         private I_OnItemClickListener _listener;

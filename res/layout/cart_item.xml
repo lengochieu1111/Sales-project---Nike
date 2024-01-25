@@ -9,12 +9,20 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="horizontal">
-        <CheckBox
+        <LinearLayout
             android:layout_width="30dp"
             android:layout_height="match_parent"
-            android:checked="true"/>
+            android:gravity="center_vertical">
+            <CheckBox
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:checked="false"
+                android:button="@null"
+                android:background="@drawable/custom_checkbox" />
+        </LinearLayout>
 
         <ImageView
+            android:id="@+id/ivw_productImage_Bag"
             android:layout_width="300dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
@@ -29,13 +37,15 @@
             android:paddingLeft="10dp"
             android:orientation="vertical">
             <TextView
+                android:id="@+id/tvw_productName_Bag"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Name"
                 android:textColor="@color/black"
-                android:textStyle="bold"
                 android:textSize="20dp" />
+
             <TextView
+                android:id="@+id/tvw_productType_Bag"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Type"
@@ -43,12 +53,14 @@
                 android:textSize="18dp" />
 
             <TextView
+                android:id="@+id/tvw_productColor_Bag"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Color"
                 android:textColor="@color/pale_gray"
                 android:textSize="18dp" />
             <TextView
+                android:id="@+id/tvw_productSize_Bag"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Size"
@@ -60,7 +72,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:layout_marginBottom="10dp">
 
         <androidx.legacy.widget.Space
             android:layout_width="330dp"
@@ -71,38 +84,83 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:layout_weight="1">
+            android:layout_weight="1"
+            android:paddingLeft="10dp">
+
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="horizontal"
-                android:layout_weight="1">
-                <Button
-                    android:layout_width="25dp"
-                    android:layout_height="25dp"
-                    android:text="-"
-                    android:background="@color/black"/>
-                <TextView
-                    android:layout_width="40dp"
-                    android:layout_height="25dp"
-                    android:text="1"
-                    android:textColor="@color/black"
-                    android:gravity="center"/>
-                <Button
-                    android:layout_width="25dp"
-                    android:layout_height="25dp"
-                    android:text="+"
-                    android:background="@color/black"/>
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@color/pale_gray"/>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal">
+                        <TextView
+                            android:layout_width="1dp"
+                            android:layout_height="match_parent"
+                            android:background="@color/pale_gray"/>
+                        <Button
+                            android:id="@+id/btn_minusOne_Bag"
+                            android:layout_width="25dp"
+                            android:layout_height="25dp"
+                            android:background="@color/white"
+                            android:textColor="@color/black"
+                            android:text="-"/>
+                        <TextView
+                            android:layout_width="1dp"
+                            android:layout_height="match_parent"
+                            android:background="@color/pale_gray"/>
+                        <TextView
+                            android:id="@+id/tvw_productNumber_Bag"
+                            android:layout_width="40dp"
+                            android:layout_height="25dp"
+                            android:background="@color/white"
+                            android:text="1"
+                            android:textColor="@color/black"
+                            android:gravity="center"/>
+                        <TextView
+                            android:layout_width="1dp"
+                            android:layout_height="match_parent"
+                            android:background="@color/pale_gray"/>
+                        <Button
+                            android:id="@+id/btn_plusOne_Bag"
+                            android:layout_width="25dp"
+                            android:layout_height="25dp"
+                            android:background="@color/white"
+                            android:textColor="@color/black"
+                            android:text="+"/>
+                        <TextView
+                            android:layout_width="1dp"
+                            android:layout_height="match_parent"
+                            android:background="@color/pale_gray"/>
+                    </LinearLayout>
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@color/pale_gray"/>
+                </LinearLayout>
+
             </LinearLayout>
 
             <TextView
+                android:id="@+id/tvw_productPrice_Bag"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:text="đ 2,983,000"
+                android:text="đ2,983,000"
                 android:textColor="@color/black"
                 android:textSize="18dp"
-                android:textDirection="rtl"/>
+                android:textDirection="rtl" />
         </LinearLayout>
     </LinearLayout>
 

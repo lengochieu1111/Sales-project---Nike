@@ -1,0 +1,32 @@
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Checkbox checked -->
+    <item android:state_checked="true">
+        <layer-list>
+            <item>
+                <shape>
+                    <stroke
+                        android:width="1.5dp"
+                        android:color="@color/pale_gray" /> <!-- Màu của viền khi được chọn -->
+                </shape>
+            </item>
+            <item android:drawable="@drawable/checkbox" /> <!-- Thay check_icon bằng tên của icon của checkbox khi được chọn -->
+        </layer-list>
+    </item>
+    <!-- Checkbox unchecked -->
+    <item android:state_checked="false">
+        <layer-list>
+            <item>
+                <shape>
+                    <stroke
+                        android:width="1.5dp"
+                        android:color="@color/pale_gray" /> <!-- Màu của viền khi chưa được chọn -->
+                </shape>
+            </item>
+<!--            <item>
+                <shape>
+                    <solid android:color="@color/white" /> &lt;!&ndash; Màu nền của checkbox khi chưa được chọn &ndash;&gt;
+                </shape>
+            </item>-->
+        </layer-list>
+    </item>
+</selector>

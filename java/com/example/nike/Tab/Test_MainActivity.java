@@ -2,6 +2,7 @@ package com.example.nike.Tab;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Context;
 import android.view.inputmethod.InputMethodManager;
@@ -42,6 +43,7 @@ import java.util.ArrayList;
 
 public class Test_MainActivity extends AppCompatActivity {
     /* PROPERTY */
+    RecyclerView rvw_bag;
     TextView tvw_test;
     ImageButton ibn_searchProduct;
     TabLayout tlo_shopTab;
@@ -63,6 +65,8 @@ public class Test_MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_test_main);
+
+        rvw_bag = findViewById(R.id.rvw_bag);
 
         /*this.tvw_test = findViewById(R.id.tvw_test);
         this.ibn_searchProduct = findViewById(R.id.ibn_searchProduct);
