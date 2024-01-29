@@ -11,14 +11,22 @@
     <TextView
         android:id="@+id/textView"
         android:layout_width="match_parent"
-        android:layout_height="30dp"
+        android:layout_height="match_parent"
+        android:layout_weight="9"
         android:fontFamily="@font/noto_sans_regular"
         android:gravity="center"
         android:text="Bag"
         android:textColor="@color/black"
         android:textSize="16dp"/>
 
-    <ScrollView
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvw_bag"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="2"
+        tools:listitem="@layout/cart_item"/>
+
+    <!--<ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="2">
@@ -35,14 +43,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"/>
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="0.5dp"
-                android:layout_marginTop="15dp"
-                android:layout_marginBottom="15dp"
-                android:background="@color/pale_gray" />
-
-            <LinearLayout
+            &lt;!&ndash;<LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="5"
@@ -121,9 +122,9 @@
                         android:textSize="15dp"
                         android:textStyle="bold" />
                 </LinearLayout>
-            </LinearLayout>
+            </LinearLayout>&ndash;&gt;
         </LinearLayout>
-    </ScrollView>
+    </ScrollView>-->
 
     <TextView
         android:layout_width="match_parent"
@@ -133,7 +134,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight="10"
+        android:layout_weight="9"
         android:padding="20dp">
         <Button
             android:id="@+id/btn_buy"

@@ -1,7 +1,11 @@
 package com.example.nike;
 
+import android.content.Context;
+import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 
+import com.example.nike.Bag.CartItem;
 import com.example.nike.Product.Product;
 import com.example.nike.Product.ENUM_ProductType;
 import com.example.nike.Product.ENUM_SortType;
@@ -20,10 +24,12 @@ public class FirebaseDataHelper {
     private FirebaseDatabase _firebaseDatabase;
     private DatabaseReference _databaseReference;
     private ArrayList<Product> _products =  new ArrayList<Product>();
+    private ArrayList<CartItem> _cartItems =  new ArrayList<CartItem>();
 
     public interface DataStatus
     {
-        void DataIsLoaded(ArrayList<Product> products, ArrayList<String> keys);
+        void DataIsLoaded_Product(ArrayList<Product> products, ArrayList<String> keys);
+        void DataIsLoaded_CartItem(ArrayList<CartItem> cartItems, ArrayList<String> keys);
         void DataIsInserted();
         void DataIsUpdated();
         void DataIsDeleted();
@@ -33,10 +39,6 @@ public class FirebaseDataHelper {
     {
         this._firebaseDatabase = FirebaseDatabase.getInstance();
         this._databaseReference = _firebaseDatabase.getReference();
-    }
-
-    public ArrayList<Product> Products() {
-        return this._products;
     }
 
     public void ReadTheProductList(final DataStatus dataStatus, String productNameSearch, List<ENUM_ProductType> productTypeSearch, ENUM_SortType sortType) {
@@ -90,7 +92,7 @@ public class FirebaseDataHelper {
 
                 }
 
-                dataStatus.DataIsLoaded(_products, keys);
+                dataStatus.DataIsLoaded_Product(_products, keys);
             }
 
             @Override
@@ -163,7 +165,6 @@ public class FirebaseDataHelper {
                     SwapProductData(products.get(i), products.get(j));
                 }
             }
-
         }
     }
 
@@ -172,6 +173,44 @@ public class FirebaseDataHelper {
         Product product_copy = new Product(product_1);
         product_1.ChangeDataProduct(product_2);
         product_2.ChangeDataProduct(product_copy);
+    }
+
+    /* Cart Item */
+    public void ReadTheCartItemList(final DataStatus dataStatus, Context context) {
+        this._databaseReference.child("CartItems").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (!snapshot.exists()) return;
+
+                ArrayList<String> keys = new ArrayList<>();
+                _cartItems.clear();
+                for (DataSnapshot snap : snapshot.getChildren()) {
+                    keys.add(snap.getKey());
+
+                    String productID = snap.child("_productID").getValue(String.class);
+                    String productName = snap.child("_productName").getValue(String.class);
+                    Integer productPrice = snap.child("_productPrice").getValue(Integer.class);
+                    Integer productSize = snap.child("_productSize").getValue(Integer.class);
+                    Integer productNumber = snap.child("_productNumber").getValue(Integer.class);
+                    String productImageLink = snap.child("_productImageLink").getValue(String.class);
+                    String productType = snap.child("_productType").getValue(String.class);
+                    String productColor = snap.child("_productColor").getValue(String.class);
+
+                    CartItem cartItem = new CartItem(productID, productImageLink, productName, productPrice,
+                            productColor, productSize, productType, productNumber);
+
+                    _cartItems.add(cartItem);
+                }
+
+                dataStatus.DataIsLoaded_CartItem(_cartItems, keys);
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+            }
+
+        });
     }
 
 

@@ -13,12 +13,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.nike.Product.I_OnItemClickListener;
-import com.example.nike.Product.Product;
 import com.example.nike.R;
 
 import java.util.ArrayList;
 
-public class Cart_RecyclerView_Config {
+public class CartItem_RecyclerView_Config {
     private Context _context;
     private CartItemAdapter _cartItemAdapter;
 
@@ -91,17 +90,18 @@ public class Cart_RecyclerView_Config {
         private String _key;
 
         public CartItemView(ViewGroup parent, final I_OnItemClickListener listener) {
-            super(LayoutInflater.from(_context).inflate(R.layout.cart_item, parent, false));
+            super(LayoutInflater.from(_context)
+                    .inflate(R.layout.cart_item, parent, false));
 
-            this._ivw_productImage_Bag = itemView.findViewById(R.id._ivw_productImage_Bag);
-            this._tvw_productName_Bag = itemView.findViewById(R.id._tvw_productName_Bag);
-            this._tvw_productType_Bag = itemView.findViewById(R.id._tvw_productType_Bag);
-            this._tvw_productColor_Bag = itemView.findViewById(R.id._tvw_productColor_Bag);
-            this._tvw_productSize_Bag = itemView.findViewById(R.id._tvw_productSize_Bag);
-            this._btn_minusOne_Bag = itemView.findViewById(R.id._btn_minusOne_Bag);
-            this._tvw_productNumber_Bag = itemView.findViewById(R.id._tvw_productNumber_Bag);
-            this._btn_plusOne_Bag = itemView.findViewById(R.id._btn_plusOne_Bag);
-            this._tvw_productPrice_Bag = itemView.findViewById(R.id._tvw_productPrice_Bag);
+            this._ivw_productImage_Bag = itemView.findViewById(R.id.ivw_productImage_Bag);
+            this._tvw_productName_Bag = itemView.findViewById(R.id.tvw_productName_Bag);
+            this._tvw_productType_Bag = itemView.findViewById(R.id.tvw_productType_Bag);
+            this._tvw_productColor_Bag = itemView.findViewById(R.id.tvw_productColor_Bag);
+            this._tvw_productSize_Bag = itemView.findViewById(R.id.tvw_productSize_Bag);
+            this._btn_minusOne_Bag = itemView.findViewById(R.id.btn_minusOne_Bag);
+            this._tvw_productNumber_Bag = itemView.findViewById(R.id.tvw_productNumber_Bag);
+            this._btn_plusOne_Bag = itemView.findViewById(R.id.btn_plusOne_Bag);
+            this._tvw_productPrice_Bag = itemView.findViewById(R.id.tvw_productPrice_Bag);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -122,10 +122,10 @@ public class Cart_RecyclerView_Config {
             this._tvw_productName_Bag.setText(cartItem.get_productName());
             this._tvw_productType_Bag.setText(cartItem.get_productType());
             this._tvw_productColor_Bag.setText(cartItem.get_productColor());
-            this._tvw_productSize_Bag.setText(cartItem.get_productSize());
-            this._tvw_productNumber_Bag.setText(cartItem.get_productNumber());
+            this._tvw_productSize_Bag.setText(String.valueOf(cartItem.get_productSize()));
+            this._tvw_productNumber_Bag.setText(String.valueOf(cartItem.get_productNumber()));
 
-            this._btn_minusOne_Bag.setOnClickListener(new View.OnClickListener() {
+/*            this._btn_minusOne_Bag.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) { _tvw_productNumber_Bag.setText(cartItem.get_productNumber()); }
             });
@@ -133,7 +133,7 @@ public class Cart_RecyclerView_Config {
             this._btn_plusOne_Bag.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) { _tvw_productNumber_Bag.setText(cartItem.get_productNumber()); }
-            });
+            });*/
 
             /* Product Price */
             int i_productPrice = cartItem.get_productPrice();

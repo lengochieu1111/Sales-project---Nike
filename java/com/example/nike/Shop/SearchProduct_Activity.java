@@ -24,6 +24,7 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.nike.Bag.CartItem;
 import com.example.nike.FirebaseDataHelper;
 import com.example.nike.MainActivity;
 import com.example.nike.Product.Product;
@@ -257,8 +258,13 @@ public class SearchProduct_Activity extends AppCompatActivity {
     {
         new FirebaseDataHelper().ReadTheProductList(new FirebaseDataHelper.DataStatus() {
             @Override
-            public void DataIsLoaded(ArrayList<Product> products, ArrayList<String> keys) {
+            public void DataIsLoaded_Product(ArrayList<Product> products, ArrayList<String> keys) {
                 new Product_RecyclerView_Config().setConfig(rvw_products_SP, SearchProduct_Activity.this, products, keys, 1);
+            }
+
+            @Override
+            public void DataIsLoaded_CartItem(ArrayList<CartItem> products, ArrayList<String> keys) {
+
             }
 
             @Override

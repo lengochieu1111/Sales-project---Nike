@@ -23,9 +23,14 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.nike.Bag.CartItem;
+import com.example.nike.Bag.CartItem_RecyclerView_Config;
+import com.example.nike.FirebaseDataHelper;
+import com.example.nike.Product.Product;
 import com.example.nike.Product.ProductDetails_Activity;
 import com.example.nike.Product.STR_ProductType;
 import com.example.nike.R;
@@ -44,7 +49,7 @@ import java.util.ArrayList;
 public class Test_MainActivity extends AppCompatActivity {
     /* PROPERTY */
     RecyclerView rvw_bag;
-    TextView tvw_test;
+    TextView textView;
     ImageButton ibn_searchProduct;
     TabLayout tlo_shopTab;
     GridView grv_shop;
@@ -58,7 +63,6 @@ public class Test_MainActivity extends AppCompatActivity {
     Button btn_cancleSearch_SP;
     EditText edt_searchProductName_SP;
     ImageButton ibn_searchProduct_SP;
-
     private String _productNameSearch = "";
 
     @Override
@@ -67,6 +71,13 @@ public class Test_MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_test_main);
 
         rvw_bag = findViewById(R.id.rvw_bag);
+        textView = findViewById(R.id.textView);
+
+        /*
+        img_test1 = findViewById(R.id.img_test1);
+
+        String url = "https://firebasestorage.googleapis.com/v0/b/nike-97470.appspot.com/o/Products%2FNike%20Air%20Force%201%20Mid%20Evo%2FMainProductImage%2Fair-force-1-mid-evo-shoes-1HPsJQ.png?alt=media&token=c2e47ea7-9b2e-479b-91ac-49c159cd6299";
+        Glide.with(this.img_test1.getContext()).load(url).into(this.img_test1);*/
 
         /*this.tvw_test = findViewById(R.id.tvw_test);
         this.ibn_searchProduct = findViewById(R.id.ibn_searchProduct);
@@ -77,7 +88,29 @@ public class Test_MainActivity extends AppCompatActivity {
         this.ShowShopView(_productAdapter_Old_men);
         this.HandleClickOnSearchProduct();
         this.HandleClickOnTabLayout();
-        this.HandleClickOnProduct();*/
+        this.HandleClickOnProduct();
+        */
+
+        new FirebaseDataHelper().ReadTheCartItemList(new FirebaseDataHelper.DataStatus() {
+            @Override
+            public void DataIsLoaded_Product(ArrayList<Product> products, ArrayList<String> keys) { }
+
+            @Override
+            public void DataIsLoaded_CartItem(ArrayList<CartItem> cartItems, ArrayList<String> keys) {
+                Toast.makeText(getApplicationContext(), String.valueOf(cartItems.size()) , Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), String.valueOf(cartItems.get(0).get_productName()) , Toast.LENGTH_SHORT).show();
+                new CartItem_RecyclerView_Config().setConfig(rvw_bag, Test_MainActivity.this, cartItems, keys);
+            }
+
+            @Override
+            public void DataIsInserted() { }
+
+            @Override
+            public void DataIsUpdated() { }
+
+            @Override
+            public void DataIsDeleted() { }
+        }, getApplicationContext());
 
     }
 
