@@ -275,6 +275,11 @@ public class SearchProduct_Activity extends AppCompatActivity {
             }
 
             @Override
+            public void DataIsInserted_CartItem() {
+
+            }
+
+            @Override
             public void DataIsUpdated() {
 
             }

@@ -107,11 +107,16 @@ public class Test_MainActivity extends AppCompatActivity {
             public void DataIsInserted() { }
 
             @Override
+            public void DataIsInserted_CartItem() {
+
+            }
+
+            @Override
             public void DataIsUpdated() { }
 
             @Override
             public void DataIsDeleted() { }
-        }, getApplicationContext());
+        });
 
     }
 

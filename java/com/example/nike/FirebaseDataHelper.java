@@ -10,6 +10,7 @@ import com.example.nike.Product.Product;
 import com.example.nike.Product.ENUM_ProductType;
 import com.example.nike.Product.ENUM_SortType;
 import com.example.nike.Product.STR_ProductType;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -31,6 +32,7 @@ public class FirebaseDataHelper {
         void DataIsLoaded_Product(ArrayList<Product> products, ArrayList<String> keys);
         void DataIsLoaded_CartItem(ArrayList<CartItem> cartItems, ArrayList<String> keys);
         void DataIsInserted();
+        void DataIsInserted_CartItem();
         void DataIsUpdated();
         void DataIsDeleted();
     }
@@ -176,7 +178,7 @@ public class FirebaseDataHelper {
     }
 
     /* Cart Item */
-    public void ReadTheCartItemList(final DataStatus dataStatus, Context context) {
+    public void ReadTheCartItemList(final DataStatus dataStatus) {
         this._databaseReference.child("CartItems").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -211,6 +213,17 @@ public class FirebaseDataHelper {
             }
 
         });
+    }
+
+    public void AddProductToCart(CartItem cartItem, final DataStatus dataStatus)
+    {
+        this._databaseReference.child("CartItems").setValue(cartItem).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void unused) {
+                dataStatus.DataIsInserted_CartItem();
+            }
+        });
+
     }
 
 

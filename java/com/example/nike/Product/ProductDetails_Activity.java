@@ -274,8 +274,11 @@ public class ProductDetails_Activity extends AppCompatActivity {
                 if (_selectedSize == -1)
                     Toast.makeText(getApplicationContext(), "Vui lòng chọn size cho sản phẩm", Toast.LENGTH_SHORT).show();
                 else
+                {
                     Toast.makeText(getApplicationContext(), "Vui lòng chọn size cho sản phẩm" + String.valueOf(_selectedSize), Toast.LENGTH_SHORT).show();
-            }
+
+                    }
+                }
         });
     }
 
