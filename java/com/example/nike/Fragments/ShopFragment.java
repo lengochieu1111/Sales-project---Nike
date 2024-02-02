@@ -32,6 +32,8 @@ import com.example.nike.Shop.ProductAdapter_Old;
 import com.example.nike.Shop.ProductModel;
 import com.example.nike.R;
 import com.example.nike.Shop.SearchProduct_Activity;
+import com.example.nike.Tab.ENUM_ActivityType;
+import com.example.nike.Tab.STR_IntentKey;
 import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -238,9 +240,9 @@ public class ShopFragment extends Fragment {
                     String productImageLink = snap.child("_productImageLink").getValue(String.class);
 
                     ProductModel productModel = new ProductModel(productID, productName, productPrice, productImageLink);
-                    if (productType.equals("Men"))
+                    if (productType.equals(STR_ProductType.MEN))
                         _productModels_men.add(productModel);
-                    else if(productType.equals("Women"))
+                    else if(productType.equals(STR_ProductType.WOMEN))
                         _productModels_women.add(productModel);
                     else
                         _productModels_kid.add(productModel);
@@ -270,8 +272,8 @@ public class ShopFragment extends Fragment {
     private void GoToProductDetails(String productID)
     {
         Intent shopIntent = new Intent(getActivity(), ProductDetails_Activity.class);
-        shopIntent.putExtra("productID", productID);
-        shopIntent.putExtra("activityIndex", 0);
+        shopIntent.putExtra(STR_IntentKey.ProductID, productID);
+        shopIntent.putExtra(STR_IntentKey.ActivityType, ENUM_ActivityType.Shop);
         startActivity(shopIntent);
     }
 
@@ -376,8 +378,9 @@ public class ShopFragment extends Fragment {
                     imm.hideSoftInputFromWindow(edt_searchProductName_SP.getWindowToken(), 0);
 
                     Toast.makeText(getContext().getApplicationContext(), "Search", Toast.LENGTH_SHORT).show();
+
                     Intent shopIntent = new Intent(getActivity(), SearchProduct_Activity.class);
-                    shopIntent.putExtra("productNameSearch", _productNameSearch);
+                    shopIntent.putExtra(STR_IntentKey.ProductNameSearch, _productNameSearch);
                     startActivity(shopIntent);
                 }
             }

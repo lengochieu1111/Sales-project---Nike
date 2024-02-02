@@ -2,6 +2,7 @@ package com.example.nike.Tab;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Context;
@@ -72,7 +73,7 @@ public class Test_MainActivity extends AppCompatActivity {
 
         rvw_bag = findViewById(R.id.rvw_bag);
         textView = findViewById(R.id.textView);
-
+        rvw_bag.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
         /*
         img_test1 = findViewById(R.id.img_test1);
 

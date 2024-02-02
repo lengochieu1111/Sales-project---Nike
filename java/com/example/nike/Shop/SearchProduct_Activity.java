@@ -33,6 +33,8 @@ import com.example.nike.Product.ENUM_ProductType;
 import com.example.nike.Product.Product_RecyclerView_Config;
 import com.example.nike.Product.ENUM_SortType;
 import com.example.nike.R;
+import com.example.nike.Tab.ENUM_ActivityType;
+import com.example.nike.Tab.STR_IntentKey;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -83,7 +85,7 @@ public class SearchProduct_Activity extends AppCompatActivity {
         rvw_products_SP.setLayoutManager(layoutManager);
 
         Intent resultIntent = getIntent();
-        this._productNameSearch = resultIntent.getExtras().getString("productNameSearch");
+        this._productNameSearch = resultIntent.getExtras().getString(STR_IntentKey.ProductNameSearch);
         tvw_productName_SP.setText(this._productNameSearch);
 
         this.UpdateProductList();
@@ -259,7 +261,7 @@ public class SearchProduct_Activity extends AppCompatActivity {
         new FirebaseDataHelper().ReadTheProductList(new FirebaseDataHelper.DataStatus() {
             @Override
             public void DataIsLoaded_Product(ArrayList<Product> products, ArrayList<String> keys) {
-                new Product_RecyclerView_Config().setConfig(rvw_products_SP, SearchProduct_Activity.this, products, keys, 1);
+                new Product_RecyclerView_Config().setConfig(rvw_products_SP, SearchProduct_Activity.this, products, keys, ENUM_ActivityType.SearchProduct);
             }
 
             @Override
@@ -291,7 +293,7 @@ public class SearchProduct_Activity extends AppCompatActivity {
             public void onClick(View v) {
                 // ShowSearchProductDialog();
                 Intent shopIntent = new Intent(SearchProduct_Activity.this, MainActivity.class);
-                shopIntent.putExtra("tabIndexReturned", 1);
+                shopIntent.putExtra(STR_IntentKey.TabIndexReturned, MainActivity.TabIndexReturned_Shop);
                 startActivity(shopIntent);
             }
         });

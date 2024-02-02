@@ -19,6 +19,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.nike.FirebaseDataHelper;
 import com.example.nike.R;
+import com.example.nike.Tab.ENUM_ActivityType;
+import com.example.nike.Tab.STR_IntentKey;
 
 import java.util.ArrayList;
 
@@ -26,7 +28,7 @@ public class Product_RecyclerView_Config {
     private Context _context;
     private ProductAdapter _productAdapter;
 
-    public void setConfig(RecyclerView recyclerView, Context context, ArrayList<Product> products, ArrayList<String> keys, int activityIndex)
+    public void setConfig(RecyclerView recyclerView, Context context, ArrayList<Product> products, ArrayList<String> keys, ENUM_ActivityType activityType)
     {
         this._context = context;
         this._productAdapter = new ProductAdapter(products, keys);
@@ -36,8 +38,8 @@ public class Product_RecyclerView_Config {
             Toast.makeText(recyclerView.getContext(), "Item clicked at position " + products.get(position).get_productID(), Toast.LENGTH_SHORT).show();
 
             Intent shopIntent = new Intent(_context, ProductDetails_Activity.class);
-            shopIntent.putExtra("productID", products.get(position).get_productID());
-            shopIntent.putExtra("activityIndex", activityIndex);
+            shopIntent.putExtra(STR_IntentKey.ProductID, products.get(position).get_productID());
+            shopIntent.putExtra(STR_IntentKey.ActivityType, activityType);
             context.startActivity(shopIntent);
 
         });

@@ -14,10 +14,15 @@ import com.example.nike.Fragments.BagFragment;
 import com.example.nike.Fragments.HomeFragment;
 import com.example.nike.Fragments.ProfileFragment;
 import com.example.nike.Fragments.ShopFragment;
+import com.example.nike.Tab.STR_IntentKey;
 import com.example.nike.databinding.ActivityMainBinding;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class MainActivity extends AppCompatActivity {
+    public static final int TabIndexReturned_Home = 0;
+    public static final int TabIndexReturned_Shop = 1;
+    public static final int TabIndexReturned_Bag = 2;
+    public static final int TabIndexReturned_Profile = 3;
 
     ActivityMainBinding _binding;
 
@@ -44,16 +49,16 @@ public class MainActivity extends AppCompatActivity {
         mDatabase.getDatabase().getReference("Products").child("p1");*/
 
         Intent intentFragment = getIntent();
-        if (intentFragment.getExtras() != null && intentFragment.getExtras().containsKey("tabIndexReturned"))
+        if (intentFragment.getExtras() != null && intentFragment.getExtras().containsKey(STR_IntentKey.TabIndexReturned))
         {
-            this._tabIndexReturned = intentFragment.getExtras().getInt("tabIndexReturned");
-            if (this._tabIndexReturned == 0)
+            this._tabIndexReturned = intentFragment.getExtras().getInt(STR_IntentKey.TabIndexReturned);
+            if (this._tabIndexReturned == this.TabIndexReturned_Home)
                 this.ReplaceFragment(this._homeFragment);
-            else if (this._tabIndexReturned == 1)
+            else if (this._tabIndexReturned == this.TabIndexReturned_Home)
                 this.ReplaceFragment(this._shopFragment);
-            else if (this._tabIndexReturned == 2)
+            else if (this._tabIndexReturned == this.TabIndexReturned_Home)
                 this.ReplaceFragment(this._bagFragment);
-            else if (this._tabIndexReturned == 3)
+            else if (this._tabIndexReturned == this.TabIndexReturned_Home)
                 this.ReplaceFragment(this._profileFragment);
 
             this.ChangeColorOfSelectedItem();

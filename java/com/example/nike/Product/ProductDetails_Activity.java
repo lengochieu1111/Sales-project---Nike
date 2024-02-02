@@ -20,6 +20,9 @@ import com.bumptech.glide.Glide;
 import com.example.nike.MainActivity;
 import com.example.nike.R;
 import com.example.nike.Shop.SearchProduct_Activity;
+import com.example.nike.Tab.ENUM_ActivityType;
+import com.example.nike.Tab.STR_IntentKey;
+import com.example.nike.Tab.Test_MainActivity;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -47,7 +50,7 @@ public class ProductDetails_Activity extends AppCompatActivity {
     Button btn_addToBag;
     private int _selectedSize = -1;
     String _productID;
-    private int _activityIndex = 0;
+    private ENUM_ActivityType _activityType = ENUM_ActivityType.Shop;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,8 +76,8 @@ public class ProductDetails_Activity extends AppCompatActivity {
         btn_addToBag = findViewById(R.id.btn_addToBag);
 
         Intent resultIntent = getIntent();
-        this._productID = resultIntent.getExtras().getString("productID");
-        this._activityIndex = resultIntent.getExtras().getInt("activityIndex");
+        this._productID = resultIntent.getExtras().getString(STR_IntentKey.ProductID);
+        this._activityType = (ENUM_ActivityType) resultIntent.getExtras().get(STR_IntentKey.ActivityType);
 
         LoadProduct(this._productID);
         HandleSizeButtonClick();
@@ -283,15 +286,20 @@ public class ProductDetails_Activity extends AppCompatActivity {
             public void onClick(View v) {
                 Toast.makeText(getApplicationContext(), "Undo", Toast.LENGTH_SHORT).show();
 
-                if (_activityIndex == 0)
+                if (_activityType == ENUM_ActivityType.Shop)
                 {
                     Intent shopIntent = new Intent(ProductDetails_Activity.this, MainActivity.class);
-                    shopIntent.putExtra("tabIndexReturned", 1);
+                    shopIntent.putExtra(STR_IntentKey.TabIndexReturned, MainActivity.TabIndexReturned_Shop);
                     startActivity(shopIntent);
                 }
-                else if (_activityIndex == 1)
+                else if (_activityType == ENUM_ActivityType.SearchProduct)
                 {
                     Intent shopIntent = new Intent(ProductDetails_Activity.this, SearchProduct_Activity.class);
+                    startActivity(shopIntent);
+                }
+                else if (_activityType == ENUM_ActivityType.Bag)
+                {
+                    Intent shopIntent = new Intent(ProductDetails_Activity.this, Test_MainActivity.class);
                     startActivity(shopIntent);
                 }
             }

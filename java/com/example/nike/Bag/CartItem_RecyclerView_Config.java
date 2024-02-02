@@ -1,19 +1,24 @@
 package com.example.nike.Bag;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.nike.Product.I_OnItemClickListener;
+import com.example.nike.Product.ProductDetails_Activity;
 import com.example.nike.R;
+import com.example.nike.Tab.ENUM_ActivityType;
+import com.example.nike.Tab.STR_IntentKey;
 
 import java.util.ArrayList;
 
@@ -21,23 +26,20 @@ public class CartItem_RecyclerView_Config {
     private Context _context;
     private CartItemAdapter _cartItemAdapter;
 
-    public void setConfig(RecyclerView recyclerView, Context _context, ArrayList<CartItem> _cartItemList, ArrayList<String> _keys)
+    public void setConfig(RecyclerView recyclerView, Context context, ArrayList<CartItem> _cartItemList, ArrayList<String> _keys)
     {
-        this._context = _context;
+        this._context = context;
         this._cartItemAdapter = new CartItemAdapter(_cartItemList, _keys);
 
-/*        this._cartItemAdapter.set_OnItemClickListener(new I_OnItemClickListener() {
-            @Override
-            public void onItemClick(View view, int position) {
-                view.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
+        this._cartItemAdapter.set_OnItemClickListener((view, position) ->
+        {
+            Toast.makeText(recyclerView.getContext(), "Item clicked at position " + position, Toast.LENGTH_SHORT).show();
 
-                    }
-                });
-            }
+            Intent shopIntent = new Intent(context, ProductDetails_Activity.class);
+            shopIntent.putExtra(STR_IntentKey.ProductID, _cartItemList.get(position).get_productID());
+            shopIntent.putExtra(STR_IntentKey.ActivityType, ENUM_ActivityType.Bag);
+            context.startActivity(shopIntent);
         });
-*/
 
         recyclerView.setAdapter(this._cartItemAdapter);
     }

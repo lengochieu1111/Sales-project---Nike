@@ -19,14 +19,7 @@
         android:textColor="@color/black"
         android:textSize="16dp"/>
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvw_bag"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight="2"
-        tools:listitem="@layout/cart_item"/>
-
-    <!--<ScrollView
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="2">
@@ -43,7 +36,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"/>
 
-            &lt;!&ndash;<LinearLayout
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="5"
@@ -122,9 +115,9 @@
                         android:textSize="15dp"
                         android:textStyle="bold" />
                 </LinearLayout>
-            </LinearLayout>&ndash;&gt;
+            </LinearLayout>
         </LinearLayout>
-    </ScrollView>-->
+    </ScrollView>
 
     <TextView
         android:layout_width="match_parent"
