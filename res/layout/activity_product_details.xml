@@ -231,6 +231,31 @@
                 android:textAllCaps="false"
                 android:fontFamily="@font/varela_round_regular"/>
 
+            <!-- save value -->
+            <TextView
+                android:id="@+id/tvw_saveProductColorImage"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:background="@color/white"
+                android:textColor="@color/white"/>
+            <TextView
+                android:id="@+id/tvw_saveProductPrice"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:background="@color/white"
+                android:textColor="@color/white"/>
+            <TextView
+                android:id="@+id/tvw_saveProductColor"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:background="@color/white"
+                android:textColor="@color/white"/>
+            <TextView
+                android:id="@+id/tvw_saveProductType"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:background="@color/white"
+                android:textColor="@color/white"/>
         </LinearLayout>
 
     </ScrollView>

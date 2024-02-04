@@ -25,6 +25,8 @@ import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -51,6 +53,9 @@ public class Test_MainActivity extends AppCompatActivity {
     /* PROPERTY */
     RecyclerView rvw_bag;
     TextView textView;
+    LinearLayout llt_invoice;
+    LinearLayout llt_bag;
+    ProgressBar pbr_loadding_bag;
     ImageButton ibn_searchProduct;
     TabLayout tlo_shopTab;
     GridView grv_shop;
@@ -73,7 +78,15 @@ public class Test_MainActivity extends AppCompatActivity {
 
         rvw_bag = findViewById(R.id.rvw_bag);
         textView = findViewById(R.id.textView);
+        llt_invoice = findViewById(R.id.llt_invoice);
+        llt_bag = findViewById(R.id.llt_bag);
+        pbr_loadding_bag = findViewById(R.id.pbr_loadding_bag);
         rvw_bag.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+
+        ProgressBarStatus(true);
+        BagStatus(false);
+        InvoiceStatus(false);
+
         /*
         img_test1 = findViewById(R.id.img_test1);
 
@@ -95,12 +108,20 @@ public class Test_MainActivity extends AppCompatActivity {
         new FirebaseDataHelper().ReadTheCartItemList(new FirebaseDataHelper.DataStatus() {
             @Override
             public void DataIsLoaded_Product(ArrayList<Product> products, ArrayList<String> keys) { }
-
             @Override
             public void DataIsLoaded_CartItem(ArrayList<CartItem> cartItems, ArrayList<String> keys) {
-                Toast.makeText(getApplicationContext(), String.valueOf(cartItems.size()) , Toast.LENGTH_SHORT).show();
-                Toast.makeText(getApplicationContext(), String.valueOf(cartItems.get(0).get_productName()) , Toast.LENGTH_SHORT).show();
-                new CartItem_RecyclerView_Config().setConfig(rvw_bag, Test_MainActivity.this, cartItems, keys);
+                ProgressBarStatus(false);
+                BagStatus(true);
+                InvoiceStatus(true);
+
+                if (cartItems.isEmpty())
+                    InvoiceStatus(false);
+                else
+                {
+                    new CartItem_RecyclerView_Config().setConfig(rvw_bag, Test_MainActivity.this, cartItems, keys);
+                    InvoiceStatus(true);
+                }
+
             }
 
             @Override
@@ -120,7 +141,31 @@ public class Test_MainActivity extends AppCompatActivity {
 
     }
 
-    private void LoadsShopData()
+    private void InvoiceStatus(boolean status)
+    {
+        if (status)
+            llt_invoice.setVisibility(View.VISIBLE);
+        else
+            llt_invoice.setVisibility(View.GONE);
+    }
+
+    private void BagStatus(boolean status)
+    {
+        if (status)
+            llt_bag.setVisibility(View.VISIBLE);
+        else
+            llt_bag.setVisibility(View.GONE);
+    }
+
+    private void ProgressBarStatus(boolean status)
+    {
+        if (status)
+            pbr_loadding_bag.setVisibility(View.VISIBLE);
+        else
+            pbr_loadding_bag.setVisibility(View.GONE);
+    }
+
+    /*private void LoadsShopData()
     {
         FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
         DatabaseReference databaseReference = firebaseDatabase.getReference();
@@ -244,7 +289,7 @@ public class Test_MainActivity extends AppCompatActivity {
                 else
                     productModels = _productModels_kid;
 
-                /* Product Details */
+                *//* Product Details *//*
                 String productID = productModels.get(productIndex).get_productID();
                 GoToProductDetails(productID);
 
@@ -284,7 +329,7 @@ public class Test_MainActivity extends AppCompatActivity {
         edt_searchProductName_SP = searchDialog.findViewById(R.id.edt_searchProductName_SP);
         ibn_searchProduct_SP = searchDialog.findViewById(R.id.ibn_searchProduct_SP);
 
-        /* Handle Event */
+        *//* Handle Event *//*
         HandleCancleSearch_SearchDialog(searchDialog);
         HandlesSearchProductName_SearchDialog();
         HandleSearchProduct_SearchDialog();
@@ -372,7 +417,7 @@ public class Test_MainActivity extends AppCompatActivity {
             }
         });
 
-    }
+    }*/
 
 
 }

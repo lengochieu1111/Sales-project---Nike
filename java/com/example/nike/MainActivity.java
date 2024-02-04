@@ -54,11 +54,11 @@ public class MainActivity extends AppCompatActivity {
             this._tabIndexReturned = intentFragment.getExtras().getInt(STR_IntentKey.TabIndexReturned);
             if (this._tabIndexReturned == this.TabIndexReturned_Home)
                 this.ReplaceFragment(this._homeFragment);
-            else if (this._tabIndexReturned == this.TabIndexReturned_Home)
+            else if (this._tabIndexReturned == this.TabIndexReturned_Shop)
                 this.ReplaceFragment(this._shopFragment);
-            else if (this._tabIndexReturned == this.TabIndexReturned_Home)
+            else if (this._tabIndexReturned == this.TabIndexReturned_Bag)
                 this.ReplaceFragment(this._bagFragment);
-            else if (this._tabIndexReturned == this.TabIndexReturned_Home)
+            else if (this._tabIndexReturned == this.TabIndexReturned_Profile)
                 this.ReplaceFragment(this._profileFragment);
 
             this.ChangeColorOfSelectedItem();

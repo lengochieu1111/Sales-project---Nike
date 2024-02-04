@@ -17,6 +17,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.example.nike.Bag.CartItem;
+import com.example.nike.FirebaseDataHelper;
 import com.example.nike.MainActivity;
 import com.example.nike.R;
 import com.example.nike.Shop.SearchProduct_Activity;
@@ -52,6 +54,11 @@ public class ProductDetails_Activity extends AppCompatActivity {
     String _productID;
     private ENUM_ActivityType _activityType = ENUM_ActivityType.Shop;
 
+    TextView tvw_saveProductColorImage;
+    TextView tvw_saveProductPrice;
+    TextView tvw_saveProductColor;
+    TextView tvw_saveProductType;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -74,6 +81,11 @@ public class ProductDetails_Activity extends AppCompatActivity {
         btn_size[5] = findViewById(R.id.btn_size5);
 
         btn_addToBag = findViewById(R.id.btn_addToBag);
+
+        tvw_saveProductColorImage = findViewById(R.id.tvw_saveProductColorImage);
+        tvw_saveProductPrice = findViewById(R.id.tvw_saveProductPrice);
+        tvw_saveProductColor = findViewById(R.id.tvw_saveProductColor);
+        tvw_saveProductType = findViewById(R.id.tvw_saveProductType);
 
         Intent resultIntent = getIntent();
         this._productID = resultIntent.getExtras().getString(STR_IntentKey.ProductID);
@@ -114,19 +126,32 @@ public class ProductDetails_Activity extends AppCompatActivity {
                         List<List<String>> productImageColorLink = new ArrayList<>();
                         Iterable<DataSnapshot> dss_productImageColorLink = snap.child("_productImageColorLink").getChildren();
                         int i_counter = 0;
+                        ArrayList<String> imageColorLink_key = new ArrayList<>();
                         for (DataSnapshot colorNumber : dss_productImageColorLink) {
                             Iterable<DataSnapshot> dss_imageColorLink = colorNumber.getChildren();
                             ArrayList<String> imageColorLink = new ArrayList<>();
+                            int i_colorNumber = 0;
                             for (DataSnapshot icl : dss_imageColorLink) {
                                 imageColorLink.add(icl.getValue(String.class));
+
+                                if (i_colorNumber == 0)
+                                {
+                                    String str_colorKey = icl.getKey();
+                                    String str_color = str_colorKey.substring(0, str_colorKey.length() - 2);
+                                    imageColorLink_key.add(str_color);
+                                }
+
+                                i_colorNumber++;
                             }
                             productImageColorLink.add(imageColorLink);
+                            tvw_saveProductColor.setText(imageColorLink_key.get(0));
 
                             // View Pager
                             if (i_counter == 0)
                             {
                                 ProductImageAdapter productImageAdapter = new ProductImageAdapter(imageColorLink, vpg_viewPager.getContext());
                                 vpg_viewPager.setAdapter(productImageAdapter);
+                                tvw_saveProductColorImage.setText(imageColorLink.get(0));
                             }
 
                             // Product Sample
@@ -139,8 +164,10 @@ public class ProductDetails_Activity extends AppCompatActivity {
                             imageView.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
-                                    String tag = imageView.getTag().toString();
+                                    String tag = v.getTag().toString();
                                     int position = Integer.parseInt(tag);
+
+                                    tvw_saveProductColor.setText(imageColorLink_key.get(position));
                                     ProductImageAdapter productImageAdapter = new ProductImageAdapter(productImageColorLink.get(position), vpg_viewPager.getContext());
                                     vpg_viewPager.setAdapter(productImageAdapter);
                                 }
@@ -160,7 +187,10 @@ public class ProductDetails_Activity extends AppCompatActivity {
                         String productName = snap.child("_productName").getValue(String.class);
                         Integer productPrice = snap.child("_productPrice").getValue(Integer.class);
                         String productDescription = snap.child("_productDescription").getValue(String.class);
-                        // String productType = snap.child("_productType").getValue(String.class);
+                        String productType = snap.child("_productType").getValue(String.class);
+
+                        tvw_saveProductType.setText(productType);
+                        tvw_saveProductPrice.setText(String.valueOf(productPrice));
 
                         tvw_name.setText(productName);
                         tvw_productTitle.setText(productName);
@@ -275,10 +305,48 @@ public class ProductDetails_Activity extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), "Vui lòng chọn size cho sản phẩm", Toast.LENGTH_SHORT).show();
                 else
                 {
-                    Toast.makeText(getApplicationContext(), "Vui lòng chọn size cho sản phẩm" + String.valueOf(_selectedSize), Toast.LENGTH_SHORT).show();
+                    CartItem cartItem = new CartItem();
+                    cartItem.set_productID(_productID);
+                    cartItem.set_productColor(String.valueOf(tvw_saveProductColor.getText()));
+                    cartItem.set_productName(String.valueOf(tvw_name.getText()));
+                    cartItem.set_productPrice(Integer.parseInt(String.valueOf(tvw_saveProductPrice.getText())));
+                    cartItem.set_productNumber(1);
+                    cartItem.set_productImageLink(String.valueOf(tvw_saveProductColorImage.getText()));
+                    cartItem.set_productSize(_selectedSize);
+                    cartItem.set_productType(String.valueOf(tvw_saveProductType.getText()));
+                    new FirebaseDataHelper().AddProductToCart(cartItem, new FirebaseDataHelper.DataStatus() {
+                        @Override
+                        public void DataIsLoaded_Product(ArrayList<Product> products, ArrayList<String> keys) {
 
-                    }
+                        }
+
+                        @Override
+                        public void DataIsLoaded_CartItem(ArrayList<CartItem> cartItems, ArrayList<String> keys) {
+
+                        }
+
+                        @Override
+                        public void DataIsInserted() {
+
+                        }
+
+                        @Override
+                        public void DataIsInserted_CartItem() {
+                            Toast.makeText(getApplicationContext(), "Add Product To Cart ", Toast.LENGTH_SHORT).show();
+                        }
+
+                        @Override
+                        public void DataIsUpdated() {
+
+                        }
+
+                        @Override
+                        public void DataIsDeleted() {
+
+                        }
+                    });
                 }
+            }
         });
     }
 
