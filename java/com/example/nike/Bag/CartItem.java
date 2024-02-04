@@ -12,12 +12,26 @@ public class CartItem {
     private Integer _productSize;
     private String _productType;
     private Integer _productNumber = 1;
+    private boolean _isSelected = false;
 
     /* CONSTRUCTOR */
     public CartItem() { }
 
+    public CartItem(CartItem cartItem)
+    {
+        this._productID = cartItem._productID;
+        this._productImageLink = cartItem._productImageLink;
+        this._productName = cartItem._productName;
+        this._productPrice = cartItem._productPrice;
+        this._productColor = cartItem._productColor;
+        this._productSize = cartItem._productSize;
+        this._productType = cartItem._productType;
+        this._productNumber = cartItem._productNumber;
+        this._isSelected = cartItem._isSelected;
+    }
+
     public CartItem(String _productID, String _productImageLink, String _productName, Integer _productPrice,
-                    String _productColor, Integer _productSize, String _productType, Integer _productNumber) {
+                    String _productColor, Integer _productSize, String _productType, Integer _productNumber, boolean _isSelected) {
         this._productID = _productID;
         this._productImageLink = _productImageLink;
         this._productName = _productName;
@@ -26,6 +40,7 @@ public class CartItem {
         this._productSize = _productSize;
         this._productType = _productType;
         this._productNumber = _productNumber;
+        this._isSelected = _isSelected;
     }
 
     /* SETTER - GETTER */
@@ -92,4 +107,8 @@ public class CartItem {
     public void set_productNumber(Integer _productNumber) {
         this._productNumber = _productNumber;
     }
+
+    public boolean get_isSelected() { return _isSelected; }
+
+    public void set_isSelected(boolean _isSelected) { this._isSelected = _isSelected; }
 }

@@ -15,6 +15,7 @@
             android:layout_height="match_parent"
             android:gravity="center_vertical">
             <CheckBox
+                android:id="@+id/cbx_isSelected_CartItem"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
                 android:checked="false"

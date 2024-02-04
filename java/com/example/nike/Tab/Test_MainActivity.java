@@ -71,6 +71,9 @@ public class Test_MainActivity extends AppCompatActivity {
     ImageButton ibn_searchProduct_SP;
     private String _productNameSearch = "";
 
+    TextView tvw_subtotal_bag;
+    TextView tvw_total_bag;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -81,6 +84,8 @@ public class Test_MainActivity extends AppCompatActivity {
         llt_invoice = findViewById(R.id.llt_invoice);
         llt_bag = findViewById(R.id.llt_bag);
         pbr_loadding_bag = findViewById(R.id.pbr_loadding_bag);
+        tvw_subtotal_bag = findViewById(R.id.tvw_subtotal_bag);
+        tvw_total_bag = findViewById(R.id.tvw_total_bag);
         rvw_bag.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
 
         ProgressBarStatus(true);
@@ -108,8 +113,9 @@ public class Test_MainActivity extends AppCompatActivity {
         new FirebaseDataHelper().ReadTheCartItemList(new FirebaseDataHelper.DataStatus() {
             @Override
             public void DataIsLoaded_Product(ArrayList<Product> products, ArrayList<String> keys) { }
+
             @Override
-            public void DataIsLoaded_CartItem(ArrayList<CartItem> cartItems, ArrayList<String> keys) {
+            public void DataIsLoaded_CartItem(ArrayList<CartItem> cartItems, ArrayList<CartItem> _cartItemSelected, ArrayList<String> keys) {
                 ProgressBarStatus(false);
                 BagStatus(true);
                 InvoiceStatus(true);
@@ -119,26 +125,40 @@ public class Test_MainActivity extends AppCompatActivity {
                 else
                 {
                     new CartItem_RecyclerView_Config().setConfig(rvw_bag, Test_MainActivity.this, cartItems, keys);
+
+                    float subtotal_bag = 0;
+                    for (CartItem cartItem : _cartItemSelected)
+                    {
+                        subtotal_bag += cartItem.get_productPrice();
+                    }
+                    String str_price = ConvertNumberToString_productPrice((int) subtotal_bag);
+                    tvw_subtotal_bag.setText(String.valueOf(str_price));
+                    tvw_total_bag.setText(String.valueOf(str_price));
+
                     InvoiceStatus(true);
                 }
+            }
+
+            @Override
+            public void DataIsInserted_Product() { }
+            @Override
+            public void DataIsInserted_CartItem() { }
+
+            @Override
+            public void DataIsUpdated_CartItem() {
 
             }
 
             @Override
-            public void DataIsInserted() { }
-
-            @Override
-            public void DataIsInserted_CartItem() {
+            public void DataIsDeleted_CartItem() {
 
             }
 
             @Override
-            public void DataIsUpdated() { }
-
+            public void DataIsUpdated_Product() { }
             @Override
-            public void DataIsDeleted() { }
+            public void DataIsDeleted_Product() { }
         });
-
     }
 
     private void InvoiceStatus(boolean status)
@@ -163,6 +183,33 @@ public class Test_MainActivity extends AppCompatActivity {
             pbr_loadding_bag.setVisibility(View.VISIBLE);
         else
             pbr_loadding_bag.setVisibility(View.GONE);
+    }
+
+    private String ConvertNumberToString_productPrice(int i_productPrice)
+    {
+        String str_productPrice = String.valueOf(i_productPrice);
+        int numberLenght = str_productPrice.length();
+        int surplus = numberLenght % 3;
+        int dotNumber = numberLenght / 3;
+        if (numberLenght % 3 == 0)
+            dotNumber -= 1;
+
+        String str_result = "₫";
+        for (int i = 0; i < dotNumber; i++)
+        {
+            if (i == 0)
+            {
+                if (surplus != 0)
+                    str_result += str_productPrice.substring(0, surplus) + ",";
+                else
+                    str_result += str_productPrice.substring(surplus, surplus + 3) + ",";
+            }
+            else if (i != 0)
+                str_result += str_productPrice.substring(surplus, surplus + 3) + ",";
+        }
+        str_result += str_productPrice.substring(surplus, surplus + 3);
+
+        return str_result;
     }
 
     /*private void LoadsShopData()

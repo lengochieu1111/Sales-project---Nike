@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -14,11 +15,14 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.example.nike.FirebaseDataHelper;
 import com.example.nike.Product.I_OnItemClickListener;
+import com.example.nike.Product.Product;
 import com.example.nike.Product.ProductDetails_Activity;
 import com.example.nike.R;
 import com.example.nike.Tab.ENUM_ActivityType;
 import com.example.nike.Tab.STR_IntentKey;
+import com.example.nike.Tab.Test_MainActivity;
 
 import java.util.ArrayList;
 
@@ -89,12 +93,14 @@ public class CartItem_RecyclerView_Config {
         private TextView _tvw_productNumber_Bag;
         private Button _btn_plusOne_Bag;
         private TextView _tvw_productPrice_Bag;
+        private CheckBox cbx_isSelected_CartItem;
         private String _key;
 
         public CartItemView(ViewGroup parent, final I_OnItemClickListener listener) {
             super(LayoutInflater.from(_context)
                     .inflate(R.layout.cart_item, parent, false));
 
+            this.cbx_isSelected_CartItem = itemView.findViewById(R.id.cbx_isSelected_CartItem);
             this._ivw_productImage_Bag = itemView.findViewById(R.id.ivw_productImage_Bag);
             this._tvw_productName_Bag = itemView.findViewById(R.id.tvw_productName_Bag);
             this._tvw_productType_Bag = itemView.findViewById(R.id.tvw_productType_Bag);
@@ -126,16 +132,26 @@ public class CartItem_RecyclerView_Config {
             this._tvw_productColor_Bag.setText(cartItem.get_productColor());
             this._tvw_productSize_Bag.setText(String.valueOf(cartItem.get_productSize()));
             this._tvw_productNumber_Bag.setText(String.valueOf(cartItem.get_productNumber()));
+            this.cbx_isSelected_CartItem.setChecked(cartItem.get_isSelected());
 
-/*            this._btn_minusOne_Bag.setOnClickListener(new View.OnClickListener() {
+            this._btn_minusOne_Bag.setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void onClick(View v) { _tvw_productNumber_Bag.setText(cartItem.get_productNumber()); }
+                public void onClick(View v) {
+                    Integer productNumber = cartItem.get_productNumber();
+                    if (productNumber <= 0) return;
+                    UpdateProductNumber(cartItem, key, productNumber - 1);
+                    // _context.startActivity(new Intent(_context, Test_MainActivity.class));
+                }
             });
 
             this._btn_plusOne_Bag.setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void onClick(View v) { _tvw_productNumber_Bag.setText(cartItem.get_productNumber()); }
-            });*/
+                public void onClick(View v) {
+                    Integer productNumber = cartItem.get_productNumber();
+                    UpdateProductNumber(cartItem, key, productNumber + 1);
+                    // _context.startActivity(new Intent(_context, Test_MainActivity.class));
+                }
+            });
 
             /* Product Price */
             int i_productPrice = cartItem.get_productPrice();
@@ -172,6 +188,37 @@ public class CartItem_RecyclerView_Config {
             return str_result;
         }
 
+        private void UpdateProductNumber(CartItem cartItem, String key, Integer newProductNumber)
+        {
+            CartItem newCartItem = new CartItem(cartItem);
+            newCartItem.set_productNumber(newProductNumber);
+            new FirebaseDataHelper().UpdateProductToCart(key, newCartItem, new FirebaseDataHelper.DataStatus() {
+                @Override
+                public void DataIsLoaded_Product(ArrayList<Product> products, ArrayList<String> keys) { }
+                @Override
+                public void DataIsInserted_Product() { }
+                @Override
+                public void DataIsUpdated_Product() { }
+                @Override
+                public void DataIsDeleted_Product() { }
+                @Override
+                public void DataIsLoaded_CartItem(ArrayList<CartItem> cartItems, ArrayList<CartItem> _cartItemSelected, ArrayList<String> keys) {}
+                @Override
+                public void DataIsInserted_CartItem() {}
+                @Override
+                public void DataIsUpdated_CartItem() {
+                    Toast.makeText(_context, "Updated_CartItem", Toast.LENGTH_SHORT).show();
+                }
+                @Override
+                public void DataIsDeleted_CartItem() {}
+            });
+
+            _tvw_productNumber_Bag.setText(newProductNumber);
+        }
+
+
     }
+
+
 
 }

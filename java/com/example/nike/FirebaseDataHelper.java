@@ -1,8 +1,5 @@
 package com.example.nike;
 
-import android.content.Context;
-import android.widget.Toast;
-
 import androidx.annotation.NonNull;
 
 import com.example.nike.Bag.CartItem;
@@ -26,15 +23,21 @@ public class FirebaseDataHelper {
     private DatabaseReference _databaseReference;
     private ArrayList<Product> _products =  new ArrayList<Product>();
     private ArrayList<CartItem> _cartItems =  new ArrayList<CartItem>();
+    private ArrayList<CartItem> _cartItemSelected =  new ArrayList<CartItem>();
 
     public interface DataStatus
     {
+        /* Product */
         void DataIsLoaded_Product(ArrayList<Product> products, ArrayList<String> keys);
-        void DataIsLoaded_CartItem(ArrayList<CartItem> cartItems, ArrayList<String> keys);
-        void DataIsInserted();
+        void DataIsInserted_Product();
+        void DataIsUpdated_Product();
+        void DataIsDeleted_Product();
+
+        /* Cart Item */
+        void DataIsLoaded_CartItem(ArrayList<CartItem> cartItems,ArrayList<CartItem> _cartItemSelected, ArrayList<String> keys);
         void DataIsInserted_CartItem();
-        void DataIsUpdated();
-        void DataIsDeleted();
+        void DataIsUpdated_CartItem();
+        void DataIsDeleted_CartItem();
     }
 
     public FirebaseDataHelper()
@@ -183,17 +186,19 @@ public class FirebaseDataHelper {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 _cartItems.clear();
+                _cartItemSelected.clear();
                 ArrayList<String> keys = new ArrayList<>();
 
                 if (!snapshot.exists()) return;
                 if (!snapshot.hasChildren())
                 {
-                    dataStatus.DataIsLoaded_CartItem(_cartItems, keys);
+                    dataStatus.DataIsLoaded_CartItem(_cartItems, _cartItemSelected, keys);
                 }
 
                 for (DataSnapshot snap : snapshot.getChildren()) {
                     keys.add(snap.getKey());
 
+                    boolean isSelected = snap.child("_isSelected").getValue(boolean.class);
                     String productID = snap.child("_productID").getValue(String.class);
                     String productName = snap.child("_productName").getValue(String.class);
                     Integer productPrice = snap.child("_productPrice").getValue(Integer.class);
@@ -204,13 +209,17 @@ public class FirebaseDataHelper {
                     String productColor = snap.child("_productColor").getValue(String.class);
 
                     CartItem cartItem = new CartItem(productID, productImageLink, productName, productPrice,
-                            productColor, productSize, productType, productNumber);
+                            productColor, productSize, productType, productNumber, isSelected);
 
                     _cartItems.add(cartItem);
+
+                    if (isSelected)
+                    {
+                        _cartItemSelected.add(cartItem);
+                    }
                 }
 
-                dataStatus.DataIsLoaded_CartItem(_cartItems, keys);
-
+                dataStatus.DataIsLoaded_CartItem(_cartItems, _cartItemSelected, keys);
             }
 
             @Override
@@ -237,6 +246,28 @@ public class FirebaseDataHelper {
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
 
+            }
+        });
+
+    }
+
+    public void UpdateProductToCart(String key, CartItem cartItem, final DataStatus dataStatus)
+    {
+        _databaseReference.child("CartItems").child(key).setValue(cartItem).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void unused) {
+                dataStatus.DataIsUpdated_CartItem();
+            }
+        });
+
+    }
+
+    public void DeleteProductToCart(String key, final DataStatus dataStatus)
+    {
+        _databaseReference.child("CartItems").child(key).setValue(null).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void unused) {
+                dataStatus.DataIsDeleted_CartItem();
             }
         });
 

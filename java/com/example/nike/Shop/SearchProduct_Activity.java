@@ -265,12 +265,12 @@ public class SearchProduct_Activity extends AppCompatActivity {
             }
 
             @Override
-            public void DataIsLoaded_CartItem(ArrayList<CartItem> products, ArrayList<String> keys) {
+            public void DataIsLoaded_CartItem(ArrayList<CartItem> cartItems, ArrayList<CartItem> _cartItemSelected, ArrayList<String> keys) {
 
             }
 
             @Override
-            public void DataIsInserted() {
+            public void DataIsInserted_Product() {
 
             }
 
@@ -280,12 +280,22 @@ public class SearchProduct_Activity extends AppCompatActivity {
             }
 
             @Override
-            public void DataIsUpdated() {
+            public void DataIsUpdated_CartItem() {
 
             }
 
             @Override
-            public void DataIsDeleted() {
+            public void DataIsDeleted_CartItem() {
+
+            }
+
+            @Override
+            public void DataIsUpdated_Product() {
+
+            }
+
+            @Override
+            public void DataIsDeleted_Product() {
 
             }
         }, _productNameSearch, _productTypeSearch, _sortType);

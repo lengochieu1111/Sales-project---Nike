@@ -314,6 +314,8 @@ public class ProductDetails_Activity extends AppCompatActivity {
                     cartItem.set_productImageLink(String.valueOf(tvw_saveProductColorImage.getText()));
                     cartItem.set_productSize(_selectedSize);
                     cartItem.set_productType(String.valueOf(tvw_saveProductType.getText()));
+                    cartItem.set_isSelected(false);
+
                     new FirebaseDataHelper().AddProductToCart(cartItem, new FirebaseDataHelper.DataStatus() {
                         @Override
                         public void DataIsLoaded_Product(ArrayList<Product> products, ArrayList<String> keys) {
@@ -321,12 +323,11 @@ public class ProductDetails_Activity extends AppCompatActivity {
                         }
 
                         @Override
-                        public void DataIsLoaded_CartItem(ArrayList<CartItem> cartItems, ArrayList<String> keys) {
-
+                        public void DataIsLoaded_CartItem(ArrayList<CartItem> cartItems, ArrayList<CartItem> _cartItemSelected, ArrayList<String> keys) {
                         }
 
                         @Override
-                        public void DataIsInserted() {
+                        public void DataIsInserted_Product() {
 
                         }
 
@@ -336,12 +337,22 @@ public class ProductDetails_Activity extends AppCompatActivity {
                         }
 
                         @Override
-                        public void DataIsUpdated() {
+                        public void DataIsUpdated_CartItem() {
 
                         }
 
                         @Override
-                        public void DataIsDeleted() {
+                        public void DataIsDeleted_CartItem() {
+
+                        }
+
+                        @Override
+                        public void DataIsUpdated_Product() {
+
+                        }
+
+                        @Override
+                        public void DataIsDeleted_Product() {
 
                         }
                     });
