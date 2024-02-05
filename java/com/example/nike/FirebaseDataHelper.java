@@ -7,7 +7,9 @@ import com.example.nike.Product.Product;
 import com.example.nike.Product.ENUM_ProductType;
 import com.example.nike.Product.ENUM_SortType;
 import com.example.nike.Product.STR_ProductType;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -15,6 +17,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class FirebaseDataHelper {
@@ -253,11 +256,30 @@ public class FirebaseDataHelper {
 
     public void UpdateProductToCart(String key, CartItem cartItem, final DataStatus dataStatus)
     {
+        // OLD
+        /*
         _databaseReference.child("CartItems").child(key).setValue(cartItem).addOnSuccessListener(new OnSuccessListener<Void>() {
-            @Override
+        @Override
             public void onSuccess(Void unused) {
                 dataStatus.DataIsUpdated_CartItem();
             }
+        });
+        */
+
+        HashMap CartItem = new HashMap();
+        CartItem.put("_isSelected", cartItem.get_isSelected());
+        CartItem.put("_productID", cartItem.get_productID());
+        CartItem.put("_productName", cartItem.get_productName());
+        CartItem.put("_productPrice", cartItem.get_productPrice());
+        CartItem.put("_productSize", cartItem.get_productSize());
+        CartItem.put("_productNumber", cartItem.get_productNumber());
+        CartItem.put("_productImageLink", cartItem.get_productImageLink());
+        CartItem.put("_productType", cartItem.get_productType());
+        CartItem.put("_productColor", cartItem.get_productColor());
+
+        _databaseReference.child("CartItems").child(key).updateChildren(CartItem).addOnCompleteListener(new OnCompleteListener() {
+            @Override
+            public void onComplete(@NonNull Task task) { }
         });
 
     }

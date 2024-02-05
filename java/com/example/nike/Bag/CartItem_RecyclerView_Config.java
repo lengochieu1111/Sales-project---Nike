@@ -94,6 +94,7 @@ public class CartItem_RecyclerView_Config {
         private Button _btn_plusOne_Bag;
         private TextView _tvw_productPrice_Bag;
         private CheckBox cbx_isSelected_CartItem;
+        private ImageView ivw_deleteProduct_Bag;
         private String _key;
 
         public CartItemView(ViewGroup parent, final I_OnItemClickListener listener) {
@@ -110,6 +111,7 @@ public class CartItem_RecyclerView_Config {
             this._tvw_productNumber_Bag = itemView.findViewById(R.id.tvw_productNumber_Bag);
             this._btn_plusOne_Bag = itemView.findViewById(R.id.btn_plusOne_Bag);
             this._tvw_productPrice_Bag = itemView.findViewById(R.id.tvw_productPrice_Bag);
+            this.ivw_deleteProduct_Bag = itemView.findViewById(R.id.ivw_deleteProduct_Bag);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -138,9 +140,11 @@ public class CartItem_RecyclerView_Config {
                 @Override
                 public void onClick(View v) {
                     Integer productNumber = cartItem.get_productNumber();
-                    if (productNumber <= 0) return;
+                     if (productNumber <= 1) return;
                     UpdateProductNumber(cartItem, key, productNumber - 1);
                     // _context.startActivity(new Intent(_context, Test_MainActivity.class));
+
+                    // _tvw_productNumber_Bag.setText(String.valueOf(productNumber));
                 }
             });
 
@@ -150,6 +154,33 @@ public class CartItem_RecyclerView_Config {
                     Integer productNumber = cartItem.get_productNumber();
                     UpdateProductNumber(cartItem, key, productNumber + 1);
                     // _context.startActivity(new Intent(_context, Test_MainActivity.class));
+
+                }
+            });
+
+            this.ivw_deleteProduct_Bag.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    new FirebaseDataHelper().DeleteProductToCart(key, new FirebaseDataHelper.DataStatus() {
+                        @Override
+                        public void DataIsLoaded_Product(ArrayList<Product> products, ArrayList<String> keys) {}
+                        @Override
+                        public void DataIsInserted_Product() {}
+                        @Override
+                        public void DataIsUpdated_Product() {}
+                        @Override
+                        public void DataIsDeleted_Product() {}
+                        @Override
+                        public void DataIsLoaded_CartItem(ArrayList<CartItem> cartItems, ArrayList<CartItem> _cartItemSelected, ArrayList<String> keys) {}
+                        @Override
+                        public void DataIsInserted_CartItem() {}
+                        @Override
+                        public void DataIsUpdated_CartItem() {}
+                        @Override
+                        public void DataIsDeleted_CartItem() {
+                            Toast.makeText(_context,"Delete_CartItem", Toast.LENGTH_SHORT).show();
+                        }
+                    });
                 }
             });
 
@@ -190,9 +221,10 @@ public class CartItem_RecyclerView_Config {
 
         private void UpdateProductNumber(CartItem cartItem, String key, Integer newProductNumber)
         {
-            CartItem newCartItem = new CartItem(cartItem);
-            newCartItem.set_productNumber(newProductNumber);
-            new FirebaseDataHelper().UpdateProductToCart(key, newCartItem, new FirebaseDataHelper.DataStatus() {
+             CartItem newCartItem = new CartItem(cartItem);
+                newCartItem.set_productNumber(newProductNumber);
+
+                new FirebaseDataHelper().UpdateProductToCart(key, newCartItem, new FirebaseDataHelper.DataStatus() {
                 @Override
                 public void DataIsLoaded_Product(ArrayList<Product> products, ArrayList<String> keys) { }
                 @Override
@@ -213,7 +245,7 @@ public class CartItem_RecyclerView_Config {
                 public void DataIsDeleted_CartItem() {}
             });
 
-            _tvw_productNumber_Bag.setText(newProductNumber);
+            _tvw_productNumber_Bag.setText(String.valueOf(newProductNumber));
         }
 
 
