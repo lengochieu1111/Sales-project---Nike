@@ -52,7 +52,8 @@
                     android:id="@+id/rvw_bag"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_weight="1" />
+                    android:layout_weight="1"
+                    tools:listitem="@layout/cart_item"/>
 
                 <LinearLayout
                     android:id="@+id/llt_invoice"
