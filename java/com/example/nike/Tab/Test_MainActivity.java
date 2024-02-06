@@ -118,23 +118,27 @@ public class Test_MainActivity extends AppCompatActivity {
             public void DataIsLoaded_CartItem(ArrayList<CartItem> cartItems, ArrayList<CartItem> _cartItemSelected, ArrayList<String> keys) {
                 ProgressBarStatus(false);
                 BagStatus(true);
-                InvoiceStatus(true);
 
-                if (cartItems.isEmpty())
-                    InvoiceStatus(false);
-                else
+                if (!cartItems.isEmpty())
                 {
                     new CartItem_RecyclerView_Config().setConfig(rvw_bag, Test_MainActivity.this, cartItems, keys);
 
-                    float subtotal_bag = 0;
-                    for (CartItem cartItem : _cartItemSelected)
+                    String str_price = "";
+                    if (_cartItemSelected.isEmpty())
                     {
-                        subtotal_bag += cartItem.get_productPrice();
+                        str_price = "0";
                     }
-                    String str_price = ConvertNumberToString_productPrice((int) subtotal_bag);
-                    tvw_subtotal_bag.setText(String.valueOf(str_price));
-                    tvw_total_bag.setText(String.valueOf(str_price));
-
+                    else
+                    {
+                        float subtotal_bag = 0;
+                        for (CartItem cartItem : _cartItemSelected)
+                        {
+                            subtotal_bag += cartItem.get_productPrice();
+                        }
+                        str_price = ConvertNumberToString_productPrice((int) subtotal_bag);
+                    }
+                    tvw_subtotal_bag.setText(str_price);
+                    tvw_total_bag.setText(str_price);
                     InvoiceStatus(true);
                 }
             }
