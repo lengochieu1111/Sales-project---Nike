@@ -39,8 +39,8 @@ public class FirebaseDataHelper {
         /* Cart Item */
         void DataIsLoaded_CartItem(ArrayList<CartItem> cartItems,ArrayList<CartItem> _cartItemSelected, ArrayList<String> keys);
         void DataIsInserted_CartItem();
-        void DataIsUpdated_CartItem();
-        void DataIsDeleted_CartItem();
+        void DataIsUpdated_CartItem(ArrayList<CartItem> cartItemSelected);
+        void DataIsDeleted_CartItem(ArrayList<CartItem> cartItem);
     }
 
     public FirebaseDataHelper()
@@ -279,21 +279,141 @@ public class FirebaseDataHelper {
 
         _databaseReference.child("CartItems").child(key).updateChildren(CartItem).addOnCompleteListener(new OnCompleteListener() {
             @Override
-            public void onComplete(@NonNull Task task) { }
+            public void onComplete(@NonNull Task task) {
+                _databaseReference.child("CartItems").addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        ArrayList<CartItem> productSelected = new ArrayList<>();
+
+                        if (!snapshot.exists()) return;
+                        if (!snapshot.hasChildren()) return;
+
+                        for (DataSnapshot snap : snapshot.getChildren()) {
+
+                            boolean isSelected = snap.child("_isSelected").getValue(boolean.class);
+                            String productID = snap.child("_productID").getValue(String.class);
+                            String productName = snap.child("_productName").getValue(String.class);
+                            Integer productPrice = snap.child("_productPrice").getValue(Integer.class);
+                            Integer productSize = snap.child("_productSize").getValue(Integer.class);
+                            Integer productNumber = snap.child("_productNumber").getValue(Integer.class);
+                            String productImageLink = snap.child("_productImageLink").getValue(String.class);
+                            String productType = snap.child("_productType").getValue(String.class);
+                            String productColor = snap.child("_productColor").getValue(String.class);
+
+                            CartItem cartItem = new CartItem(productID, productImageLink, productName, productPrice,
+                                    productColor, productSize, productType, productNumber, isSelected);
+
+                            if (isSelected)
+                            {
+                                productSelected.add(cartItem);
+                            }
+                        }
+
+                        dataStatus.DataIsUpdated_CartItem(productSelected);
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+                    }
+
+                });
+            }
         });
 
     }
 
     public void DeleteProductToCart(String key, final DataStatus dataStatus)
     {
-        _databaseReference.child("CartItems").child(key).setValue(null).addOnSuccessListener(new OnSuccessListener<Void>() {
+        _databaseReference.child("CartItems").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
-            public void onSuccess(Void unused) {
-                dataStatus.DataIsDeleted_CartItem();
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (!snapshot.exists()) return;
+
+                if (!snapshot.hasChildren() || snapshot.getChildrenCount() <= 1)
+                {
+                    dataStatus.DataIsLoaded_CartItem(new ArrayList<>(), new ArrayList<>(), new ArrayList<>());
+                    _databaseReference.child("CartItems").setValue("null1");
+                }
+                else
+                {
+                    DeleteCartItem(key, dataStatus);
+                }
             }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {}
         });
 
     }
+
+    private void DeleteCartItem(String key, final DataStatus dataStatus)
+    {
+        _databaseReference.child("CartItems").child(key).setValue(null).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void unused) {
+                _databaseReference.child("CartItems").addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        ArrayList<CartItem> productSelected = new ArrayList<>();
+
+                        if (!snapshot.exists()) return;
+                        if (!snapshot.hasChildren())
+                        {
+                            dataStatus.DataIsLoaded_CartItem(productSelected, productSelected, new ArrayList<String>());
+                            return;
+                        }
+
+                        int i_key = 0;
+                        for (DataSnapshot snap : snapshot.getChildren()) {
+                            String oldkey = snap.getKey();
+                            Object data =  snap.getValue();
+                            _databaseReference.child("CartItems").child(oldkey).removeValue();
+                            _databaseReference.child("CartItems").child(String.valueOf(i_key)).setValue(data);
+                            i_key++;
+                        }
+                    }
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {}
+                });
+
+                _databaseReference.child("CartItems").addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        ArrayList<CartItem> productSelected = new ArrayList<>();
+
+                        if (!snapshot.exists()) return;
+                        if (!snapshot.hasChildren()) return;
+
+                        for (DataSnapshot snap : snapshot.getChildren()) {
+                            boolean isSelected = snap.child("_isSelected").getValue(boolean.class);
+                            String productID = snap.child("_productID").getValue(String.class);
+                            String productName = snap.child("_productName").getValue(String.class);
+                            Integer productPrice = snap.child("_productPrice").getValue(Integer.class);
+                            Integer productSize = snap.child("_productSize").getValue(Integer.class);
+                            Integer productNumber = snap.child("_productNumber").getValue(Integer.class);
+                            String productImageLink = snap.child("_productImageLink").getValue(String.class);
+                            String productType = snap.child("_productType").getValue(String.class);
+                            String productColor = snap.child("_productColor").getValue(String.class);
+
+                            CartItem cartItem = new CartItem(productID, productImageLink, productName, productPrice,
+                                    productColor, productSize, productType, productNumber, isSelected);
+
+                            if (isSelected)
+                            {
+                                productSelected.add(cartItem);
+                            }
+                        }
+
+                        dataStatus.DataIsDeleted_CartItem(productSelected);
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+                    }
+                });
+            }
+        });
+    }
+
 
 
 }

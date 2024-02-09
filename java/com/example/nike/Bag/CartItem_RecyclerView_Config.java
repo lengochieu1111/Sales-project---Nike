@@ -136,15 +136,21 @@ public class CartItem_RecyclerView_Config {
             this._tvw_productNumber_Bag.setText(String.valueOf(cartItem.get_productNumber()));
             this.cbx_isSelected_CartItem.setChecked(cartItem.get_isSelected());
 
+            this.cbx_isSelected_CartItem.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    cartItem.set_isSelected(!cartItem.get_isSelected());
+                    UpdateProductNumber(cartItem, key);
+                }
+            });
+
             this._btn_minusOne_Bag.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     Integer productNumber = cartItem.get_productNumber();
                      if (productNumber <= 1) return;
-                    UpdateProductNumber(cartItem, key, productNumber - 1);
-                    // _context.startActivity(new Intent(_context, Test_MainActivity.class));
-
-                    // _tvw_productNumber_Bag.setText(String.valueOf(productNumber));
+                    cartItem.set_productNumber(productNumber - 1);
+                    UpdateProductNumber(cartItem, key);
                 }
             });
 
@@ -152,9 +158,8 @@ public class CartItem_RecyclerView_Config {
                 @Override
                 public void onClick(View v) {
                     Integer productNumber = cartItem.get_productNumber();
-                    UpdateProductNumber(cartItem, key, productNumber + 1);
-                    // _context.startActivity(new Intent(_context, Test_MainActivity.class));
-
+                    cartItem.set_productNumber(productNumber + 1);
+                    UpdateProductNumber(cartItem, key);
                 }
             });
 
@@ -175,9 +180,9 @@ public class CartItem_RecyclerView_Config {
                         @Override
                         public void DataIsInserted_CartItem() {}
                         @Override
-                        public void DataIsUpdated_CartItem() {}
+                        public void DataIsUpdated_CartItem(ArrayList<CartItem> cartItemSelected) {}
                         @Override
-                        public void DataIsDeleted_CartItem() {
+                        public void DataIsDeleted_CartItem(ArrayList<CartItem> cartItemSelected) {
                             Toast.makeText(_context,"Delete_CartItem", Toast.LENGTH_SHORT).show();
                         }
                     });
@@ -219,12 +224,9 @@ public class CartItem_RecyclerView_Config {
             return str_result;
         }
 
-        private void UpdateProductNumber(CartItem cartItem, String key, Integer newProductNumber)
+        private void UpdateProductNumber(CartItem cartItem, String key)
         {
-             CartItem newCartItem = new CartItem(cartItem);
-                newCartItem.set_productNumber(newProductNumber);
-
-                new FirebaseDataHelper().UpdateProductToCart(key, newCartItem, new FirebaseDataHelper.DataStatus() {
+                new FirebaseDataHelper().UpdateProductToCart(key, cartItem, new FirebaseDataHelper.DataStatus() {
                 @Override
                 public void DataIsLoaded_Product(ArrayList<Product> products, ArrayList<String> keys) { }
                 @Override
@@ -238,14 +240,14 @@ public class CartItem_RecyclerView_Config {
                 @Override
                 public void DataIsInserted_CartItem() {}
                 @Override
-                public void DataIsUpdated_CartItem() {
+                public void DataIsUpdated_CartItem(ArrayList<CartItem> cartItemSelected) {
                     Toast.makeText(_context, "Updated_CartItem", Toast.LENGTH_SHORT).show();
                 }
                 @Override
-                public void DataIsDeleted_CartItem() {}
+                public void DataIsDeleted_CartItem(ArrayList<CartItem> cartItem) {}
             });
 
-            _tvw_productNumber_Bag.setText(String.valueOf(newProductNumber));
+            _tvw_productNumber_Bag.setText(String.valueOf(cartItem.get_productNumber()));
         }
 
 

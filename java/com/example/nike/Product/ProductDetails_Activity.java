@@ -337,12 +337,12 @@ public class ProductDetails_Activity extends AppCompatActivity {
                         }
 
                         @Override
-                        public void DataIsUpdated_CartItem() {
+                        public void DataIsUpdated_CartItem(ArrayList<CartItem> cartItemSelected) {
 
                         }
 
                         @Override
-                        public void DataIsDeleted_CartItem() {
+                        public void DataIsDeleted_CartItem(ArrayList<CartItem> cartItem) {
 
                         }
 

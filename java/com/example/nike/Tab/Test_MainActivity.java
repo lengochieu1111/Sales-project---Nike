@@ -119,50 +119,34 @@ public class Test_MainActivity extends AppCompatActivity {
                 ProgressBarStatus(false);
                 BagStatus(true);
 
-                if (!cartItems.isEmpty())
-                {
-                    new CartItem_RecyclerView_Config().setConfig(rvw_bag, Test_MainActivity.this, cartItems, keys);
+                new CartItem_RecyclerView_Config().setConfig(rvw_bag, Test_MainActivity.this, cartItems, keys);
+                UpdateTotalAmount(_cartItemSelected);
 
-                    String str_price = "";
-                    if (_cartItemSelected.isEmpty())
-                    {
-                        str_price = "0";
-                    }
-                    else
-                    {
-                        float subtotal_bag = 0;
-                        for (CartItem cartItem : _cartItemSelected)
-                        {
-                            subtotal_bag += cartItem.get_productPrice();
-                        }
-                        str_price = ConvertNumberToString_productPrice((int) subtotal_bag);
-                    }
-                    tvw_subtotal_bag.setText(str_price);
-                    tvw_total_bag.setText(str_price);
+                if (!cartItems.isEmpty())
                     InvoiceStatus(true);
-                }
+                else
+                    InvoiceStatus(false);
+
             }
 
             @Override
             public void DataIsInserted_Product() { }
             @Override
             public void DataIsInserted_CartItem() { }
-
             @Override
-            public void DataIsUpdated_CartItem() {
-
+            public void DataIsUpdated_CartItem(ArrayList<CartItem> cartItemSelected) {
+                UpdateTotalAmount(cartItemSelected);
             }
-
             @Override
-            public void DataIsDeleted_CartItem() {
-
+            public void DataIsDeleted_CartItem(ArrayList<CartItem> cartItemSelected) {
+                UpdateTotalAmount(cartItemSelected);
             }
-
             @Override
             public void DataIsUpdated_Product() { }
             @Override
             public void DataIsDeleted_Product() { }
         });
+
     }
 
     private void InvoiceStatus(boolean status)
@@ -214,6 +198,26 @@ public class Test_MainActivity extends AppCompatActivity {
         str_result += str_productPrice.substring(surplus, surplus + 3);
 
         return str_result;
+    }
+
+    private void UpdateTotalAmount(ArrayList<CartItem> _cartItemSelected)
+    {
+        String str_total = "";
+        if (_cartItemSelected.isEmpty())
+        {
+            str_total = "0";
+        }
+        else
+        {
+            float subtotal_bag = 0;
+            for (CartItem cartItem : _cartItemSelected)
+            {
+                subtotal_bag += cartItem.get_productPrice() * cartItem.get_productNumber();
+            }
+            str_total = ConvertNumberToString_productPrice((int) subtotal_bag);
+        }
+        tvw_subtotal_bag.setText(str_total);
+        tvw_total_bag.setText(str_total);
     }
 
     /*private void LoadsShopData()
