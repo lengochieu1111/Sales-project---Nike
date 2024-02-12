@@ -253,6 +253,4 @@ public class CartItem_RecyclerView_Config {
 
     }
 
-
-
 }

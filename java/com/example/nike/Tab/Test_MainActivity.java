@@ -1,25 +1,17 @@
 package com.example.nike.Tab;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.content.Context;
-import android.view.inputmethod.InputMethodManager;
-
 import android.app.Dialog;
-import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.GridView;
@@ -28,24 +20,16 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.nike.Bag.CartItem;
 import com.example.nike.Bag.CartItem_RecyclerView_Config;
+import com.example.nike.Bag.PaymentItem_RecyclerView_Config;
 import com.example.nike.FirebaseDataHelper;
 import com.example.nike.Product.Product;
-import com.example.nike.Product.ProductDetails_Activity;
-import com.example.nike.Product.STR_ProductType;
 import com.example.nike.R;
 import com.example.nike.Shop.ProductAdapter_Old;
 import com.example.nike.Shop.ProductModel;
-import com.example.nike.Shop.SearchProduct_Activity;
 import com.google.android.material.tabs.TabLayout;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
@@ -56,23 +40,21 @@ public class Test_MainActivity extends AppCompatActivity {
     LinearLayout llt_invoice;
     LinearLayout llt_bag;
     ProgressBar pbr_loadding_bag;
-    ImageButton ibn_searchProduct;
-    TabLayout tlo_shopTab;
-    GridView grv_shop;
-    ProductAdapter_Old _productAdapter_Old_men;
-    ProductAdapter_Old _productAdapter_Old_women;
-    ProductAdapter_Old _productAdapter_Old_kid;
-    ArrayList<ProductModel> _productModels_men =  new ArrayList<ProductModel>();
-    ArrayList<ProductModel> _productModels_women =  new ArrayList<ProductModel>();
-    ArrayList<ProductModel> _productModels_kid =  new ArrayList<ProductModel>();
-
-    Button btn_cancleSearch_SP;
-    EditText edt_searchProductName_SP;
-    ImageButton ibn_searchProduct_SP;
-    private String _productNameSearch = "";
 
     TextView tvw_subtotal_bag;
     TextView tvw_total_bag;
+    Button btn_buy;
+
+    //
+    private ImageButton ibn_undo_Payment;
+    private TextView tvw_productName_Payment;
+    private TextView tvw_phoneNumber_Payment;
+    private TextView tvw_address_Payment;
+    private RecyclerView rvw_payment;
+    private TextView tvw_subtotal_Payment;
+    private TextView tvw_total_Payment;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,6 +68,7 @@ public class Test_MainActivity extends AppCompatActivity {
         pbr_loadding_bag = findViewById(R.id.pbr_loadding_bag);
         tvw_subtotal_bag = findViewById(R.id.tvw_subtotal_bag);
         tvw_total_bag = findViewById(R.id.tvw_total_bag);
+        btn_buy = findViewById(R.id.btn_buy);
         rvw_bag.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
 
         ProgressBarStatus(true);
@@ -145,6 +128,14 @@ public class Test_MainActivity extends AppCompatActivity {
             public void DataIsUpdated_Product() { }
             @Override
             public void DataIsDeleted_Product() { }
+        });
+
+        btn_buy.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v)
+            {
+                ShowPaymentDialog();
+            }
         });
 
     }
@@ -219,6 +210,76 @@ public class Test_MainActivity extends AppCompatActivity {
         tvw_subtotal_bag.setText(str_total);
         tvw_total_bag.setText(str_total);
     }
+
+    private void ShowPaymentDialog()
+    {
+        final Dialog paymentDialog = new Dialog(getApplicationContext());
+        paymentDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        paymentDialog.setContentView(R.layout.payment_bottom_sheet_layout);
+
+        this.ibn_undo_Payment = paymentDialog.findViewById(R.id.ibn_undo_Payment);
+        this.tvw_productName_Payment = paymentDialog.findViewById(R.id.tvw_productName_Payment);
+        this.tvw_phoneNumber_Payment = paymentDialog.findViewById(R.id.tvw_phoneNumber_Payment);
+        this.tvw_address_Payment = paymentDialog.findViewById(R.id.tvw_address_Payment);
+        this.rvw_payment = paymentDialog.findViewById(R.id.rvw_payment);
+        this.tvw_subtotal_Payment = paymentDialog.findViewById(R.id.tvw_subtotal_Payment);
+        this.tvw_total_Payment = paymentDialog.findViewById(R.id.tvw_total_Payment);
+
+        /* Handle Event */
+
+        new FirebaseDataHelper().ReadTheCartItemList(new FirebaseDataHelper.DataStatus() {
+
+
+            @Override
+            public void DataIsLoaded_Product(ArrayList<Product> products, ArrayList<String> keys) {
+
+            }
+
+            @Override
+            public void DataIsInserted_Product() {
+
+            }
+
+            @Override
+            public void DataIsUpdated_Product() {
+
+            }
+
+            @Override
+            public void DataIsDeleted_Product() {
+
+            }
+
+            @Override
+            public void DataIsLoaded_CartItem(ArrayList<CartItem> cartItems, ArrayList<CartItem> _cartItemSelected, ArrayList<String> keys) {
+                new PaymentItem_RecyclerView_Config().setConfig(rvw_payment, getApplicationContext(), _cartItemSelected, keys);
+            }
+
+            @Override
+            public void DataIsInserted_CartItem() {
+
+            }
+
+            @Override
+            public void DataIsUpdated_CartItem(ArrayList<CartItem> cartItemSelected) {
+
+            }
+
+            @Override
+            public void DataIsDeleted_CartItem(ArrayList<CartItem> cartItem) {
+
+            }
+        });
+
+        paymentDialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+        paymentDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        paymentDialog.getWindow().getAttributes().windowAnimations = R.style.DialogAnimation;
+        paymentDialog.getWindow().setGravity(Gravity.BOTTOM);
+
+        paymentDialog.show();
+
+    }
+
 
     /*private void LoadsShopData()
     {
