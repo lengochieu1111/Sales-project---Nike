@@ -213,7 +213,7 @@ public class Test_MainActivity extends AppCompatActivity {
 
     private void ShowPaymentDialog()
     {
-        final Dialog paymentDialog = new Dialog(getApplicationContext());
+        final Dialog paymentDialog = new Dialog(Test_MainActivity.this);
         paymentDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         paymentDialog.setContentView(R.layout.payment_bottom_sheet_layout);
 
@@ -226,49 +226,27 @@ public class Test_MainActivity extends AppCompatActivity {
         this.tvw_total_Payment = paymentDialog.findViewById(R.id.tvw_total_Payment);
 
         /* Handle Event */
-
         new FirebaseDataHelper().ReadTheCartItemList(new FirebaseDataHelper.DataStatus() {
-
-
             @Override
-            public void DataIsLoaded_Product(ArrayList<Product> products, ArrayList<String> keys) {
-
-            }
-
+            public void DataIsLoaded_Product(ArrayList<Product> products, ArrayList<String> keys) {}
             @Override
-            public void DataIsInserted_Product() {
-
-            }
-
+            public void DataIsInserted_Product() {}
             @Override
-            public void DataIsUpdated_Product() {
-
-            }
-
+            public void DataIsUpdated_Product() {}
             @Override
-            public void DataIsDeleted_Product() {
-
-            }
+            public void DataIsDeleted_Product() {}
 
             @Override
             public void DataIsLoaded_CartItem(ArrayList<CartItem> cartItems, ArrayList<CartItem> _cartItemSelected, ArrayList<String> keys) {
-                new PaymentItem_RecyclerView_Config().setConfig(rvw_payment, getApplicationContext(), _cartItemSelected, keys);
+                new PaymentItem_RecyclerView_Config().setConfig(rvw_payment, Test_MainActivity.this, _cartItemSelected, keys);
             }
 
             @Override
-            public void DataIsInserted_CartItem() {
-
-            }
-
+            public void DataIsInserted_CartItem() {}
             @Override
-            public void DataIsUpdated_CartItem(ArrayList<CartItem> cartItemSelected) {
-
-            }
-
+            public void DataIsUpdated_CartItem(ArrayList<CartItem> cartItemSelected) {}
             @Override
-            public void DataIsDeleted_CartItem(ArrayList<CartItem> cartItem) {
-
-            }
+            public void DataIsDeleted_CartItem(ArrayList<CartItem> cartItem) {}
         });
 
         paymentDialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
