@@ -10,6 +10,8 @@ import com.example.nike.Product.STR_ProductType;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -20,8 +22,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class FirebaseDataHelper {
+public class FirebaseDataHelper
+{
     /* PROPERTY */
+    FirebaseUser _user;
     private FirebaseDatabase _firebaseDatabase;
     private DatabaseReference _databaseReference;
     private ArrayList<Product> _products =  new ArrayList<Product>();
@@ -41,12 +45,14 @@ public class FirebaseDataHelper {
         void DataIsInserted_CartItem();
         void DataIsUpdated_CartItem(ArrayList<CartItem> cartItemSelected);
         void DataIsDeleted_CartItem(ArrayList<CartItem> cartItem);
+        // boolean BagExistForUser();
     }
 
     public FirebaseDataHelper()
     {
         this._firebaseDatabase = FirebaseDatabase.getInstance();
         this._databaseReference = _firebaseDatabase.getReference();
+        this._user = FirebaseAuth.getInstance().getCurrentUser();
     }
 
     public void ReadTheProductList(final DataStatus dataStatus, String productNameSearch, List<ENUM_ProductType> productTypeSearch, ENUM_SortType sortType) {
@@ -184,6 +190,27 @@ public class FirebaseDataHelper {
     }
 
     /* Cart Item */
+
+    public void CreateBagForUser()
+    {
+        String bagKey = _user.getUid();
+        this._databaseReference.child("Bags").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for(DataSnapshot snap : snapshot.getChildren())
+                {
+                    if (snap.getKey().equals(bagKey))
+                    {
+                        return;
+                    }
+                }
+                _databaseReference.child("Bags").child(bagKey).setValue("null");
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {}
+        });
+    }
+
     public void ReadTheCartItemList(final DataStatus dataStatus) {
         this._databaseReference.child("CartItems").addValueEventListener(new ValueEventListener() {
             @Override
@@ -332,7 +359,7 @@ public class FirebaseDataHelper {
                 if (!snapshot.hasChildren() || snapshot.getChildrenCount() <= 1)
                 {
                     dataStatus.DataIsLoaded_CartItem(new ArrayList<>(), new ArrayList<>(), new ArrayList<>());
-                    _databaseReference.child("CartItems").setValue("null1");
+                    _databaseReference.child("CartItems").setValue("null");
                 }
                 else
                 {

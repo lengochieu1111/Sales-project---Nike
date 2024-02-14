@@ -55,7 +55,6 @@ public class Register_Activity extends AppCompatActivity {
         button_register_Register.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                progressBar_Register.setVisibility(View.VISIBLE);
                 String email, password;
                 email = String.valueOf(editText_email_Register.getText());
                 password = String.valueOf(editText_password_Register.getText());
@@ -72,6 +71,8 @@ public class Register_Activity extends AppCompatActivity {
                     return;
                 }
 
+                progressBar_Register.setVisibility(View.VISIBLE);
+
                 mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
@@ -86,7 +87,6 @@ public class Register_Activity extends AppCompatActivity {
                         }
                     }
                 });
-
             }
         });
 

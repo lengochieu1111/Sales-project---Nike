@@ -9,12 +9,14 @@ import androidx.fragment.app.FragmentTransaction;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.os.Bundle;
+import android.widget.Toast;
 
 import com.example.nike.Fragments.BagFragment;
 import com.example.nike.Fragments.HomeFragment;
 import com.example.nike.Fragments.ProfileFragment;
 import com.example.nike.Fragments.ShopFragment;
 import com.example.nike.Login.Login_Activity;
+import com.example.nike.Login.Register_Activity;
 import com.example.nike.Tab.STR_IntentKey;
 import com.example.nike.databinding.ActivityMainBinding;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -22,7 +24,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 public class MainActivity extends AppCompatActivity {
-
+    //
     FirebaseAuth auth;
     FirebaseUser user;
 
@@ -60,6 +62,7 @@ public class MainActivity extends AppCompatActivity {
         {
 /*            FirebaseAuth.getInstance().signOut();
             GoToLoginActivity();*/
+            Toast.makeText(MainActivity.this, user.getUid(), Toast.LENGTH_SHORT).show();
 
         }
 

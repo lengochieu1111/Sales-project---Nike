@@ -54,7 +54,6 @@ public class Login_Activity extends AppCompatActivity {
         button_login_Login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                progressBar_Login.setVisibility(View.VISIBLE);
                 String email, password;
                 email = String.valueOf(editText_email_Login.getText());
                 password = String.valueOf(editText_password_Login.getText());
@@ -68,6 +67,8 @@ public class Login_Activity extends AppCompatActivity {
                     Toast.makeText(Login_Activity.this, "Enter password", Toast.LENGTH_SHORT).show();
                     return;
                 }
+
+                progressBar_Login.setVisibility(View.VISIBLE);
 
                 mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override

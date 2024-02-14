@@ -26,6 +26,7 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.nike.MainActivity;
 import com.example.nike.Product.ProductDetails_Activity;
 import com.example.nike.Product.STR_ProductType;
 import com.example.nike.Shop.ProductAdapter_Old;
@@ -35,6 +36,8 @@ import com.example.nike.Shop.SearchProduct_Activity;
 import com.example.nike.Tab.ENUM_ActivityType;
 import com.example.nike.Tab.STR_IntentKey;
 import com.google.android.material.tabs.TabLayout;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -82,6 +85,8 @@ public class ShopFragment extends Fragment {
     }
 
     /* PROPERTY */
+    FirebaseUser user;
+
     TextView tvw_test;
     ImageButton ibn_searchProduct;
     TabLayout tlo_shopTab;
@@ -121,6 +126,10 @@ public class ShopFragment extends Fragment {
         this.ibn_searchProduct = view.findViewById(R.id.ibn_searchProduct);
         this.tlo_shopTab = view.findViewById(R.id.tlo_shopTab);
         this.grv_shop = view.findViewById(R.id.grv_shop);
+
+        user = FirebaseAuth.getInstance().getCurrentUser();
+
+        Toast.makeText(getContext(), user.getUid(), Toast.LENGTH_SHORT).show();
 
         // LoadsAndRendersTheStoreView
         this.ShowShopView(_productAdapter_Old_men);
