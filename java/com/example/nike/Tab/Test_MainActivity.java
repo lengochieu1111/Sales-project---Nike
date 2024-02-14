@@ -13,10 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.Button;
-import android.widget.EditText;
-import android.widget.GridView;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -27,9 +24,6 @@ import com.example.nike.Bag.PaymentItem_RecyclerView_Config;
 import com.example.nike.FirebaseDataHelper;
 import com.example.nike.Product.Product;
 import com.example.nike.R;
-import com.example.nike.Shop.ProductAdapter_Old;
-import com.example.nike.Shop.ProductModel;
-import com.google.android.material.tabs.TabLayout;
 
 import java.util.ArrayList;
 
@@ -103,7 +97,7 @@ public class Test_MainActivity extends AppCompatActivity {
                 BagStatus(true);
 
                 new CartItem_RecyclerView_Config().setConfig(rvw_bag, Test_MainActivity.this, cartItems, keys);
-                UpdateTotalAmount(_cartItemSelected);
+                UpdateTotalAmount_Bag(_cartItemSelected);
 
                 if (!cartItems.isEmpty())
                     InvoiceStatus(true);
@@ -118,11 +112,11 @@ public class Test_MainActivity extends AppCompatActivity {
             public void DataIsInserted_CartItem() { }
             @Override
             public void DataIsUpdated_CartItem(ArrayList<CartItem> cartItemSelected) {
-                UpdateTotalAmount(cartItemSelected);
+                UpdateTotalAmount_Bag(cartItemSelected);
             }
             @Override
             public void DataIsDeleted_CartItem(ArrayList<CartItem> cartItemSelected) {
-                UpdateTotalAmount(cartItemSelected);
+                UpdateTotalAmount_Bag(cartItemSelected);
             }
             @Override
             public void DataIsUpdated_Product() { }
@@ -191,7 +185,7 @@ public class Test_MainActivity extends AppCompatActivity {
         return str_result;
     }
 
-    private void UpdateTotalAmount(ArrayList<CartItem> _cartItemSelected)
+    private void UpdateTotalAmount_Bag(ArrayList<CartItem> _cartItemSelected)
     {
         String str_total = "";
         if (_cartItemSelected.isEmpty())
@@ -224,6 +218,7 @@ public class Test_MainActivity extends AppCompatActivity {
         this.rvw_payment = paymentDialog.findViewById(R.id.rvw_payment);
         this.tvw_subtotal_Payment = paymentDialog.findViewById(R.id.tvw_subtotal_Payment);
         this.tvw_total_Payment = paymentDialog.findViewById(R.id.tvw_total_Payment);
+        this.rvw_payment.setLayoutManager(new LinearLayoutManager(Test_MainActivity.this));
 
         /* Handle Event */
         new FirebaseDataHelper().ReadTheCartItemList(new FirebaseDataHelper.DataStatus() {
@@ -239,6 +234,7 @@ public class Test_MainActivity extends AppCompatActivity {
             @Override
             public void DataIsLoaded_CartItem(ArrayList<CartItem> cartItems, ArrayList<CartItem> _cartItemSelected, ArrayList<String> keys) {
                 new PaymentItem_RecyclerView_Config().setConfig(rvw_payment, Test_MainActivity.this, _cartItemSelected, keys);
+                UpdateTotalAmount_Payment(_cartItemSelected);
             }
 
             @Override
@@ -249,6 +245,14 @@ public class Test_MainActivity extends AppCompatActivity {
             public void DataIsDeleted_CartItem(ArrayList<CartItem> cartItem) {}
         });
 
+        //
+        this.ibn_undo_Payment.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                paymentDialog.dismiss();
+            }
+        });
+
         paymentDialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
         paymentDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         paymentDialog.getWindow().getAttributes().windowAnimations = R.style.DialogAnimation;
@@ -256,6 +260,26 @@ public class Test_MainActivity extends AppCompatActivity {
 
         paymentDialog.show();
 
+    }
+
+    private void UpdateTotalAmount_Payment(ArrayList<CartItem> _cartItemSelected)
+    {
+        String str_total = "";
+        if (_cartItemSelected.isEmpty())
+        {
+            str_total = "0";
+        }
+        else
+        {
+            float subtotal_bag = 0;
+            for (CartItem cartItem : _cartItemSelected)
+            {
+                subtotal_bag += cartItem.get_productPrice() * cartItem.get_productNumber();
+            }
+            str_total = ConvertNumberToString_productPrice((int) subtotal_bag);
+        }
+        tvw_subtotal_Payment.setText(str_total);
+        tvw_total_Payment.setText(str_total);
     }
 
 
