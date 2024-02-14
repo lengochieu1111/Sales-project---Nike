@@ -14,11 +14,19 @@ import com.example.nike.Fragments.BagFragment;
 import com.example.nike.Fragments.HomeFragment;
 import com.example.nike.Fragments.ProfileFragment;
 import com.example.nike.Fragments.ShopFragment;
+import com.example.nike.Login.Login_Activity;
 import com.example.nike.Tab.STR_IntentKey;
 import com.example.nike.databinding.ActivityMainBinding;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 public class MainActivity extends AppCompatActivity {
+
+    FirebaseAuth auth;
+    FirebaseUser user;
+
+    //
     public static final int TabIndexReturned_Home = 0;
     public static final int TabIndexReturned_Shop = 1;
     public static final int TabIndexReturned_Bag = 2;
@@ -41,12 +49,21 @@ public class MainActivity extends AppCompatActivity {
         this._binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(_binding.getRoot());
 
-        this._bnv_bottomNavigationView = findViewById(R.id.bnv_bottomNavigationView);
+        auth = FirebaseAuth.getInstance();
+        user = auth.getCurrentUser();
 
-        /*                          PUSH DATA
-        mDatabase = FirebaseDatabase.getInstance().getReference("Size");
-        mDatabase.setValue("41");
-        mDatabase.getDatabase().getReference("Products").child("p1");*/
+        if (user == null)
+        {
+            GoToLoginActivity();
+        }
+        else
+        {
+/*            FirebaseAuth.getInstance().signOut();
+            GoToLoginActivity();*/
+
+        }
+
+        this._bnv_bottomNavigationView = findViewById(R.id.bnv_bottomNavigationView);
 
         Intent intentFragment = getIntent();
         if (intentFragment.getExtras() != null && intentFragment.getExtras().containsKey(STR_IntentKey.TabIndexReturned))
@@ -116,6 +133,13 @@ public class MainActivity extends AppCompatActivity {
         // Áp dụng ColorStateList cho item trong BottomNavigationView
         this._bnv_bottomNavigationView.setItemIconTintList(colorStateList); // Áp dụng cho biểu tượng
         this._bnv_bottomNavigationView.setItemTextColor(colorStateList); // Áp dụng cho tiêu đề (nếu có)
+    }
+
+    private void GoToLoginActivity()
+    {
+        Intent loginIntent = new Intent(getApplicationContext(), Login_Activity.class);
+        startActivity(loginIntent);
+        finish();
     }
 
 }

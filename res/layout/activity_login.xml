@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/login_background"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:padding="20dp"
+    tools:context=".Login.Login_Activity">
+
+    <ImageView
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_marginBottom="50dp"
+        android:src="@drawable/img_account_circle"/>
+
+    <EditText
+        android:id="@+id/editText_email_Login"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:padding="10dp"
+        android:hint="@string/Email"
+        android:textSize="18dp"
+        android:layout_marginBottom="10dp"
+        android:textColor="@color/black"
+        android:background="@drawable/rounded_corner"/>
+
+    <EditText
+        android:id="@+id/editText_password_Login"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:padding="10dp"
+        android:hint="@string/Password"
+        android:textSize="18dp"
+        android:layout_marginBottom="30dp"
+        android:textColor="@color/black"
+        android:background="@drawable/rounded_corner"/>
+
+    <ProgressBar
+        android:id="@+id/progressBar_Login"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"/>
+
+    <Button
+        android:id="@+id/button_login_Login"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:text="@string/Login"
+        android:background="@drawable/rounded_corner"
+        android:backgroundTint="@color/white"
+        android:textColor="@color/black"/>
+
+    <TextView
+        android:id="@+id/textView_clickToRegister_Login"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAlignment="center"
+        android:text="Click to register"
+        android:textColor="@color/white"/>
+
+</LinearLayout>
