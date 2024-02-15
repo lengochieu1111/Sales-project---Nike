@@ -46,6 +46,7 @@ public class FirebaseDataHelper
         void DataIsInserted_CartItem();
         void DataIsUpdated_CartItem(ArrayList<CartItem> cartItemSelected);
         void DataIsDeleted_CartItem(ArrayList<CartItem> cartItem);
+        void HasTheSelectedProduct_CartItem(boolean isEmpty);
     }
 
     public FirebaseDataHelper()
@@ -441,6 +442,43 @@ public class FirebaseDataHelper
         });
     }
 
+    public void HasTheSelectedProductInTheBag(final DataStatus dataStatus)
+    {
+        _databaseReference.child("Bags").child(_bagKey).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                ArrayList<CartItem> productSelected = new ArrayList<>();
 
+                if (!snapshot.exists()) return;
+                if (!snapshot.hasChildren()) return;
+
+                for (DataSnapshot snap : snapshot.getChildren()) {
+                    boolean isSelected = snap.child("_isSelected").getValue(boolean.class);
+                    String productID = snap.child("_productID").getValue(String.class);
+                    String productName = snap.child("_productName").getValue(String.class);
+                    Integer productPrice = snap.child("_productPrice").getValue(Integer.class);
+                    Integer productSize = snap.child("_productSize").getValue(Integer.class);
+                    Integer productNumber = snap.child("_productNumber").getValue(Integer.class);
+                    String productImageLink = snap.child("_productImageLink").getValue(String.class);
+                    String productType = snap.child("_productType").getValue(String.class);
+                    String productColor = snap.child("_productColor").getValue(String.class);
+
+                    CartItem cartItem = new CartItem(productID, productImageLink, productName, productPrice,
+                            productColor, productSize, productType, productNumber, isSelected);
+
+                    if (isSelected)
+                    {
+                        productSelected.add(cartItem);
+                    }
+                }
+
+                dataStatus.HasTheSelectedProduct_CartItem(productSelected.isEmpty());
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+            }
+        });
+    }
 
 }

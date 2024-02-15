@@ -19,11 +19,13 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.nike.Bag.CartItem;
 import com.example.nike.Bag.CartItem_RecyclerView_Config;
 import com.example.nike.Bag.PaymentItem_RecyclerView_Config;
 import com.example.nike.FirebaseDataHelper;
+import com.example.nike.Login.Login_Activity;
 import com.example.nike.Product.Product;
 import com.example.nike.R;
 import com.example.nike.Tab.Test_MainActivity;
@@ -129,10 +131,10 @@ public class BagFragment extends Fragment {
                 new CartItem_RecyclerView_Config().setConfig(rvw_bag, getContext(), cartItems, keys);
                 UpdateTotalAmount_Bag(_cartItemSelected);
 
-                if (!cartItems.isEmpty())
-                    InvoiceStatus(true);
-                else
+                if (cartItems.isEmpty())
                     InvoiceStatus(false);
+                else
+                    InvoiceStatus(true);
 
             }
 
@@ -148,6 +150,12 @@ public class BagFragment extends Fragment {
             public void DataIsDeleted_CartItem(ArrayList<CartItem> cartItemSelected) {
                 UpdateTotalAmount_Bag(cartItemSelected);
             }
+
+            @Override
+            public void HasTheSelectedProduct_CartItem(boolean isEmpty) {
+
+            }
+
             @Override
             public void DataIsUpdated_Product() { }
             @Override
@@ -158,7 +166,35 @@ public class BagFragment extends Fragment {
             @Override
             public void onClick(View v)
             {
-                ShowPaymentDialog();
+                new FirebaseDataHelper().HasTheSelectedProductInTheBag(new FirebaseDataHelper.DataStatus() {
+                    @Override
+                    public void DataIsLoaded_Product(ArrayList<Product> products, ArrayList<String> keys) {}
+                    @Override
+                    public void DataIsInserted_Product() {}
+                    @Override
+                    public void DataIsUpdated_Product() {}
+                    @Override
+                    public void DataIsDeleted_Product() {}
+                    @Override
+                    public void DataIsLoaded_CartItem(ArrayList<CartItem> cartItems, ArrayList<CartItem> _cartItemSelected, ArrayList<String> keys) {}
+                    @Override
+                    public void DataIsInserted_CartItem() {}
+                    @Override
+                    public void DataIsUpdated_CartItem(ArrayList<CartItem> cartItemSelected) {}
+                    @Override
+                    public void DataIsDeleted_CartItem(ArrayList<CartItem> cartItem) {}
+                    @Override
+                    public void HasTheSelectedProduct_CartItem(boolean isEmpty) {
+                        if (isEmpty)
+                        {
+                            Toast.makeText(getContext(), "Please select product to pay.", Toast.LENGTH_SHORT).show();
+                        }
+                        else
+                        {
+                            ShowPaymentDialog();
+                        }
+                    }
+                });
             }
         });
 
@@ -274,6 +310,11 @@ public class BagFragment extends Fragment {
             public void DataIsUpdated_CartItem(ArrayList<CartItem> cartItemSelected) {}
             @Override
             public void DataIsDeleted_CartItem(ArrayList<CartItem> cartItem) {}
+
+            @Override
+            public void HasTheSelectedProduct_CartItem(boolean isEmpty) {
+
+            }
         });
 
         //

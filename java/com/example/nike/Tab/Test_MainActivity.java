@@ -55,7 +55,7 @@ public class Test_MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_test_main);
 
-        rvw_bag = findViewById(R.id.rvw_bag);
+        /*rvw_bag = findViewById(R.id.rvw_bag);
         textView = findViewById(R.id.textView);
         llt_invoice = findViewById(R.id.llt_invoice);
         llt_bag = findViewById(R.id.llt_bag);
@@ -67,7 +67,7 @@ public class Test_MainActivity extends AppCompatActivity {
 
         ProgressBarStatus(true);
         BagStatus(false);
-        InvoiceStatus(false);
+        InvoiceStatus(false);*/
 
         /*
         img_test1 = findViewById(R.id.img_test1);
@@ -87,7 +87,7 @@ public class Test_MainActivity extends AppCompatActivity {
         this.HandleClickOnProduct();
         */
 
-        new FirebaseDataHelper().ReadTheCartItemList(new FirebaseDataHelper.DataStatus() {
+        /*new FirebaseDataHelper().ReadTheCartItemList(new FirebaseDataHelper.DataStatus() {
             @Override
             public void DataIsLoaded_Product(ArrayList<Product> products, ArrayList<String> keys) { }
 
@@ -118,6 +118,12 @@ public class Test_MainActivity extends AppCompatActivity {
             public void DataIsDeleted_CartItem(ArrayList<CartItem> cartItemSelected) {
                 UpdateTotalAmount_Bag(cartItemSelected);
             }
+
+            @Override
+            public void HasTheSelectedProduct_CartItem(boolean hasTheSelectedProduct) {
+
+            }
+
             @Override
             public void DataIsUpdated_Product() { }
             @Override
@@ -130,7 +136,7 @@ public class Test_MainActivity extends AppCompatActivity {
             {
                 ShowPaymentDialog();
             }
-        });
+        });*/
 
     }
 
@@ -243,6 +249,11 @@ public class Test_MainActivity extends AppCompatActivity {
             public void DataIsUpdated_CartItem(ArrayList<CartItem> cartItemSelected) {}
             @Override
             public void DataIsDeleted_CartItem(ArrayList<CartItem> cartItem) {}
+
+            @Override
+            public void HasTheSelectedProduct_CartItem(boolean isEmpty) {
+
+            }
         });
 
         //

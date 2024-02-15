@@ -347,6 +347,11 @@ public class ProductDetails_Activity extends AppCompatActivity {
                         }
 
                         @Override
+                        public void HasTheSelectedProduct_CartItem(boolean isEmpty) {
+
+                        }
+
+                        @Override
                         public void DataIsUpdated_Product() {
 
                         }

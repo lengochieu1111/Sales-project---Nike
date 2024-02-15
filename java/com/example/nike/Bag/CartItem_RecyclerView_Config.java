@@ -185,6 +185,11 @@ public class CartItem_RecyclerView_Config {
                         public void DataIsDeleted_CartItem(ArrayList<CartItem> cartItemSelected) {
                             Toast.makeText(_context,"Delete_CartItem", Toast.LENGTH_SHORT).show();
                         }
+
+                        @Override
+                        public void HasTheSelectedProduct_CartItem(boolean isEmpty) {
+
+                        }
                     });
                 }
             });
@@ -245,7 +250,12 @@ public class CartItem_RecyclerView_Config {
                 }
                 @Override
                 public void DataIsDeleted_CartItem(ArrayList<CartItem> cartItem) {}
-            });
+
+                    @Override
+                    public void HasTheSelectedProduct_CartItem(boolean isEmpty) {
+
+                    }
+                });
 
             _tvw_productNumber_Bag.setText(String.valueOf(cartItem.get_productNumber()));
         }
