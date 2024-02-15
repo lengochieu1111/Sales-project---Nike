@@ -7,7 +7,7 @@
     android:background="@color/white"
     tools:context=".Tab.Test_MainActivity">
 
-    <ProgressBar
+    <!--<ProgressBar
         android:id="@+id/pbr_loadding_bag"
         style="?android:attr/progressBarStyle"
         android:layout_width="wrap_content"
@@ -164,7 +164,7 @@
                 android:textColor="@color/pale_gray"
                 android:textSize="24dp" />
         </LinearLayout>
-    </LinearLayout>
+    </LinearLayout>-->
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

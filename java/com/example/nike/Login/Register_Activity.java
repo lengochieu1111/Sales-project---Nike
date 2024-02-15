@@ -12,6 +12,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.nike.FirebaseDataHelper;
 import com.example.nike.MainActivity;
 import com.example.nike.R;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -79,7 +80,7 @@ public class Register_Activity extends AppCompatActivity {
                         progressBar_Register.setVisibility(View.GONE);
                         if (task.isSuccessful()) {
                             Toast.makeText(Register_Activity.this, "Account created.", Toast.LENGTH_SHORT).show();
-
+                            new FirebaseDataHelper().CreateBagForUser();
                             GoToMainActivity();
                         }
                         else {

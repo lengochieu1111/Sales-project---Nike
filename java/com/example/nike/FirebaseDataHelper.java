@@ -26,6 +26,7 @@ public class FirebaseDataHelper
 {
     /* PROPERTY */
     FirebaseUser _user;
+    String _bagKey;
     private FirebaseDatabase _firebaseDatabase;
     private DatabaseReference _databaseReference;
     private ArrayList<Product> _products =  new ArrayList<Product>();
@@ -45,7 +46,6 @@ public class FirebaseDataHelper
         void DataIsInserted_CartItem();
         void DataIsUpdated_CartItem(ArrayList<CartItem> cartItemSelected);
         void DataIsDeleted_CartItem(ArrayList<CartItem> cartItem);
-        // boolean BagExistForUser();
     }
 
     public FirebaseDataHelper()
@@ -53,6 +53,7 @@ public class FirebaseDataHelper
         this._firebaseDatabase = FirebaseDatabase.getInstance();
         this._databaseReference = _firebaseDatabase.getReference();
         this._user = FirebaseAuth.getInstance().getCurrentUser();
+        this._bagKey = this._user.getUid();
     }
 
     public void ReadTheProductList(final DataStatus dataStatus, String productNameSearch, List<ENUM_ProductType> productTypeSearch, ENUM_SortType sortType) {
@@ -193,18 +194,17 @@ public class FirebaseDataHelper
 
     public void CreateBagForUser()
     {
-        String bagKey = _user.getUid();
         this._databaseReference.child("Bags").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for(DataSnapshot snap : snapshot.getChildren())
                 {
-                    if (snap.getKey().equals(bagKey))
+                    if (snap.getKey().equals(_bagKey))
                     {
                         return;
                     }
                 }
-                _databaseReference.child("Bags").child(bagKey).setValue("null");
+                _databaseReference.child("Bags").child(_bagKey).setValue("null");
             }
             @Override
             public void onCancelled(@NonNull DatabaseError error) {}
@@ -212,7 +212,7 @@ public class FirebaseDataHelper
     }
 
     public void ReadTheCartItemList(final DataStatus dataStatus) {
-        this._databaseReference.child("CartItems").addValueEventListener(new ValueEventListener() {
+        this._databaseReference.child("Bags").child(this._bagKey).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 _cartItems.clear();
@@ -261,11 +261,11 @@ public class FirebaseDataHelper
 
     public void AddProductToCart(CartItem cartItem, final DataStatus dataStatus)
     {
-        this._databaseReference.child("CartItems").addListenerForSingleValueEvent(new ValueEventListener() {
+        this._databaseReference.child("Bags").child(this._bagKey).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 Long counter = snapshot.getChildrenCount();
-                _databaseReference.child("CartItems").child(String.valueOf(counter)).setValue(cartItem).addOnSuccessListener(new OnSuccessListener<Void>() {
+                _databaseReference.child("Bags").child(_bagKey).child(String.valueOf(counter)).setValue(cartItem).addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void unused) {
                         dataStatus.DataIsInserted_CartItem();
@@ -304,10 +304,10 @@ public class FirebaseDataHelper
         CartItem.put("_productType", cartItem.get_productType());
         CartItem.put("_productColor", cartItem.get_productColor());
 
-        _databaseReference.child("CartItems").child(key).updateChildren(CartItem).addOnCompleteListener(new OnCompleteListener() {
+        _databaseReference.child("Bags").child(this._bagKey).child(key).updateChildren(CartItem).addOnCompleteListener(new OnCompleteListener() {
             @Override
             public void onComplete(@NonNull Task task) {
-                _databaseReference.child("CartItems").addListenerForSingleValueEvent(new ValueEventListener() {
+                _databaseReference.child("Bags").child(_bagKey).addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         ArrayList<CartItem> productSelected = new ArrayList<>();
@@ -351,7 +351,7 @@ public class FirebaseDataHelper
 
     public void DeleteProductToCart(String key, final DataStatus dataStatus)
     {
-        _databaseReference.child("CartItems").addListenerForSingleValueEvent(new ValueEventListener() {
+        _databaseReference.child("Bags").child(_bagKey).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (!snapshot.exists()) return;
@@ -359,7 +359,7 @@ public class FirebaseDataHelper
                 if (!snapshot.hasChildren() || snapshot.getChildrenCount() <= 1)
                 {
                     dataStatus.DataIsLoaded_CartItem(new ArrayList<>(), new ArrayList<>(), new ArrayList<>());
-                    _databaseReference.child("CartItems").setValue("null");
+                    _databaseReference.child("Bags").child(_bagKey).setValue("null");
                 }
                 else
                 {
@@ -374,10 +374,10 @@ public class FirebaseDataHelper
 
     private void DeleteCartItem(String key, final DataStatus dataStatus)
     {
-        _databaseReference.child("CartItems").child(key).setValue(null).addOnSuccessListener(new OnSuccessListener<Void>() {
+        _databaseReference.child("Bags").child(this._bagKey).child(key).setValue(null).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void unused) {
-                _databaseReference.child("CartItems").addListenerForSingleValueEvent(new ValueEventListener() {
+                _databaseReference.child("Bags").child(_bagKey).addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         ArrayList<CartItem> productSelected = new ArrayList<>();
@@ -393,8 +393,8 @@ public class FirebaseDataHelper
                         for (DataSnapshot snap : snapshot.getChildren()) {
                             String oldkey = snap.getKey();
                             Object data =  snap.getValue();
-                            _databaseReference.child("CartItems").child(oldkey).removeValue();
-                            _databaseReference.child("CartItems").child(String.valueOf(i_key)).setValue(data);
+                            _databaseReference.child("Bags").child(_bagKey).child(oldkey).removeValue();
+                            _databaseReference.child("Bags").child(_bagKey).child(String.valueOf(i_key)).setValue(data);
                             i_key++;
                         }
                     }
@@ -402,7 +402,7 @@ public class FirebaseDataHelper
                     public void onCancelled(@NonNull DatabaseError error) {}
                 });
 
-                _databaseReference.child("CartItems").addListenerForSingleValueEvent(new ValueEventListener() {
+                _databaseReference.child("Bags").child(_bagKey).addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         ArrayList<CartItem> productSelected = new ArrayList<>();
