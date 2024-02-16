@@ -19,7 +19,7 @@
             android:layout_weight="1"
             android:adjustViewBounds="true"
             android:scaleType="fitStart"
-            android:src="@drawable/air_force_mid"/>
+            android:src="@color/black"/>
 
         <LinearLayout
             android:layout_width="match_parent"
