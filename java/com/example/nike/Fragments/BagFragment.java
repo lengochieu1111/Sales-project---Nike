@@ -1,6 +1,7 @@
 package com.example.nike.Fragments;
 
 import android.app.Dialog;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -9,6 +10,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.os.StrictMode;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -29,8 +31,17 @@ import com.example.nike.Login.Login_Activity;
 import com.example.nike.Product.Product;
 import com.example.nike.R;
 import com.example.nike.Tab.Test_MainActivity;
+import com.example.nike.zalopay.Api.CreateOrder;
+
+
+import org.json.JSONObject;
 
 import java.util.ArrayList;
+
+import vn.zalopay.sdk.Environment;
+import vn.zalopay.sdk.ZaloPayError;
+import vn.zalopay.sdk.ZaloPaySDK;
+import vn.zalopay.sdk.listeners.PayOrderListener;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -89,6 +100,7 @@ public class BagFragment extends Fragment {
     private RecyclerView rvw_payment;
     private TextView tvw_subtotal_Payment;
     private TextView tvw_total_Payment;
+    private Button btn_payment;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -97,6 +109,12 @@ public class BagFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+
+        // Zalo
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
+        ZaloPaySDK.init(2554, Environment.SANDBOX);
+
     }
 
     @Override
@@ -150,12 +168,8 @@ public class BagFragment extends Fragment {
             public void DataIsDeleted_CartItem(ArrayList<CartItem> cartItemSelected) {
                 UpdateTotalAmount_Bag(cartItemSelected);
             }
-
             @Override
-            public void HasTheSelectedProduct_CartItem(boolean isEmpty) {
-
-            }
-
+            public void HasTheSelectedProduct_CartItem(boolean isEmpty) {}
             @Override
             public void DataIsUpdated_Product() { }
             @Override
@@ -285,6 +299,7 @@ public class BagFragment extends Fragment {
         this.rvw_payment = paymentDialog.findViewById(R.id.rvw_payment);
         this.tvw_subtotal_Payment = paymentDialog.findViewById(R.id.tvw_subtotal_Payment);
         this.tvw_total_Payment = paymentDialog.findViewById(R.id.tvw_total_Payment);
+        this.btn_payment = paymentDialog.findViewById(R.id.btn_payment);
         this.rvw_payment.setLayoutManager(new LinearLayoutManager(getContext()));
 
         /* Handle Event */
@@ -325,6 +340,42 @@ public class BagFragment extends Fragment {
             }
         });
 
+        this.btn_payment.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                CreateOrder orderApi = new CreateOrder();
+
+                try {
+                    JSONObject data = orderApi.createOrder("10000");
+                    String code = data.getString("return_code");
+
+                    if (code.equals("1")) {
+                        String token = data.getString("zp_trans_token");
+                        ZaloPaySDK.getInstance().payOrder(getActivity(), token, "demozpdk://app", new PayOrderListener() {
+                            @Override
+                            public void onPaymentSucceeded(String s, String s1, String s2) {
+
+                            }
+
+                            @Override
+                            public void onPaymentCanceled(String s, String s1) {
+
+                            }
+
+                            @Override
+                            public void onPaymentError(ZaloPayError zaloPayError, String s, String s1) {
+
+                            }
+                        });
+                    }
+
+                }
+                catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
         paymentDialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
         paymentDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         paymentDialog.getWindow().getAttributes().windowAnimations = R.style.DialogAnimation;
@@ -352,6 +403,22 @@ public class BagFragment extends Fragment {
         }
         tvw_subtotal_Payment.setText(str_total);
         tvw_total_Payment.setText(str_total);
+    }
+
+/*    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        ZaloPaySDK.getInstance().onResult(intent);
+    }*/
+
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        handleNewIntent(getActivity().getIntent());
+    }
+
+    private void handleNewIntent(Intent intent) {
+        ZaloPaySDK.getInstance().onResult(intent);
     }
 
 }
