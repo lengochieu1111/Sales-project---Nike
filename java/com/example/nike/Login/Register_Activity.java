@@ -81,6 +81,7 @@ public class Register_Activity extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             Toast.makeText(Register_Activity.this, "Account created.", Toast.LENGTH_SHORT).show();
                             new FirebaseDataHelper().CreateBagForUser();
+                            new FirebaseDataHelper().CreateProfileForUser();
                             GoToMainActivity();
                         }
                         else {

@@ -32,6 +32,7 @@ import com.example.nike.Product.ProductItemDecoration;
 import com.example.nike.Product.ENUM_ProductType;
 import com.example.nike.Product.Product_RecyclerView_Config;
 import com.example.nike.Product.ENUM_SortType;
+import com.example.nike.Profile.User;
 import com.example.nike.R;
 import com.example.nike.Tab.ENUM_ActivityType;
 import com.example.nike.Tab.STR_IntentKey;
@@ -291,6 +292,11 @@ public class SearchProduct_Activity extends AppCompatActivity {
 
             @Override
             public void HasTheSelectedProduct_CartItem(boolean isEmpty) {
+
+            }
+
+            @Override
+            public void DataIsLoaded_User(User user) {
 
             }
 

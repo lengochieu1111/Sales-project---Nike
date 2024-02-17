@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical"
+    android:padding="10dp"
+    tools:ignore="MissingDefaultResource">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Edit Profile"
+        android:gravity="center"
+        android:textColor="@color/black"
+        android:textSize="20dp"
+        android:fontFamily="@font/varela_round_regular"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginTop="50dp"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="Name : "
+            android:gravity="center_vertical"
+            android:textColor="@color/black"
+            android:textSize="20dp"
+            android:fontFamily="@font/varela_round_regular"/>
+
+        <EditText
+            android:id="@+id/editText_name_EditProfile"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="10dp"
+            android:hint="Name"
+            android:textSize="20dp"
+            android:textColor="@color/black"
+            android:background="@drawable/rounded_corner"
+            android:fontFamily="@font/varela_round_regular"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="Phone Number : "
+            android:gravity="center_vertical"
+            android:textColor="@color/black"
+            android:textSize="20dp"
+            android:fontFamily="@font/varela_round_regular"/>
+
+        <EditText
+            android:id="@+id/editText_phoneNumber_EditProfile"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="10dp"
+            android:hint="Phone Number"
+            android:textSize="20dp"
+            android:textColor="@color/black"
+            android:background="@drawable/rounded_corner"
+            android:fontFamily="@font/varela_round_regular"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="Address : "
+            android:gravity="center_vertical"
+            android:textColor="@color/black"
+            android:textSize="20dp"
+            android:fontFamily="@font/varela_round_regular"/>
+
+        <EditText
+            android:id="@+id/editText_address_EditProfile"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="10dp"
+            android:hint="Address"
+            android:textSize="20dp"
+            android:textColor="@color/black"
+            android:background="@drawable/rounded_corner"
+            android:fontFamily="@font/varela_round_regular"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="300dp"
+        android:orientation="vertical"
+        android:gravity="center">
+        <Button
+            android:id="@+id/button_cancle_EditProfile"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:textAlignment="center"
+            android:text="Cancle"
+            android:textSize="20dp"
+            android:textColor="@color/black"
+            android:textAllCaps="false"
+            android:backgroundTint="@color/pale_gray"
+            android:background="@drawable/pill_button_background"/>
+
+        <Button
+            android:id="@+id/button_apply_EditProfile"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="20dp"
+            android:textAlignment="center"
+            android:text="Apply"
+            android:textSize="20dp"
+            android:textColor="@color/white"
+            android:textAllCaps="false"
+            android:backgroundTint="@color/black"
+            android:background="@drawable/pill_button_background"/>
+
+    </LinearLayout>
+
+
+</LinearLayout>

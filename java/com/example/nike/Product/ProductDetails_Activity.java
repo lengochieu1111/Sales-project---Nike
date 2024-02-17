@@ -20,6 +20,7 @@ import com.bumptech.glide.Glide;
 import com.example.nike.Bag.CartItem;
 import com.example.nike.FirebaseDataHelper;
 import com.example.nike.MainActivity;
+import com.example.nike.Profile.User;
 import com.example.nike.R;
 import com.example.nike.Shop.SearchProduct_Activity;
 import com.example.nike.Tab.ENUM_ActivityType;
@@ -348,6 +349,11 @@ public class ProductDetails_Activity extends AppCompatActivity {
 
                         @Override
                         public void HasTheSelectedProduct_CartItem(boolean isEmpty) {
+
+                        }
+
+                        @Override
+                        public void DataIsLoaded_User(User user) {
 
                         }
 

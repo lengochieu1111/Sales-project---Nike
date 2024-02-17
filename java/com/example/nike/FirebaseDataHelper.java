@@ -7,6 +7,7 @@ import com.example.nike.Product.Product;
 import com.example.nike.Product.ENUM_ProductType;
 import com.example.nike.Product.ENUM_SortType;
 import com.example.nike.Product.STR_ProductType;
+import com.example.nike.Profile.User;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -27,6 +28,7 @@ public class FirebaseDataHelper
     /* PROPERTY */
     FirebaseUser _user;
     String _bagKey;
+    String _profileKey;
     private FirebaseDatabase _firebaseDatabase;
     private DatabaseReference _databaseReference;
     private ArrayList<Product> _products =  new ArrayList<Product>();
@@ -47,6 +49,9 @@ public class FirebaseDataHelper
         void DataIsUpdated_CartItem(ArrayList<CartItem> cartItemSelected);
         void DataIsDeleted_CartItem(ArrayList<CartItem> cartItem);
         void HasTheSelectedProduct_CartItem(boolean isEmpty);
+
+        /* Cart Item */
+        void DataIsLoaded_User(User user);
     }
 
     public FirebaseDataHelper()
@@ -55,6 +60,7 @@ public class FirebaseDataHelper
         this._databaseReference = _firebaseDatabase.getReference();
         this._user = FirebaseAuth.getInstance().getCurrentUser();
         this._bagKey = this._user.getUid();
+        this._profileKey = this._user.getUid();
     }
 
     public void ReadTheProductList(final DataStatus dataStatus, String productNameSearch, List<ENUM_ProductType> productTypeSearch, ENUM_SortType sortType) {
@@ -206,6 +212,27 @@ public class FirebaseDataHelper
                     }
                 }
                 _databaseReference.child("Bags").child(_bagKey).setValue("null");
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {}
+        });
+    }
+
+    public void CreateProfileForUser()
+    {
+        this._databaseReference.child("Users").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for(DataSnapshot snap : snapshot.getChildren())
+                {
+                    if (snap.getKey().equals(_bagKey))
+                    {
+                        return;
+                    }
+                }
+                _databaseReference.child("Users").child(_bagKey).child("_name").setValue("Unknown");
+                _databaseReference.child("Users").child(_bagKey).child("_address").setValue("Unknown");
+                _databaseReference.child("Users").child(_bagKey).child("_phoneNumber").setValue("Unknown");
             }
             @Override
             public void onCancelled(@NonNull DatabaseError error) {}
@@ -473,6 +500,35 @@ public class FirebaseDataHelper
                 }
 
                 dataStatus.HasTheSelectedProduct_CartItem(productSelected.isEmpty());
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+            }
+        });
+    }
+
+    /* User */
+
+    public void ReadUser(final DataStatus dataStatus)
+    {
+        _databaseReference.child("Users").child(this._profileKey).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                User user = new User();
+
+                if (!snapshot.exists()) return;
+                if (!snapshot.hasChildren()) return;
+
+                String name = snapshot.child("_name").getValue(String.class);
+                String phoneNumber = snapshot.child("_phoneNumber").getValue(String.class);
+                String address = snapshot.child("_address").getValue(String.class);
+
+                user.set_name(name);
+                user.set_phoneNumber(phoneNumber);
+                user.set_address(address);
+
+                dataStatus.DataIsLoaded_User(user);
             }
 
             @Override

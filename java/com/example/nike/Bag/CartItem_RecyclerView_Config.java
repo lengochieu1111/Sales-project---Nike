@@ -19,6 +19,7 @@ import com.example.nike.FirebaseDataHelper;
 import com.example.nike.Product.I_OnItemClickListener;
 import com.example.nike.Product.Product;
 import com.example.nike.Product.ProductDetails_Activity;
+import com.example.nike.Profile.User;
 import com.example.nike.R;
 import com.example.nike.Tab.ENUM_ActivityType;
 import com.example.nike.Tab.STR_IntentKey;
@@ -190,6 +191,11 @@ public class CartItem_RecyclerView_Config {
                         public void HasTheSelectedProduct_CartItem(boolean isEmpty) {
 
                         }
+
+                        @Override
+                        public void DataIsLoaded_User(User user) {
+
+                        }
                     });
                 }
             });
@@ -253,6 +259,11 @@ public class CartItem_RecyclerView_Config {
 
                     @Override
                     public void HasTheSelectedProduct_CartItem(boolean isEmpty) {
+
+                    }
+
+                    @Override
+                    public void DataIsLoaded_User(User user) {
 
                     }
                 });

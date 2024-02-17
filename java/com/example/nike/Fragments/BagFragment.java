@@ -29,6 +29,7 @@ import com.example.nike.Bag.PaymentItem_RecyclerView_Config;
 import com.example.nike.FirebaseDataHelper;
 import com.example.nike.Login.Login_Activity;
 import com.example.nike.Product.Product;
+import com.example.nike.Profile.User;
 import com.example.nike.R;
 import com.example.nike.Tab.Test_MainActivity;
 import com.example.nike.zalopay.Api.CreateOrder;
@@ -170,6 +171,12 @@ public class BagFragment extends Fragment {
             }
             @Override
             public void HasTheSelectedProduct_CartItem(boolean isEmpty) {}
+
+            @Override
+            public void DataIsLoaded_User(User user) {
+
+            }
+
             @Override
             public void DataIsUpdated_Product() { }
             @Override
@@ -207,6 +214,11 @@ public class BagFragment extends Fragment {
                         {
                             ShowPaymentDialog();
                         }
+                    }
+
+                    @Override
+                    public void DataIsLoaded_User(User user) {
+
                     }
                 });
             }
@@ -328,6 +340,11 @@ public class BagFragment extends Fragment {
 
             @Override
             public void HasTheSelectedProduct_CartItem(boolean isEmpty) {
+
+            }
+
+            @Override
+            public void DataIsLoaded_User(User user) {
 
             }
         });

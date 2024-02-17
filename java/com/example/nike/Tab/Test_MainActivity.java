@@ -23,6 +23,7 @@ import com.example.nike.Bag.CartItem_RecyclerView_Config;
 import com.example.nike.Bag.PaymentItem_RecyclerView_Config;
 import com.example.nike.FirebaseDataHelper;
 import com.example.nike.Product.Product;
+import com.example.nike.Profile.User;
 import com.example.nike.R;
 
 import java.util.ArrayList;
@@ -252,6 +253,11 @@ public class Test_MainActivity extends AppCompatActivity {
 
             @Override
             public void HasTheSelectedProduct_CartItem(boolean isEmpty) {
+
+            }
+
+            @Override
+            public void DataIsLoaded_User(User user) {
 
             }
         });
