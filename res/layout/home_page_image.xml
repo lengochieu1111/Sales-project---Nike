@@ -34,6 +34,7 @@
             android:fontFamily="@font/varela_round_regular"/>
 
         <Button
+            android:id="@+id/button_shop_HomePageImage"
             android:layout_width="60dp"
             android:layout_height="30dp"
             android:background="@drawable/pill_button_background"

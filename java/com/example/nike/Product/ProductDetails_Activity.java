@@ -392,7 +392,8 @@ public class ProductDetails_Activity extends AppCompatActivity {
                 }
                 else if (_activityType == ENUM_ActivityType.Bag)
                 {
-                    Intent shopIntent = new Intent(ProductDetails_Activity.this, Test_MainActivity.class);
+                    Intent shopIntent = new Intent(ProductDetails_Activity.this, MainActivity.class);
+                    shopIntent.putExtra(STR_IntentKey.TabIndexReturned, MainActivity.TabIndexReturned_Bag);
                     startActivity(shopIntent);
                 }
             }

@@ -27,11 +27,9 @@ import com.example.nike.Bag.CartItem;
 import com.example.nike.Bag.CartItem_RecyclerView_Config;
 import com.example.nike.Bag.PaymentItem_RecyclerView_Config;
 import com.example.nike.FirebaseDataHelper;
-import com.example.nike.Login.Login_Activity;
 import com.example.nike.Product.Product;
 import com.example.nike.Profile.User;
 import com.example.nike.R;
-import com.example.nike.Tab.Test_MainActivity;
 import com.example.nike.zalopay.Api.CreateOrder;
 
 
@@ -95,7 +93,7 @@ public class BagFragment extends Fragment {
 
     //
     private ImageButton ibn_undo_Payment;
-    private TextView tvw_productName_Payment;
+    private TextView tvw_name_Payment;
     private TextView tvw_phoneNumber_Payment;
     private TextView tvw_address_Payment;
     private RecyclerView rvw_payment;
@@ -305,7 +303,7 @@ public class BagFragment extends Fragment {
         paymentDialog.setContentView(R.layout.payment_bottom_sheet_layout);
 
         this.ibn_undo_Payment = paymentDialog.findViewById(R.id.ibn_undo_Payment);
-        this.tvw_productName_Payment = paymentDialog.findViewById(R.id.tvw_productName_Payment);
+        this.tvw_name_Payment = paymentDialog.findViewById(R.id.tvw_name_Payment);
         this.tvw_phoneNumber_Payment = paymentDialog.findViewById(R.id.tvw_phoneNumber_Payment);
         this.tvw_address_Payment = paymentDialog.findViewById(R.id.tvw_address_Payment);
         this.rvw_payment = paymentDialog.findViewById(R.id.rvw_payment);
@@ -315,6 +313,37 @@ public class BagFragment extends Fragment {
         this.rvw_payment.setLayoutManager(new LinearLayoutManager(getContext()));
 
         /* Handle Event */
+
+        new FirebaseDataHelper().ReadUser(new FirebaseDataHelper.DataStatus() {
+            @Override
+            public void DataIsLoaded_Product(ArrayList<Product> products, ArrayList<String> keys) {}
+            @Override
+            public void DataIsInserted_Product() {}
+            @Override
+            public void DataIsUpdated_Product() {}
+            @Override
+            public void DataIsDeleted_Product() {}
+            @Override
+            public void DataIsLoaded_CartItem(ArrayList<CartItem> cartItems, ArrayList<CartItem> _cartItemSelected, ArrayList<String> keys) {}
+            @Override
+            public void DataIsInserted_CartItem() {}
+            @Override
+            public void DataIsUpdated_CartItem(ArrayList<CartItem> cartItemSelected) {}
+            @Override
+            public void DataIsDeleted_CartItem(ArrayList<CartItem> cartItem) {}
+            @Override
+            public void HasTheSelectedProduct_CartItem(boolean isEmpty) {}
+            @Override
+            public void DataIsLoaded_User(User user) {
+                if (user.equals(new User())) return;
+
+                tvw_name_Payment.setText(user.get_name());
+                tvw_phoneNumber_Payment.setText(user.get_phoneNumber());
+                tvw_address_Payment.setText(user.get_address());
+
+            }
+        });
+
         new FirebaseDataHelper().ReadTheCartItemList(new FirebaseDataHelper.DataStatus() {
             @Override
             public void DataIsLoaded_Product(ArrayList<Product> products, ArrayList<String> keys) {}

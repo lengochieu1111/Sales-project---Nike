@@ -30,7 +30,7 @@ import java.util.ArrayList;
 
 public class Test_MainActivity extends AppCompatActivity {
     /* PROPERTY */
-    RecyclerView rvw_bag;
+    /*RecyclerView rvw_bag;
     TextView textView;
     LinearLayout llt_invoice;
     LinearLayout llt_bag;
@@ -56,7 +56,7 @@ public class Test_MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_test_main);
 
-        /*rvw_bag = findViewById(R.id.rvw_bag);
+        *//*rvw_bag = findViewById(R.id.rvw_bag);
         textView = findViewById(R.id.textView);
         llt_invoice = findViewById(R.id.llt_invoice);
         llt_bag = findViewById(R.id.llt_bag);
@@ -68,15 +68,15 @@ public class Test_MainActivity extends AppCompatActivity {
 
         ProgressBarStatus(true);
         BagStatus(false);
-        InvoiceStatus(false);*/
+        InvoiceStatus(false);*//*
 
-        /*
+        *//*
         img_test1 = findViewById(R.id.img_test1);
 
         String url = "https://firebasestorage.googleapis.com/v0/b/nike-97470.appspot.com/o/Products%2FNike%20Air%20Force%201%20Mid%20Evo%2FMainProductImage%2Fair-force-1-mid-evo-shoes-1HPsJQ.png?alt=media&token=c2e47ea7-9b2e-479b-91ac-49c159cd6299";
-        Glide.with(this.img_test1.getContext()).load(url).into(this.img_test1);*/
+        Glide.with(this.img_test1.getContext()).load(url).into(this.img_test1);*//*
 
-        /*this.tvw_test = findViewById(R.id.tvw_test);
+        *//*this.tvw_test = findViewById(R.id.tvw_test);
         this.ibn_searchProduct = findViewById(R.id.ibn_searchProduct);
         this.tlo_shopTab = findViewById(R.id.tlo_shopTab);
         this.grv_shop = findViewById(R.id.grv_shop);
@@ -86,9 +86,9 @@ public class Test_MainActivity extends AppCompatActivity {
         this.HandleClickOnSearchProduct();
         this.HandleClickOnTabLayout();
         this.HandleClickOnProduct();
-        */
+        *//*
 
-        /*new FirebaseDataHelper().ReadTheCartItemList(new FirebaseDataHelper.DataStatus() {
+        *//*new FirebaseDataHelper().ReadTheCartItemList(new FirebaseDataHelper.DataStatus() {
             @Override
             public void DataIsLoaded_Product(ArrayList<Product> products, ArrayList<String> keys) { }
 
@@ -137,7 +137,7 @@ public class Test_MainActivity extends AppCompatActivity {
             {
                 ShowPaymentDialog();
             }
-        });*/
+        });*//*
 
     }
 
@@ -219,7 +219,7 @@ public class Test_MainActivity extends AppCompatActivity {
         paymentDialog.setContentView(R.layout.payment_bottom_sheet_layout);
 
         this.ibn_undo_Payment = paymentDialog.findViewById(R.id.ibn_undo_Payment);
-        this.tvw_productName_Payment = paymentDialog.findViewById(R.id.tvw_productName_Payment);
+        this.tvw_productName_Payment = paymentDialog.findViewById(R.id.tvw_name_Payment);
         this.tvw_phoneNumber_Payment = paymentDialog.findViewById(R.id.tvw_phoneNumber_Payment);
         this.tvw_address_Payment = paymentDialog.findViewById(R.id.tvw_address_Payment);
         this.rvw_payment = paymentDialog.findViewById(R.id.rvw_payment);
@@ -227,7 +227,7 @@ public class Test_MainActivity extends AppCompatActivity {
         this.tvw_total_Payment = paymentDialog.findViewById(R.id.tvw_total_Payment);
         this.rvw_payment.setLayoutManager(new LinearLayoutManager(Test_MainActivity.this));
 
-        /* Handle Event */
+        *//* Handle Event *//*
         new FirebaseDataHelper().ReadTheCartItemList(new FirebaseDataHelper.DataStatus() {
             @Override
             public void DataIsLoaded_Product(ArrayList<Product> products, ArrayList<String> keys) {}
@@ -297,7 +297,7 @@ public class Test_MainActivity extends AppCompatActivity {
         }
         tvw_subtotal_Payment.setText(str_total);
         tvw_total_Payment.setText(str_total);
-    }
+    }*/
 
 
     /*private void LoadsShopData()

@@ -8,7 +8,9 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 
 import com.example.nike.Home.HomePageImage;
 import com.example.nike.Home.HomePageImageAdapter;
@@ -60,6 +62,8 @@ public class HomeFragment extends Fragment {
     }
 
     /* PROPERTY */
+    ProgressBar progressBar_loadding_Home;
+    LinearLayout llt_home;
     ListView _liv_home;
     HomePageImageAdapter _homePageImageAdapter;
     ArrayList<HomePageImage> _homePageImages =  new ArrayList<HomePageImage>();
@@ -73,18 +77,22 @@ public class HomeFragment extends Fragment {
         }
 
         // Loads Shop Data
-        this.LoadsHomePageData();
+
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_home, container, false);
 
+        this.progressBar_loadding_Home = view.findViewById(R.id.progressBar_loadding_Home);
+        this.llt_home = view.findViewById(R.id.llt_home);
         this._liv_home = view.findViewById(R.id.liv_home);
+
         // Show Home Page View
-        this.ShowHomePageView();
+        this.llt_home.setVisibility(View.GONE);
+        this.progressBar_loadding_Home.setVisibility(View.VISIBLE);
+        this.LoadsHomePageData();
 
         // Inflate the layout for this fragment
         return view;
@@ -110,7 +118,7 @@ public class HomeFragment extends Fragment {
                 }
 
                 _homePageImageAdapter.notifyDataSetChanged();
-
+                ShowHomePageView();
             }
 
             @Override
@@ -124,7 +132,9 @@ public class HomeFragment extends Fragment {
 
     private void ShowHomePageView()
     {
+        this.progressBar_loadding_Home.setVisibility(View.GONE);
         this._liv_home.setAdapter(this._homePageImageAdapter);
+        this.llt_home.setVisibility(View.VISIBLE);
     }
 
 }

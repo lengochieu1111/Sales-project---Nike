@@ -1,6 +1,7 @@
 package com.example.nike.Fragments;
 
 import android.app.Dialog;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -16,6 +17,8 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -80,6 +83,9 @@ public class ProfileFragment extends Fragment {
     FirebaseUser _user;
     String _profileKey;
 
+    ProgressBar progressBar_loadding_Profile;
+    LinearLayout llt_profile;
+
     TextView textView_name_Profile;
     TextView textView_phoneNumber_Profile;
     TextView textView_address_Profile;
@@ -111,11 +117,17 @@ public class ProfileFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
 
+        progressBar_loadding_Profile = view.findViewById(R.id.progressBar_loadding_Profile);
+        llt_profile = view.findViewById(R.id.llt_profile);
+
         textView_name_Profile = view.findViewById(R.id.textView_name_Profile);
         textView_phoneNumber_Profile = view.findViewById(R.id.textView_phoneNumber_Profile);
         textView_address_Profile = view.findViewById(R.id.textView_address_Profile);
         button_editProfile_Profile = view.findViewById(R.id.button_editProfile_Profile);
         button_logOut_Profile = view.findViewById(R.id.button_logOut_Profile);
+
+        progressBar_loadding_Profile.setVisibility(View.VISIBLE);
+        llt_profile.setVisibility(View.GONE);
 
         new FirebaseDataHelper().ReadUser(new FirebaseDataHelper.DataStatus() {
             @Override
@@ -138,8 +150,10 @@ public class ProfileFragment extends Fragment {
             public void HasTheSelectedProduct_CartItem(boolean isEmpty) {}
             @Override
             public void DataIsLoaded_User(User user) {
-                if (user.equals(new User())) return;
+                progressBar_loadding_Profile.setVisibility(View.GONE);
+                llt_profile.setVisibility(View.VISIBLE);
 
+                if (user.equals(new User())) return;
                 UpdateUserInformation(user);
             }
         });
@@ -148,6 +162,14 @@ public class ProfileFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 ShowEditProfileDialog();
+            }
+        });
+
+        button_logOut_Profile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FirebaseAuth.getInstance().signOut();
+                GoToLoginActivity();
             }
         });
 
@@ -238,6 +260,12 @@ public class ProfileFragment extends Fragment {
         textView_name_Profile.setText(user.get_name());
         textView_phoneNumber_Profile.setText(user.get_phoneNumber());
         textView_address_Profile.setText(user.get_address());
+    }
+
+    private void GoToLoginActivity()
+    {
+        Intent loginIntent = new Intent(getContext(), Login_Activity.class);
+        startActivity(loginIntent);
     }
 
 }

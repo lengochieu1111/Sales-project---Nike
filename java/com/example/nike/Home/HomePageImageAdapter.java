@@ -1,14 +1,19 @@
 package com.example.nike.Home;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
+import com.example.nike.MainActivity;
+import com.example.nike.Product.ProductDetails_Activity;
 import com.example.nike.R;
+import com.example.nike.Tab.STR_IntentKey;
 
 import java.util.ArrayList;
 
@@ -66,7 +71,9 @@ public class HomePageImageAdapter extends BaseAdapter {
         {
             homePageImageView = new HomePageImageView();
             convertView = LayoutInflater.from(this._context).inflate(R.layout.home_page_image, null);
+
             homePageImageView._imv_homePageImage = convertView.findViewById(R.id.imv_homePageImage);
+            homePageImageView._button_shop_HomePageImage = convertView.findViewById(R.id.button_shop_HomePageImage);
             convertView.setTag(homePageImageView);
         }
         else
@@ -75,6 +82,14 @@ public class HomePageImageAdapter extends BaseAdapter {
         }
 
         Glide.with(homePageImageView._imv_homePageImage.getContext()).load(this._homePageImages.get(position).get_homePageImageLink()).into(homePageImageView._imv_homePageImage);
+        homePageImageView._button_shop_HomePageImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent shopIntent = new Intent(_context, MainActivity.class);
+                shopIntent.putExtra(STR_IntentKey.TabIndexReturned, MainActivity.TabIndexReturned_Shop);
+                _context.startActivity(shopIntent);
+            }
+        });
 
         return convertView;
     }
@@ -83,5 +98,6 @@ public class HomePageImageAdapter extends BaseAdapter {
     class HomePageImageView
     {
         private ImageView _imv_homePageImage;
+        private Button _button_shop_HomePageImage;
     }
 }

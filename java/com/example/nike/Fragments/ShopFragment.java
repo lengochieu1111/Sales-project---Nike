@@ -23,6 +23,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -87,6 +89,10 @@ public class ShopFragment extends Fragment {
     /* PROPERTY */
     FirebaseUser user;
 
+    //
+    ProgressBar progressBar_loadding_Shop;
+    LinearLayout llt_shop;
+
     TextView tvw_test;
     ImageButton ibn_searchProduct;
     TabLayout tlo_shopTab;
@@ -113,7 +119,7 @@ public class ShopFragment extends Fragment {
         }
 
         //
-        this.LoadsShopData();
+
 
     }
 
@@ -122,6 +128,9 @@ public class ShopFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_shop, container, false);
 
+        this.progressBar_loadding_Shop = view.findViewById(R.id.progressBar_loadding_Shop);
+        this.llt_shop = view.findViewById(R.id.llt_shop);
+
         this.tvw_test = view.findViewById(R.id.tvw_test);
         this.ibn_searchProduct = view.findViewById(R.id.ibn_searchProduct);
         this.tlo_shopTab = view.findViewById(R.id.tlo_shopTab);
@@ -129,10 +138,14 @@ public class ShopFragment extends Fragment {
 
         user = FirebaseAuth.getInstance().getCurrentUser();
 
-        Toast.makeText(getContext(), user.getUid(), Toast.LENGTH_SHORT).show();
+        // Toast.makeText(getContext(), user.getUid(), Toast.LENGTH_SHORT).show();
+
+        this.progressBar_loadding_Shop.setVisibility(View.VISIBLE);
+        this.llt_shop.setVisibility(View.GONE);
 
         // LoadsAndRendersTheStoreView
-        this.ShowShopView(_productAdapter_Old_men);
+        this.LoadsShopData();
+
         this.HandleClickOnSearchProduct();
         this.HandleClickOnTabLayout();
         this.HandleClickOnProduct();
@@ -176,6 +189,8 @@ public class ShopFragment extends Fragment {
                 _productAdapter_Old_men.notifyDataSetChanged();
                 _productAdapter_Old_women.notifyDataSetChanged();
                 _productAdapter_Old_kid.notifyDataSetChanged();
+
+                ShowShopView(_productAdapter_Old_men);
             }
 
             @Override
@@ -192,6 +207,8 @@ public class ShopFragment extends Fragment {
     private void ShowShopView(ProductAdapter_Old productAdapterOld)
     {
         this.grv_shop.setAdapter(productAdapterOld);
+        this.progressBar_loadding_Shop.setVisibility(View.GONE);
+        this.llt_shop.setVisibility(View.VISIBLE);
     }
 
     private void HandleClickOnTabLayout()

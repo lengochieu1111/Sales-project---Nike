@@ -60,9 +60,6 @@ public class MainActivity extends AppCompatActivity {
         }
         else
         {
-/*            FirebaseAuth.getInstance().signOut();
-            GoToLoginActivity();*/
-            Toast.makeText(MainActivity.this, user.getUid(), Toast.LENGTH_SHORT).show();
 
         }
 
