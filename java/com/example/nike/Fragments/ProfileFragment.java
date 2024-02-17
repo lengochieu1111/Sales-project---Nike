@@ -8,17 +8,21 @@ import android.os.Bundle;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.nike.Bag.CartItem;
 import com.example.nike.Bag.PaymentItem_RecyclerView_Config;
 import com.example.nike.FirebaseDataHelper;
+import com.example.nike.Login.Login_Activity;
 import com.example.nike.Product.Product;
 import com.example.nike.Profile.User;
 import com.example.nike.R;
@@ -30,6 +34,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
+import vn.zalopay.sdk.Utils;
 import vn.zalopay.sdk.ZaloPayError;
 import vn.zalopay.sdk.ZaloPaySDK;
 import vn.zalopay.sdk.listeners.PayOrderListener;
@@ -81,6 +86,13 @@ public class ProfileFragment extends Fragment {
     Button button_editProfile_Profile;
     Button button_logOut_Profile;
 
+    /* Edit Profile */
+    EditText editText_name_EditProfile;
+    EditText editText_phoneNumber_EditProfile;
+    EditText editText_address_EditProfile;
+    Button button_cancle_EditProfile;
+    Button button_apply_EditProfile;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -128,9 +140,7 @@ public class ProfileFragment extends Fragment {
             public void DataIsLoaded_User(User user) {
                 if (user.equals(new User())) return;
 
-                textView_name_Profile.setText(user.get_name());
-                textView_phoneNumber_Profile.setText(user.get_phoneNumber());
-                textView_address_Profile.setText(user.get_address());
+                UpdateUserInformation(user);
             }
         });
 
@@ -148,9 +158,70 @@ public class ProfileFragment extends Fragment {
     {
         final Dialog editProfileDialog = new Dialog(getContext());
         editProfileDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        editProfileDialog.setContentView(R.layout.payment_bottom_sheet_layout);
+        editProfileDialog.setContentView(R.layout.edit_profile_bottom_sheet_layout);
+
+        this.editText_name_EditProfile = editProfileDialog.findViewById(R.id.editText_name_EditProfile);
+        this.editText_phoneNumber_EditProfile = editProfileDialog.findViewById(R.id.editText_phoneNumber_EditProfile);
+        this.editText_address_EditProfile = editProfileDialog.findViewById(R.id.editText_address_EditProfile);
+        this.button_cancle_EditProfile = editProfileDialog.findViewById(R.id.button_cancle_EditProfile);
+        this.button_apply_EditProfile = editProfileDialog.findViewById(R.id.button_apply_EditProfile);
 
         /* Handle Event */
+
+        button_cancle_EditProfile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                editProfileDialog.dismiss();
+            }
+        });
+
+        button_apply_EditProfile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String name = String.valueOf(editText_name_EditProfile.getText());
+                String phoneNumber = String.valueOf(editText_phoneNumber_EditProfile.getText());
+                String address = String.valueOf(editText_address_EditProfile.getText());
+
+                if (TextUtils.isEmpty(name) ||  TextUtils.isEmpty(phoneNumber) || TextUtils.isEmpty(address))
+                {
+                    Toast.makeText(getContext(), "Please enter complete information.", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+
+                User user = new User();
+                user.set_name(name);
+                user.set_phoneNumber(phoneNumber);
+                user.set_address(address);
+
+                new FirebaseDataHelper().UpdateUserInformation(user, new FirebaseDataHelper.DataStatus() {
+                    @Override
+                    public void DataIsLoaded_Product(ArrayList<Product> products, ArrayList<String> keys) {}
+                    @Override
+                    public void DataIsInserted_Product() {}
+                    @Override
+                    public void DataIsUpdated_Product() {}
+                    @Override
+                    public void DataIsDeleted_Product() {}
+                    @Override
+                    public void DataIsLoaded_CartItem(ArrayList<CartItem> cartItems, ArrayList<CartItem> _cartItemSelected, ArrayList<String> keys) {}
+                    @Override
+                    public void DataIsInserted_CartItem() {}
+                    @Override
+                    public void DataIsUpdated_CartItem(ArrayList<CartItem> cartItemSelected) {}
+                    @Override
+                    public void DataIsDeleted_CartItem(ArrayList<CartItem> cartItem) {}
+                    @Override
+                    public void HasTheSelectedProduct_CartItem(boolean isEmpty) {}
+                    @Override
+                    public void DataIsLoaded_User(User user) {
+                        UpdateUserInformation(user);
+                    }
+                });
+
+                editProfileDialog.dismiss();
+            }
+        });
 
 
         editProfileDialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
@@ -161,5 +232,12 @@ public class ProfileFragment extends Fragment {
         editProfileDialog.show();
     }
 
+
+    private void UpdateUserInformation(User user)
+    {
+        textView_name_Profile.setText(user.get_name());
+        textView_phoneNumber_Profile.setText(user.get_phoneNumber());
+        textView_address_Profile.setText(user.get_address());
+    }
 
 }

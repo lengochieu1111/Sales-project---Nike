@@ -537,4 +537,53 @@ public class FirebaseDataHelper
         });
     }
 
+    public void UpdateUserInformation(User user, final DataStatus dataStatus)
+    {
+        // OLD
+        /*
+        _databaseReference.child("CartItems").child(key).setValue(cartItem).addOnSuccessListener(new OnSuccessListener<Void>() {
+        @Override
+            public void onSuccess(Void unused) {
+                dataStatus.DataIsUpdated_CartItem();
+            }
+        });
+        */
+
+        HashMap User = new HashMap();
+        User.put("_name", user.get_name());
+        User.put("_phoneNumber", user.get_phoneNumber());
+        User.put("_address", user.get_address());
+
+        _databaseReference.child("Users").child(this._profileKey).updateChildren(User).addOnCompleteListener(new OnCompleteListener() {
+            @Override
+            public void onComplete(@NonNull Task task) {
+                _databaseReference.child("Users").child(_profileKey).addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        User user = new User();
+
+                        if (!snapshot.exists()) return;
+                        if (!snapshot.hasChildren()) return;
+
+                        String name = snapshot.child("_name").getValue(String.class);
+                        String phoneNumber = snapshot.child("_phoneNumber").getValue(String.class);
+                        String address = snapshot.child("_address").getValue(String.class);
+
+                        user.set_name(name);
+                        user.set_phoneNumber(phoneNumber);
+                        user.set_address(address);
+
+                        dataStatus.DataIsLoaded_User(user);
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+                    }
+                });
+            }
+        });
+
+    }
+
+
 }
