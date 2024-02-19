@@ -396,12 +396,15 @@ public class BagFragment extends Fragment {
                     JSONObject data = orderApi.createOrder("10000");
                     String code = data.getString("return_code");
 
+                    // Toast.makeText(getContext(), "orderApi", Toast.LENGTH_SHORT).show();
+
                     if (code.equals("1")) {
                         String token = data.getString("zp_trans_token");
+                        // Toast.makeText(getContext(), "token", Toast.LENGTH_SHORT).show();
                         ZaloPaySDK.getInstance().payOrder(getActivity(), token, "demozpdk://app", new PayOrderListener() {
                             @Override
                             public void onPaymentSucceeded(String s, String s1, String s2) {
-
+                                // Toast.makeText(getContext(), "onPaymentSucceeded", Toast.LENGTH_SHORT).show();
                             }
 
                             @Override
