@@ -1,3 +1,4 @@
+/*
 package com.example.nike.zalopay.Helper.HMac;
 
 import android.os.Build;
@@ -46,7 +47,8 @@ public class HMacUtil {
         return macGenerator.doFinal(dataByte);
     }
 
-    /**
+    */
+/**
      * Calculating a message authentication code (MAC) involving a cryptographic
      * hash function in combination with a secret cryptographic key.
      *
@@ -59,7 +61,8 @@ public class HMacUtil {
      * @param data The message to be authenticated
      *
      * @return Base64-encoded HMAC String
-     */
+     *//*
+
     @RequiresApi(api = Build.VERSION_CODES.O)
     public static String HMacBase64Encode(final String algorithm, final String key, final String data) {
         byte[] hmacEncodeBytes = HMacEncode(algorithm, key, data);
@@ -69,7 +72,8 @@ public class HMacUtil {
         return Base64.getEncoder().encodeToString(hmacEncodeBytes);
     }
 
-    /**
+    */
+/**
      * Calculating a message authentication code (MAC) involving a cryptographic
      * hash function in combination with a secret cryptographic key.
      *
@@ -82,7 +86,8 @@ public class HMacUtil {
      * @param data The message to be authenticated
      *
      * @return Hex HMAC String
-     */
+     *//*
+
     public static String HMacHexStringEncode(final String algorithm, final String key, final String data) {
         byte[] hmacEncodeBytes = HMacEncode(algorithm, key, data);
         if (hmacEncodeBytes == null) {
@@ -91,3 +96,4 @@ public class HMacUtil {
         return HexStringUtil.byteArrayToHexString(hmacEncodeBytes);
     }
 }
+*/

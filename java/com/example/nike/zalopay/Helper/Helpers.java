@@ -1,3 +1,4 @@
+/*
 package com.example.nike.zalopay.Helper;
 
 import android.annotation.SuppressLint;
@@ -33,3 +34,4 @@ public class Helpers {
         return Objects.requireNonNull(HMacUtil.HMacHexStringEncode(HMacUtil.HMACSHA256, key, data));
      }
 }
+*/

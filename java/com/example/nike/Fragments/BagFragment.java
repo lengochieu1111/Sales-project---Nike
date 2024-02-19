@@ -30,17 +30,17 @@ import com.example.nike.FirebaseDataHelper;
 import com.example.nike.Product.Product;
 import com.example.nike.Profile.User;
 import com.example.nike.R;
-import com.example.nike.zalopay.Api.CreateOrder;
+// import com.example.nike.zalopay.Api.CreateOrder;
 
 
 import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-import vn.zalopay.sdk.Environment;
+/*import vn.zalopay.sdk.Environment;
 import vn.zalopay.sdk.ZaloPayError;
 import vn.zalopay.sdk.ZaloPaySDK;
-import vn.zalopay.sdk.listeners.PayOrderListener;
+import vn.zalopay.sdk.listeners.PayOrderListener;*/
 
 /**
  * A simple {@link Fragment} subclass.
@@ -110,9 +110,9 @@ public class BagFragment extends Fragment {
         }
 
         // Zalo
-        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+/*        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
-        ZaloPaySDK.init(2554, Environment.SANDBOX);
+        ZaloPaySDK.init(2554, Environment.SANDBOX);*/
 
     }
 
@@ -389,7 +389,7 @@ public class BagFragment extends Fragment {
         this.btn_payment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                CreateOrder orderApi = new CreateOrder();
+                /*CreateOrder orderApi = new CreateOrder();
 
                 try {
                     JSONObject data = orderApi.createOrder("10000");
@@ -418,7 +418,7 @@ public class BagFragment extends Fragment {
                 }
                 catch (Exception e) {
                     e.printStackTrace();
-                }
+                }*/
             }
         });
 
@@ -464,7 +464,7 @@ public class BagFragment extends Fragment {
     }
 
     private void handleNewIntent(Intent intent) {
-        ZaloPaySDK.getInstance().onResult(intent);
+        // ZaloPaySDK.getInstance().onResult(intent);
     }
 
 }

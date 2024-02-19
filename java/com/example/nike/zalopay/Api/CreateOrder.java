@@ -1,4 +1,4 @@
-package com.example.nike.zalopay.Api;
+/*package com.example.nike.zalopay.Api;
 
 import com.example.nike.zalopay.Constant.AppInfo;
 import com.example.nike.zalopay.Helper.Helpers;
@@ -8,9 +8,9 @@ import org.json.JSONObject;
 import java.util.Date;
 
 import okhttp3.FormBody;
-import okhttp3.RequestBody;
+import okhttp3.RequestBody;*/
 
-public class CreateOrder {
+/* public class CreateOrder {
     private class CreateOrderData {
         String AppId;
         String AppUser;
@@ -66,5 +66,5 @@ public class CreateOrder {
         JSONObject data = HttpProvider.sendPost(AppInfo.URL_CREATE_ORDER, formBody);
         return data;
     }
-}
+} */
 

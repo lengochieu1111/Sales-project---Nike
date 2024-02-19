@@ -1,3 +1,4 @@
+/*
 package com.example.nike.zalopay.Helper.HMac;
 
 import java.util.Locale;
@@ -11,14 +12,16 @@ public class HexStringUtil {
     };
     // @formatter:on
 
-    /**
+    */
+/**
      * Convert a byte array to a hexadecimal string
      *
      * @param raw
      *            A raw byte array
      *
      * @return Hexadecimal string
-     */
+     *//*
+
     public static String byteArrayToHexString(byte[] raw) {
         byte[] hex = new byte[2 * raw.length];
         int index = 0;
@@ -31,14 +34,16 @@ public class HexStringUtil {
         return new String(hex);
     }
 
-    /**
+    */
+/**
      * Convert a hexadecimal string to a byte array
      *
      * @param hex
      *            A hexadecimal string
      *
      * @return The byte array
-     */
+     *//*
+
     public static byte[] hexStringToByteArray(String hex) {
         String hexstandard = hex.toLowerCase(Locale.ENGLISH);
         int sz = hexstandard.length() / 2;
@@ -67,3 +72,4 @@ public class HexStringUtil {
         return bytesResult;
     }
 }
+*/
