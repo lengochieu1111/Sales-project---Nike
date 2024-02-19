@@ -1,4 +1,3 @@
-/*
 package com.example.nike.zalopay.Api;
 
 import android.util.Log;
@@ -16,9 +15,9 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
-import okhttp3.TlsVersion;*/
+import okhttp3.TlsVersion;
 
-/* public class HttpProvider {
+public class HttpProvider {
      public static JSONObject sendPost(String URL, RequestBody formBody) {
         JSONObject data = new JSONObject();
         try {
@@ -57,4 +56,3 @@ import okhttp3.TlsVersion;*/
         return data;
     }
 }
-*/

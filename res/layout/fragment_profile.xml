@@ -79,7 +79,7 @@
                 android:textColor="@color/pale_gray"
                 android:textSize="12dp" />
 
-            <LinearLayout
+            <!--<LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="50dp"
@@ -170,7 +170,7 @@
                         android:textAlignment="center"
                         android:textSize="15dp" />
                 </LinearLayout>
-            </LinearLayout>
+            </LinearLayout>-->
 
             <Button
                 android:id="@+id/button_logOut_Profile"

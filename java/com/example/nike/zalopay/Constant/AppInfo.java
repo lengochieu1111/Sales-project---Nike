@@ -1,4 +1,3 @@
-/*
 package com.example.nike.zalopay.Constant;
 
 public class AppInfo {
@@ -6,4 +5,3 @@ public class AppInfo {
     public static final String MAC_KEY = "sdngKKJmqEMzvh5QQcdD2A9XBSKUNaYn";
     public static final String URL_CREATE_ORDER = "https://sb-openapi.zalopay.vn/v2/create";
 }
-*/
