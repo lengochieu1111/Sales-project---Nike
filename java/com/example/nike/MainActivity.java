@@ -15,6 +15,7 @@ import com.example.nike.Fragments.BagFragment;
 import com.example.nike.Fragments.HomeFragment;
 import com.example.nike.Fragments.ProfileFragment;
 import com.example.nike.Fragments.ShopFragment;
+import com.example.nike.Home.I_OnClickToShop;
 import com.example.nike.Login.Login_Activity;
 import com.example.nike.Login.Register_Activity;
 import com.example.nike.Tab.STR_IntentKey;
@@ -62,6 +63,15 @@ public class MainActivity extends AppCompatActivity {
         {
 
         }
+
+        this._homeFragment.set_listener(new I_OnClickToShop() {
+            @Override
+            public void OnClickToShop() {
+                ReplaceFragment(_shopFragment);
+                ChangeColorOfSelectedItem();
+                _binding.bnvBottomNavigationView.getMenu().getItem(1).setChecked(true);
+            }
+        });
 
         this._bnv_bottomNavigationView = findViewById(R.id.bnv_bottomNavigationView);
 

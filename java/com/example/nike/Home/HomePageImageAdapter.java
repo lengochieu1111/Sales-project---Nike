@@ -1,5 +1,7 @@
 package com.example.nike.Home;
 
+import android.app.Activity;
+import android.app.FragmentManager;
 import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
@@ -9,8 +11,13 @@ import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
+
 import com.bumptech.glide.Glide;
+import com.example.nike.Fragments.ShopFragment;
 import com.example.nike.MainActivity;
+import com.example.nike.Product.Product;
 import com.example.nike.Product.ProductDetails_Activity;
 import com.example.nike.R;
 import com.example.nike.Tab.STR_IntentKey;
@@ -21,6 +28,7 @@ public class HomePageImageAdapter extends BaseAdapter {
     /* PROPERTY */
     private ArrayList<HomePageImage> _homePageImages;
     private Context _context;
+    private I_OnClickToShop _listener;
 
     /* CONSTRUCTOR */
     public HomePageImageAdapter() { }
@@ -28,6 +36,17 @@ public class HomePageImageAdapter extends BaseAdapter {
     public HomePageImageAdapter(ArrayList<HomePageImage> _homePageImages, Context context) {
         this._homePageImages = _homePageImages;
         this._context = context;
+    }
+
+    public HomePageImageAdapter(ArrayList<HomePageImage> _homePageImages, Context context, final I_OnClickToShop listener) {
+        this._homePageImages = _homePageImages;
+        this._context = context;
+        this._listener = listener;
+    }
+
+    public void set_listener(I_OnClickToShop listener)
+    {
+        this._listener = listener;
     }
 
     /* SETTER - GETTER */
@@ -85,9 +104,11 @@ public class HomePageImageAdapter extends BaseAdapter {
         homePageImageView._button_shop_HomePageImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent shopIntent = new Intent(_context, MainActivity.class);
+/*                Intent shopIntent = new Intent(_context, MainActivity.class);
                 shopIntent.putExtra(STR_IntentKey.TabIndexReturned, MainActivity.TabIndexReturned_Shop);
-                _context.startActivity(shopIntent);
+                _context.startActivity(shopIntent);*/
+                if (_listener != null)
+                    _listener.OnClickToShop();
             }
         });
 

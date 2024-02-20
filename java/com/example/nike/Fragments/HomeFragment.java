@@ -4,6 +4,7 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +15,7 @@ import android.widget.ProgressBar;
 
 import com.example.nike.Home.HomePageImage;
 import com.example.nike.Home.HomePageImageAdapter;
+import com.example.nike.Home.I_OnClickToShop;
 import com.example.nike.R;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -43,6 +45,10 @@ public class HomeFragment extends Fragment {
         // Required empty public constructor
     }
 
+    public HomeFragment(final I_OnClickToShop _listener) {
+        this._listener = _listener;
+    }
+
     /**
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
@@ -67,6 +73,7 @@ public class HomeFragment extends Fragment {
     ListView _liv_home;
     HomePageImageAdapter _homePageImageAdapter;
     ArrayList<HomePageImage> _homePageImages =  new ArrayList<HomePageImage>();
+    private I_OnClickToShop _listener;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -127,7 +134,7 @@ public class HomeFragment extends Fragment {
             }
         });
 
-        this._homePageImageAdapter = new HomePageImageAdapter(_homePageImages, getContext());
+        this._homePageImageAdapter = new HomePageImageAdapter(_homePageImages, getContext(), this._listener);
     }
 
     private void ShowHomePageView()
@@ -135,6 +142,11 @@ public class HomeFragment extends Fragment {
         this.progressBar_loadding_Home.setVisibility(View.GONE);
         this._liv_home.setAdapter(this._homePageImageAdapter);
         this.llt_home.setVisibility(View.VISIBLE);
+    }
+
+    public void set_listener(I_OnClickToShop listener)
+    {
+        this._listener = listener;
     }
 
 }
